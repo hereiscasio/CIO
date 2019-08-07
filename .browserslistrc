@@ -1,0 +1,6 @@
+last 10 versions
+not ie < 11
+Edge >= 12
+not safari < 9
+not iOS < 9
+not dead
