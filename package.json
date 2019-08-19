@@ -3,19 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit",
+    "dev": "vue-cli-service serve",
+    "api": "json-server api/db.json --watch --port 3001",
+    "dev+api": "yarn dev & yarn api",
     "e2e": "yarn dev & npx cypress open",
+    "e2e+api": "yarn dev & npx cypress open & yarn api",
+    "test:e2e": "vue-cli-service test:e2e",
     "unit": "vue-cli-service test:unit",
-    "unit:watch": "vue-cli-service test:unit --watch"
+    "test:unit": "vue-cli-service test:unit",
+    "unit:w": "vue-cli-service test:unit --watch",
+    "unit:w:1": "vue-cli-service test:unit --watch -t registration"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "global": "^4.4.0",
+    "lodash-core": "^4.17.15",
     "material-design-icons-iconfont": "^5.0.1",
     "roboto-fontface": "*",
+    "trianglify": "^2.0.0",
     "vue": "^2.6.10",
+    "vue-the-mask": "^0.11.1",
     "vuetify": "^2.0.0"
   },
   "devDependencies": {
@@ -26,6 +35,10 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
+    "canvas": "^2.6.0",
+    "jest-canvas-mock": "^2.1.0",
+    "jest-mock-axios": "^3.1.0",
+    "json-server": "^0.15.0",
     "node-sass": "^4.9.0",
     "postcss-normalize": "^8.0.1",
     "postcss-preset-env": "^6.7.0",

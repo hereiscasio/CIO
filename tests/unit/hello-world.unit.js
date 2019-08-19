@@ -10,7 +10,7 @@ import Vue from 'vue'
 Vue.use(Vuetify)
 
 
-describe('Home.vue', () => {
+describe.skip('Home.vue', () => {
 
   beforeEach(()=>{
 

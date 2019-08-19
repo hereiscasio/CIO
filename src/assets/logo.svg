@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="255px" height="66px" viewBox="0 0 255 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>LOGO Copy 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M3.80698105,2.06663946e-15 L54.3990796,1.53806591e-16 C55.7228498,-8.93660588e-17 56.2028809,0.137831968 56.6868315,0.39665159 C57.1707821,0.655471213 57.5505894,1.03527849 57.809409,1.51922911 C58.0682286,2.00317972 58.2060606,2.4832108 58.2060606,3.80698105 L58.2060606,61.5263523 C58.2060606,62.8501225 58.0682286,63.3301536 57.809409,63.8141042 C57.5505894,64.2980548 57.1707821,64.6778621 56.6868315,64.9366817 C56.2028809,65.1955014 55.7228498,65.3333333 54.3990796,65.3333333 L3.80698105,65.3333333 C2.4832108,65.3333333 2.00317972,65.1955014 1.51922911,64.9366817 C1.03527849,64.6778621 0.655471213,64.2980548 0.39665159,63.8141042 C0.137831968,63.3301536 -1.71677947e-15,62.8501225 -1.87889457e-15,61.5263523 L1.02537727e-16,3.80698105 C-5.95773725e-17,2.4832108 0.137831968,2.00317972 0.39665159,1.51922911 C0.655471213,1.03527849 1.03527849,0.655471213 1.51922911,0.39665159 C2.00317972,0.137831968 2.4832108,2.30981211e-15 3.80698105,2.06663946e-15 Z" id="path-1"></path>
+        <path d="M21.9757576,1.81425723 L21.9757576,0 L24.3515152,0 L24.3515152,1.81425723 C35.2146175,2.40909383 43.9181789,11.1126552 44.5130155,21.9757576 L46.3272727,21.9757576 L46.3272727,24.3515152 L44.5130155,24.3515152 C43.9181789,35.2146175 35.2146175,43.9181789 24.3515152,44.5130155 L24.3515152,46.3272727 L21.9757576,46.3272727 L21.9757576,44.5130155 C11.1126552,43.9181789 2.40909383,35.2146175 1.81425723,24.3515152 L0,24.3515152 L4.4408921e-16,21.9757576 L1.81425723,21.9757576 C2.40909383,11.1126552 11.1126552,2.40909383 21.9757576,1.81425723 Z" id="path-3"></path>
+        <filter x="-11.1%" y="-20.0%" width="122.2%" height="145.0%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="src" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Start1.0_home" transform="translate(-16.000000, -24.000000)">
+            <g id="LOGO-Copy-5" transform="translate(16.000000, 24.000000)">
+                <g id="Brand" transform="translate(67.000000, 2.000000)" fill="#FFC02B" font-family="Braggadocio" font-size="30" font-weight="normal" line-spacing="30">
+                    <text id="IN-&amp;-OUT" stroke="#63635B">
+                        <tspan x="0" y="63">IN &amp; OUT</tspan>
+                    </text>
+                    <text id="CLOCK" stroke="#68665F">
+                        <tspan x="0" y="29">CLOCK</tspan>
+                    </text>
+                </g>
+                <g id="image">
+                    <g id="clock" transform="translate(0.000000, 0.369697)">
+                        <g id="Rectangle">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Mask" fill="#FFC02B" xlink:href="#path-1"></use>
+                            <text id="$" mask="url(#mask-2)" font-family="Impact" font-size="10.3939394" font-style="condensed" font-weight="700" letter-spacing="0.0974431848" fill="#FFFFFF">
+                                <tspan x="4.75151515" y="12.3757576">$</tspan>
+                            </text>
+                            <rect stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" mask="url(#mask-2)" x="15.25" y="-1.75" width="26.8212121" height="3.5" rx="1.75"></rect>
+                        </g>
+                        <path d="M29.1030303,32.6666667 L12.3984848,25.7621212" id="Line-9" stroke="#979797" stroke-width="0.5" stroke-linecap="square"></path>
+                        <g id="Group" transform="translate(5.939394, 9.503030)">
+                            <g id="Path-9" transform="translate(-0.000000, 0.000000)">
+                                <mask id="mask-4" fill="white">
+                                    <use xlink:href="#path-3"></use>
+                                </mask>
+                                <use id="Mask" fill="#FFFFFF" xlink:href="#path-3"></use>
+                                <polygon id="shadow" fill="#2C3F6D" opacity="0.200000003" mask="url(#mask-4)" points="5.42520119 15.5486606 23.1636364 23.1636364 38.4346013 23.1636364 54.3454545 50.7818182 28.0167942 52.8929547 25.392903 49.1785716 23.1636364 46.3272727"></polygon>
+                            </g>
+                            <g id="lines--helper"></g>
+                            <g id="lines--main" filter="url(#filter-5)" transform="translate(3.563636, 9.206061)">
+                                <circle id="Oval" fill="#FFBF5D" cx="19.6" cy="13.9575758" r="1.18787879"></circle>
+                                <path d="M17.5386798,17.0136086 L4.02655858,3.50148743" id="Line-3-Copy" stroke="#FFBF5D" stroke-width="1.48484848" stroke-linecap="square" transform="translate(10.708377, 10.183306) rotate(-22.000000) translate(-10.708377, -10.183306) "></path>
+                                <path d="M19.6,13.9575758 L34.2235078,13.9575758" id="Line-4" stroke="#FFBF5D" stroke-width="1.48484848" stroke-linecap="square"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
