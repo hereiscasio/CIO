@@ -1,18 +1,25 @@
 <template>
-    <v-snackbar
-        id='otpProvider'
-        :value='shouldShowSnackBar' color='#F99B2F' dark
-        :timeout='0'
+<v-snackbar
+    :value='shouldShowSnackBar' color='#F99B2F' dark
+    :timeout='0'
+>
+    <v-layout
+        v-if='mode === "otpProvider"'
+        data-cy="snack-bar--otp-provider" nowrap
     >
-        <v-layout
-            v-if='mode === "otpProvider"'
-            data-cy="snack-bar--otp-provider"
-            nowrap
+        <v-flex>Your verification code is</v-flex>
+        <v-flex class='font-weight-black'>{{otpCode}}</v-flex>
+    </v-layout>
+
+    <template v-else-if='mode === "greeting"'>
+        Hello {{name}}
+        <v-btn
+            @click="shouldShowSnackBar = false" text icon
         >
-            <v-flex>Your verification code is</v-flex>
-            <v-flex class='font-weight-black'>{{otpCode}}</v-flex>
-        </v-layout>
-    </v-snackbar>
+            <v-icon v-text='`close`'/>
+        </v-btn>
+    </template>
+</v-snackbar>
 </template>
 
 <script>
@@ -31,14 +38,40 @@ export default {
             default: ''
         }
     },
-    computed: {
-        shouldShowSnackBar() {
-            return this.mode  !== '';
+    data () {
+        return {
+            shouldShowSnackBar: false
+        }
+    },
+    methods: {
+        sayHelloToUserInCertainCircumstance()
+        {
+            switch(localStorage.firstTimeUse)
+            {
+                case 'undefined':
+                    localStorage.setItem('firstTimeUse', false);
+                    this.shouldShowSnackBar = true;
+                    break;
+
+                case 'true': this.shouldShowSnackBar = false; break;
+            }
+        },
+    },
+    watch: {
+        mode: {
+            handler: function(val)
+            {
+                switch(val) {
+                    case 'greeting':
+                        this.sayHelloToUserInCertainCircumstance();
+                        break;
+
+                    case '': this.shouldShowSnackBar = false; break;
+                }
+            },
+            immediate: true
+
         }
     }
 }
 </script>
-
-<style lang='scss'>
-
-</style>
