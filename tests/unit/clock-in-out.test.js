@@ -1,20 +1,13 @@
 import ClockInOut from '@/components/ClockInOut';
-import {getMinutes, getHours} from 'date-fns';
+import {getCurrentTime} from './../../src/helper.js';
 import {render, fireEvent} from '@testing-library/vue';
 import '@testing-library/jest-dom/extend-expect';
+import helper from './../../src/helper.js';
 import Vuetify from "vuetify";
 import Vue from 'vue';
+
 Vue.use(Vuetify);
-
-function getCurrentTime() {
-    const today = Date.now();
-    let [hr, min] = [getHours(today), getMinutes(today)];
-
-    if (hr.toString().length === 1) hr = '0' + hr;
-    if (min.toString().length === 1) min = '0' + min;
-
-    return hr + ':' + min;
-}
+Vue.use(helper);
 
 describe('ClockInOut ➡️ ', () =>  // name of unit under test
 {

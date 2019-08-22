@@ -1,7 +1,6 @@
 <template>
 <v-snackbar
-    :value='shouldShowSnackBar' color='#F99B2F' dark
-    :timeout='0'
+    :value='shouldShowSnackBar' color='#F99B2F' dark :timeout='0'
 >
     <v-layout
         v-if='mode === "otpProvider"'
@@ -12,7 +11,7 @@
     </v-layout>
 
     <template v-else-if='mode === "greeting"'>
-        Hello {{name}}
+        Hello, {{name}}
         <v-btn
             @click="shouldShowSnackBar = false" text icon
         >
@@ -27,16 +26,12 @@
  * Question ❓ if try to implement click snackbar to close it
  * should i TDD it ?
  */
+import TYPE from 'vue-types';
 export default {
     props: {
-        mode: {
-            type: String,
-            default: ''
-        },
-        otpCode: {
-            type: String,
-            default: ''
-        }
+        name   : String,
+        mode   : TYPE.string.def(''),
+        otpCode: TYPE.string.def('')
     },
     data () {
         return {
@@ -44,10 +39,15 @@ export default {
         }
     },
     methods: {
+        /**
+         * FIXME:
+         * below `case undefined: ` is a edge case which haven't test
+         */
         sayHelloToUserInCertainCircumstance()
         {
             switch(localStorage.firstTimeUse)
             {
+                case undefined:
                 case 'undefined':
                     localStorage.setItem('firstTimeUse', false);
                     this.shouldShowSnackBar = true;
@@ -64,6 +64,7 @@ export default {
                 switch(val) {
                     case 'greeting':
                         this.sayHelloToUserInCertainCircumstance();
+                        debugger
                         break;
 
                     case '': this.shouldShowSnackBar = false; break;

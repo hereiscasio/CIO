@@ -1,6 +1,6 @@
 <template>
 <v-app>
-	<Notification
+	<!-- <Notification
 		v-if='shouldShow.notification'
 		:mode='notificationMode'
 		:otpCode='otpCode'
@@ -11,7 +11,7 @@
 		/>
 		<OtpVerification
 			v-if='shouldShowOtpVerification' @showThisPage='showThisPage'
-		/>
+		/> -->
 		<!--
 
 		<v-snackbar
@@ -21,12 +21,19 @@
 		Expired or wrong code
 		<v-btn color="white" text v-text='`Resend`'/>
 		</v-snackbar> -->
-	</template>
-	<Dashboard v-else/>
+	<!-- </template>
+	<Dashboard v-else/> -->
+
+
+
+<ClockInOut />
+<!-- <ClockInOut name='Jack'/> -->
+<!-- <ClockInOut name='Jack' :latestClockIn="{time: '11:59', date: '2019-03-28'}"/> -->
 </v-app>
 </template>
 
 <script>
+import ClockInOut from './components/ClockInOut';
 import Dashboard from './components/Dashboard'
 import AppHomePage from './components/Registration/AppHomePage'
 import OtpVerification from './components/Registration/OtpVerification'
@@ -90,7 +97,7 @@ export default {
     }
   },
   components: {
-    AppHomePage, OtpVerification, Dashboard, Notification
+    AppHomePage, OtpVerification, Dashboard, Notification,ClockInOut
   }
 }
 </script>

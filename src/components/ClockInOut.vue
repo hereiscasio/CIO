@@ -1,81 +1,40 @@
 <template>
-<div>
+<div class='px-4'>
     <Notification mode='greeting'/>
 
-    <v-time-picker
-        v-model="currentTime"
-        type="month"
-        width="290"
-        class="mt-4"
-    ></v-time-picker>
+    <ClockWidget class='mx-n4'/>
 
     <v-btn
         v-if='shouldShowClockInButton'
-        block color="secondary" icon
-        @click='clockIn'
+        height='52' block tile light elevation='10'
+        @click='clockIn' class='font-weight-bold'
     >
-        <v-icon left>timer</v-icon>CLOCK IN
+        <v-icon left v-text='`timer`'/>&nbsp;CLOCK IN
     </v-btn>
     <v-btn
         v-else-if='shouldShowClockOutButton'
-        block color="secondary" icon
-        @click='clockOut'
+        height='52' block tile light elevation='10'
+        @click='clockOut' class='font-weight-bold'
     >
-        <v-icon left>timer_off</v-icon>CLOCK OUT
+        <v-icon left v-text='`timer_off`'/>&nbsp;CLOCK OUT
     </v-btn>
-
+    <br>
     <TimeFreezer
         v-if='currentClockInTime'  :time='currentClockInTime'
     />
     <TimeFreezer
         v-if='currentClockOutTime' :time='currentClockOutTime'
     />
-    <!-- Hack / Workaround:
-        `light`, `data-app` are attr to avoid annoying warning when do the testing
-    -->
-    <v-menu offset-y light data-app close-on-click>
-        <template v-slot:activator="{ on }">
-            <v-btn
-                v-on="on" block color="secondary" icon
-            >
-                <v-icon left v-text='`menu`'/>
-            </v-btn>
-        </template>
-        <v-list>
-            <v-list-item
-                v-for="(item, index) in featureListing" :key="index"
-            >
-                <v-list-item-icon>
-                    <v-icon v-text="item.icon"></v-icon>
-                </v-list-item-icon>
-                <v-list-item-title v-text='item.feature'></v-list-item-title>
-            </v-list-item>
-        </v-list>
-    </v-menu>
 
 </div>
 </template>
 <script>
 import Notification from './Notification';
 import TimeFreezer from './TimeFreezer';
+import ClockWidget from './ClockWidget';
 import {isUndefined} from 'lodash-core';
-import {getMinutes, getHours} from 'date-fns';
 import TYPE from 'vue-types';
 export default {
-    created() {
-        this.keepToShowCurrentTime();
-        this.featureListing = [
-            {
-                icon: 'directions_run', feature: 'Logout'
-            },
-            {
-                icon: 'show_chart', feature: 'History'
-            },
-            {
-                icon: 'settings', feature: 'Settings'
-            }
-        ];
-    },
     props: {
         name: String,
         latestClockIn: TYPE.shape({
@@ -87,8 +46,6 @@ export default {
         return {
             shouldShowClockInButton : false,
             shouldShowClockOutButton: false,
-            // TODO                 : hide label: AM, PM on UI
-            currentTime             : this.getCurrentTime(),
             currentClockInTime      : undefined,
             currentClockOutTime     : undefined
         }
@@ -108,32 +65,34 @@ export default {
     methods: {
         clockOut() {
             this.shouldShowClockOutButton = false;
-            this.currentClockOutTime      = this.getCurrentTime();
+            this.currentClockOutTime      = this.$helper.getCurrentTime();
         },
         clockIn(latestClockInTime) {
+
             this.shouldShowClockInButton  = false;
             this.shouldShowClockOutButton = true;
-            this.currentClockInTime = latestClockInTime ? latestClockInTime : this.getCurrentTime();
-        },
-        /**
-         * the time formate of "date-fns" based on 24hr
-         * i.e. 13:23, 23:17 ...
-         */
-        getCurrentTime() {
-            const today = Date.now();
-            let [hr, min] = [getHours(today), getMinutes(today)];
-
-            if (hr.toString().length === 1) hr = '0' + hr;
-            if (min.toString().length === 1) min = '0' + min;
-
-            return hr + ':' + min;
-        },
-        keepToShowCurrentTime() {
-            setInterval(() => this.currentTime = this.getCurrentTime(), 1000*60);
+            this.currentClockInTime = latestClockInTime ? latestClockInTime : this.$helper.getCurrentTime();
         }
     },
     components: {
-        Notification, TimeFreezer
+        Notification, TimeFreezer, ClockWidget
     }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-time-picker-title__time * {
+    font-family: krungthep;
+}
+::v-deep .v-picker__title {
+    padding-top: 32px;
+}
+::v-deep .v-time-picker-clock__ampm {
+    display: none !important; // hide am pm
+}
+::v-deep .v-time-picker-clock {
+    // add shadow around the time picker
+    // TODO: add box shadow on `::v-deep .v-picker__title`
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+</style>

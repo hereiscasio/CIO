@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>main</title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but main doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+	<title>CIO System</title>
+	<!-- Below will download the specific font from our server -->
+	<link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700&display=swap" rel="stylesheet">
+	<style>
+	html * {
+		font-family: 'Space Mono', monospace;
+	}
+	@font-face {
+		font-family: 'krungthepregular';
+		src: url('krungthep-webfont.woff2') format('woff2'),
+		url('krungthep-webfont.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
+	</style>
+</head>
+<body>
+	<noscript>
+	<strong>We're sorry but main doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+	</noscript>
+	<div id="app"></div>
+	<!-- built files will be auto injected -->
+</body>
 </html>
