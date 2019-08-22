@@ -35,34 +35,33 @@
 <script>
 
 export default {
-    data () {
-        return {
-            currentTime: this.$helper.getCurrentTime()
-        }
-    },
-    created() {
-        this.keepToShowCurrentTime();
-        this.featureListing = [
-            {
-                icon: 'directions_run', feature: 'Logout'
-            },
-            {
-                icon: 'show_chart', feature: 'History'
-            },
-            {
-                icon: 'settings', feature: 'Settings'
-            }
-        ];
-    },
-    methods: {
-        keepToShowCurrentTime() {
-            setInterval(() =>
-            {
-                this.currentTime = this.$helper.getCurrentTime()
-            },
-            1000*60);
-        }
+  data () {
+    return {
+      currentTime: this.$helper.getCurrentTime()
     }
+  },
+  created () {
+    this.keepToShowCurrentTime()
+    this.featureListing = [
+      {
+        icon: 'directions_run', feature: 'Logout'
+      },
+      {
+        icon: 'show_chart', feature: 'History'
+      },
+      {
+        icon: 'settings', feature: 'Settings'
+      }
+    ]
+  },
+  methods: {
+    keepToShowCurrentTime () {
+      setInterval(() => {
+        this.currentTime = this.$helper.getCurrentTime()
+      },
+      1000 * 60)
+    }
+  }
 }
 </script>
 

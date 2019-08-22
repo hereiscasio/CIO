@@ -1,7 +1,7 @@
 module.exports = {
   plugins: {
-      'postcss-normalize': {},
-      'postcss-preset-env': {},
-      'autoprefixer': {}
+    'postcss-normalize': {},
+    'postcss-preset-env': {},
+    'autoprefixer': {}
   }
-};
+}

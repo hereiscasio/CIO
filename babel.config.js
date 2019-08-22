@@ -12,6 +12,4 @@
  * this error will be throw when use Cypress to run certain test
  *
  */
-module.exports = process.env.CYPRESS_ENV
-  ? {}
-  : { presets: ['@vue/app'] }
+module.exports = process.env.CYPRESS_ENV ? {} : { presets: ['@vue/app'] }

@@ -21,11 +21,10 @@
 </template>
 
 <script>
-import TYPE from 'vue-types';
 export default {
-    props: {
-        time: String
-    }
+  props: {
+    time: String
+  }
 }
 </script>
 <style lang="scss" scoped>
