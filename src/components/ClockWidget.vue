@@ -7,26 +7,63 @@
 	></v-time-picker>
 
 	<v-dialog v-model="shouldShowSettingsView" fullscreen hide-overlay transition="dialog-bottom-transition">
-		<v-toolbar flat color="transparent">
-			<v-spacer></v-spacer>
-			<v-btn icon @click="shouldShowSettingsView = false">
+		<v-card flat color='black' dark class='pa-4 pt-12'>
+			<v-btn
+				color='#3D5AFE' fab dark absolute right top
+				@click="shouldShowSettingsView = false"
+				class='mt-10'
+			>
 				<v-icon>close</v-icon>
 			</v-btn>
-		</v-toolbar>
+			<v-container>
+				<v-row no-gutters>
+					<v-col>
+						<v-card color='transparent'>
+							<v-card-title>Credit</v-card-title>
+							<v-card-text>
+								Built by independent fullstack developer:
+								Casio, all right preserved. For source
+								code, check this
+							</v-card-text>
+						</v-card>
+					</v-col>
+				</v-row>
+				<v-row no-gutters>
+					<v-col>
+						<v-card color='transparent'>
+							<v-card-title>Suggestions</v-card-title>
+							<v-card-text>Feel free to contact at hereiscasio@gmail.com</v-card-text>
+						</v-card>
+					</v-col>
+				</v-row>
+				<v-row no-gutters>
+					<v-col>
+						<v-card color='transparent'>
+							<v-card-title>System Information</v-card-title>
+							<v-card-text>. . .</v-card-text>
+						</v-card>
+					</v-col>
+				</v-row>
+			</v-container>
 
-		Credit
+		</v-card>
 	</v-dialog>
 
 	<v-dialog v-model="shouldShowLogoutConfirmView">
 		<v-card>
 			<v-card-title class="headline">ARE YOU SURE ?</v-card-title>
-			<!-- <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
-			-->
+
+			<v-card-text>
+				Once you confirm this operation,
+				all your data can not be recovered + You need to
+				run the registration process again
+			</v-card-text>
+
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn
 					color="green darken-1" text
-					@click="shouldShowLogoutConfirmView = false"
+					@click="confirmToLogout"
 				>YES
 				</v-btn>
 			</v-card-actions>
@@ -98,6 +135,9 @@ export default {
 				this.currentTime = this.$helper.getCurrent().time()
 			},
 			1000 * 60)
+		},
+		confirmToLogout () {
+			this.shouldShowLogoutConfirmView = false
 		}
 	}
 }
