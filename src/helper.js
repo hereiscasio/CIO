@@ -8,7 +8,7 @@ function getCurrent () {
 	const today = Date.now()
 	return {
 		time: () => format(today, 'kk:mm'),
-		date: () => format(today, 'yyyy-LL-dd')
+		date: () => format(today, 'yyyy-LL-dd') // native solution: `new Date().toISOString().substr(0, 10)`
 	}
 }
 

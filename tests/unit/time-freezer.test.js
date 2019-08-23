@@ -22,14 +22,14 @@ describe('TimeFreezer ➡️ ', () => {
         // 後者是 unit，事實證明，後者運作正常不代表前者運作正常
     const props = {data: { time: '11:15', date: '2019-07-08' }};
 
-    it(`Present time & date if there's such data comes in`, () =>
+    it(`T1: Present time & date if there's such data comes in`, () =>
     {
         const { queryByText, queryByPlaceholderText } = render(TimeFreezer, { props }, installVuetify);
         expect(queryByText(props.data.time)).toBeInTheDocument()
         expect(queryByText(props.data.date)).toBeInTheDocument()
     });
 
-    it(`Present the panel with time once he click button--time-edit on the card`, async () =>
+    it(`T2: Present the panel with time once he click button--time-edit on the card`, async () =>
     {
         const { queryByText, queryByPlaceholderText } = render(TimeFreezer, { props }, installVuetify);
         const $buttonToShowPanel = queryByText('edit');
@@ -39,7 +39,7 @@ describe('TimeFreezer ➡️ ', () => {
         expect(queryByPlaceholderText('15')).toBeInTheDocument()
     });
     // TODO: should reset to default value if user cancel invalid editing action
-    it(`If he eliminate any input field to empty, then saved-button will be disabled`, async () =>
+    it(`T3: If he eliminate any input field to empty, then saved-button will be disabled`, async () =>
     {
         const { queryByText, queryByLabelText } = render(TimeFreezer, { props }, installVuetify);
         const $buttonToShowPanel = queryByText('edit');
@@ -56,7 +56,7 @@ describe('TimeFreezer ➡️ ', () => {
     describe(`He can't enter below any character into input field, otherwise, saved-button will be disabled`, () =>
     {
 
-        it(`number > 24 in hour input field`, async () => {
+        it(`T4: number > 24 in hour input field`, async () => {
 
             const { queryByText, queryByLabelText } = render(TimeFreezer, { props }, installVuetify);
             const $buttonToShowPanel = queryByText('edit');
@@ -72,7 +72,7 @@ describe('TimeFreezer ➡️ ', () => {
             expect(queryByText('Editing Clock-in Time')).toBeVisible();
         })
 
-        it(`number > 59 in minute input field`, async () => {
+        it(`T5: number > 59 in minute input field`, async () => {
 
             const { queryByText, queryByLabelText } = render(TimeFreezer, { props }, installVuetify);
             const $buttonToShowPanel = queryByText('edit');
@@ -90,30 +90,6 @@ describe('TimeFreezer ➡️ ', () => {
     })
 
 })
-
-// it.skip(`should display result time at which user clock-in/out on a card`, async () =>
-// {
-//     const {queryByText, getByText}   = render(ClockInOut, {props  : {name: 'Jack'}});
-//     const $buttonToClockIn  = () => queryByText('timer');
-//     const $buttonToClockOut = () => queryByText('timer_off');
-//     let currentHr, currentMin;
-
-//     await wait(() => { // wait to finish render component: TimeSnapshot
-//         currentHr  = queryByText(':').previousSibling.innerHTML;
-//         currentMin = queryByText(':').nextSibling.innerHTML;
-//         if (currentHr === '--' || currentMin === '--') throw 'Component: TimeSnapShot still under rendering';
-//     });
-//     await fireEvent.click($buttonToClockIn());
-//     await waitForElement(() => queryByText('CLOCK IN')); // ???????
-
-//     expect($buttonToClockIn()).not.toBeInTheDocument();
-//     expect($buttonToClockOut()).toBeInTheDocument();
-
-//     expect(queryByText(currentHr+':'+currentMin)).toBeInTheDocument();
-
-//     await fireEvent.click($buttonToClockOut());
-//     expect($buttonToClockOut()).not.toBeInTheDocument();
-// });
 // // Thinking: 要測的功能 lib 或 framework 有提供嗎？有的話就不用測，例「 點擊頁面任意處都可以把 menu 關掉 」
 // /**
 // * 如何正確使用 testing library 去測試組件之間的互動？
