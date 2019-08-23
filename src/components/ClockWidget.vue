@@ -17,6 +17,22 @@
 		Credit
 	</v-dialog>
 
+	<v-dialog v-model="shouldShowLogoutConfirmView">
+		<v-card>
+			<v-card-title class="headline">ARE YOU SURE ?</v-card-title>
+			<!-- <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+			-->
+			<v-card-actions>
+				<v-spacer></v-spacer>
+				<v-btn
+					color="green darken-1" text
+					@click="shouldShowLogoutConfirmView = false"
+				>YES
+				</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
+
 	<!-- Hack / Workaround:
 		`light`, `data-app` are attr to avoid annoying warning when do the testing
 		TODO: it seems like we can scrape `light` out now
@@ -51,7 +67,8 @@ export default {
 	data () {
 		return {
 			currentTime: this.$helper.getCurrent().time(),
-			shouldShowSettingsView: false
+			shouldShowSettingsView: false,
+			shouldShowLogoutConfirmView: false
 		}
 	},
 	created () {
@@ -60,7 +77,7 @@ export default {
 			{
 				icon: 'directions_run',
 				feature: 'Logout',
-				trigger: () => {}
+				trigger: () => (this.shouldShowLogoutConfirmView = true)
 
 			},
 			{

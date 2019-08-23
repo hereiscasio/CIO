@@ -5,6 +5,7 @@
 	<v-img
 		src='./../../assets/logo.svg'
 		class='ml-2' width='256' aspect-ratio="3.82089" contain style='flex: 0'
+		alt='logo'
 	/>
 	<v-card
 		id='card--registration' data-cy='card--registration'
@@ -19,7 +20,7 @@
 		<v-card-actions class='pa-4'>
 			<v-container grid-list-lg class='py-0 pl-0'>
 				<v-layout class='mx-0'>
-					<v-flex xs4 class='pl-0 py-0'>
+						<v-flex xs4 class='pl-0 py-0'>
 						<v-text-field
 							ref='firstTextField'
 							data-cy="input--mobile-number"

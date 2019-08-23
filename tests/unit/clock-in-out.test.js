@@ -53,30 +53,6 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
 		})
 	})
 
-	/**
-	 * INPUT: user interaction
-	 * OUTPUT: rendered Output
-	 */
-	it(`C4: toggle view--setting if user activate it via
-		button--show-more-features/button--close-settings-view`, async () =>
-	{
-		const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } }, installVuetify)
-		const $buttonToShowMenu = queryByText('menu')
-		const $oneOfInfoOnSettingsView = () => queryByText('Credit')
-		const $buttonToShowSettingsView = () => queryByText('Settings')
-		const $buttonToHideSettingsView = () => queryByText('close')
-
-		await fireEvent.click($buttonToShowMenu)
-		await fireEvent.click($buttonToShowSettingsView())
-		await fireEvent.click($buttonToShowSettingsView())
-
-		expect($oneOfInfoOnSettingsView()).toBeVisible()
-
-		await fireEvent.click($buttonToHideSettingsView())
-
-		expect($oneOfInfoOnSettingsView()).not.toBeVisible()
-	});
-
 	describe(`TimeFreezer ➡️`, () => {
 		/**
 		 * INPUT: history data
