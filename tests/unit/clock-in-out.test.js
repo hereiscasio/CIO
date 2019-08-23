@@ -57,15 +57,25 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
 	 * INPUT: user interaction
 	 * OUTPUT: rendered Output
 	 */
-	it(`C4: Toggle visibility of more-features-menu once user toggle show-more-button`, async () => {
+	it(`C4: toggle view--setting if user activate it via
+		button--show-more-features/button--close-settings-view`, async () =>
+	{
 		const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } }, installVuetify)
-		const $buttonToShowMore = queryByText('menu')
-		const $itemOnMenu = () => queryByText('Logout')
+		const $buttonToShowMenu = queryByText('menu')
+		const $oneOfInfoOnSettingsView = () => queryByText('Credit')
+		const $buttonToShowSettingsView = () => queryByText('Settings')
+		const $buttonToHideSettingsView = () => queryByText('close')
 
-		await fireEvent.click($buttonToShowMore)
+		await fireEvent.click($buttonToShowMenu)
+		await fireEvent.click($buttonToShowSettingsView())
+		await fireEvent.click($buttonToShowSettingsView())
 
-		expect($itemOnMenu()).toBeInTheDocument()
-	})
+		expect($oneOfInfoOnSettingsView()).toBeVisible()
+
+		await fireEvent.click($buttonToHideSettingsView())
+
+		expect($oneOfInfoOnSettingsView()).not.toBeVisible()
+	});
 
 	describe(`TimeFreezer ➡️`, () => {
 		/**
