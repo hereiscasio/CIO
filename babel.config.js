@@ -1,8 +1,10 @@
-// module.exports = {
-//   presets: [
-//     '@vue/app'
-//   ]
-// }
+/*
+ * module.exports = {
+ *   presets: [
+ *     '@vue/app'
+ *   ]
+ * }
+ */
 
 /**
  * The original, vue-cli default configuration of this file is shown above

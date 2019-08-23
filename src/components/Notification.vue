@@ -28,48 +28,48 @@
  */
 import TYPE from 'vue-types'
 export default {
-  props: {
-    name: String,
-    mode: TYPE.string.def(''),
-    otpCode: TYPE.string.def('')
-  },
-  data () {
-    return {
-      shouldShowSnackBar: false
-    }
-  },
-  methods: {
-    /**
+	props: {
+		name: String,
+		mode: TYPE.string.def(''),
+		otpCode: TYPE.string.def('')
+	},
+	data () {
+		return {
+			shouldShowSnackBar: false
+		}
+	},
+	methods: {
+		/**
 		 * FIXME:
 		 * below `case undefined: ` is a edge case which haven't test
 		 */
-    sayHelloToUserInCertainCircumstance () {
-      switch (localStorage.firstTimeUse) {
-        case undefined:
-        case 'undefined':
-          localStorage.setItem('firstTimeUse', false)
-          this.shouldShowSnackBar = true
-          break
+		sayHelloToUserInCertainCircumstance () {
+			switch (localStorage.firstTimeUse) {
+				case undefined:
+				case 'undefined':
+					localStorage.setItem('firstTimeUse', false)
+					this.shouldShowSnackBar = true
+					break
 
-        case 'true': this.shouldShowSnackBar = false; break
-      }
-    }
-  },
-  watch: {
-    mode: {
-      handler: function (val) {
-        switch (val) {
-          case 'greeting':
-            this.sayHelloToUserInCertainCircumstance()
-            debugger
-            break
+				case 'true': this.shouldShowSnackBar = false; break
+			}
+		}
+	},
+	watch: {
+		mode: {
+			handler: function (val) {
+				switch (val) {
+					case 'greeting':
+						this.sayHelloToUserInCertainCircumstance()
+						debugger
+						break
 
-          case '': this.shouldShowSnackBar = false; break
-        }
-      },
-      immediate: true
+					case '': this.shouldShowSnackBar = false; break
+				}
+			},
+			immediate: true
 
-    }
-  }
+		}
+	}
 }
 </script>

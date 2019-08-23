@@ -21,7 +21,8 @@ module.exports = {
     /**
      *  only accept use tab as indentation
      */
-    "indent": [2, 'tab', {"SwitchCase": 1}]
+    "indent": [2, 'tab', {"SwitchCase": 1}],
+    "multiline-comment-style": ["error", "starred-block"]
 
   },
   parserOptions: {

@@ -38,7 +38,7 @@
 export default {
 	data () {
 		return {
-			currentTime: this.$helper.getCurrentTime()
+			currentTime: this.$helper.getCurrent().time()
 		}
 	},
 	created () {
@@ -58,7 +58,7 @@ export default {
 	methods: {
 		keepToShowCurrentTime () {
 			setInterval(() => {
-				this.currentTime = this.$helper.getCurrentTime()
+				this.currentTime = this.$helper.getCurrent().time()
 			},
 			1000 * 60)
 		}

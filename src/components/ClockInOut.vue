@@ -68,8 +68,8 @@ export default {
 			this.shouldShowClockOutButton = false
 
 			this.clockOutData = {
-				time: this.$helper.getCurrentTime(),
-				date: this.$helper.getCurrentDate()
+				time: this.$helper.getCurrent().time(),
+				date: this.$helper.getCurrent().date()
 			}
 		},
 		clockIn (latestClockInData) {
@@ -83,8 +83,8 @@ export default {
 				return
 			}
 			this.clockInData = {
-				time: this.$helper.getCurrentTime(),
-				date: this.$helper.getCurrentDate()
+				time: this.$helper.getCurrent().time(),
+				date: this.$helper.getCurrent().date()
 			}
 		}
 	},

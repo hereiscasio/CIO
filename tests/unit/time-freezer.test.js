@@ -1,5 +1,5 @@
 import TimeFreezer from '@/components/TimeFreezer'
-import helper, { getCurrentTime } from './../../src/helper.js'
+import helper from './../../src/helper.js'
 import { render, fireEvent, queryByPlaceholderText } from '@testing-library/vue'
 import '@testing-library/jest-dom/extend-expect'
 import Vuetify from 'vuetify'

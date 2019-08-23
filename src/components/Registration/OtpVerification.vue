@@ -69,69 +69,73 @@
 import { toNumber, isNaN } from 'lodash-core'
 import { mask } from 'vue-the-mask'
 export default {
-  directives: { mask },
-  data () {
-    return {
-      otpNumber: []
-    }
-  },
-  watch: {
-    otpNumber: {
-      handler (value) {
-        if (value.length === 4) {
-          this.$emit('showThisPage', 'Dashboard')
-        }
-      }
-    }
-  },
-  methods: {
-    /**
+	directives: { mask },
+	data () {
+		return {
+			otpNumber: []
+		}
+	},
+	watch: {
+		otpNumber: {
+			handler (value) {
+				if (value.length === 4) {
+					this.$emit('showThisPage', 'Dashboard')
+				}
+			}
+		}
+	},
+	methods: {
+		/**
 		 * TODO: Smooth background transition
 		 */
-    setGradientBackground () {
-      // const colorVariations = {
-      // 	deep  : ['#DB5B00', '#872E06', '#AF4F14', '#BF4E08'],
-      // 	medium: ['#F99B2F', '#F99F34', '#F4811E', '#F9AE61'],
-      // 	light : ['#FFFBD1', '#FFFBD0', '#FFDD86', '#FFC25C']
-      // };
-      // let currentVariations = [
-      // 	colorVariations.deep[0],colorVariations.medium[0], colorVariations.light[0]
-      // ];
-      this.imageBackgroundURL = require('trianglify')(
-        {
-          cell_size: 20,
-          x_colors: ['#DB5B00', '#F99B2F', '#FFFBD1']
-        })
-        .png()
-      // setInterval(() => {
-      // 	let number = Math.floor(   Math.random() * (0 - 3 + 1) + 3);
-      // 	this.imageBackgroundURL = require('trianglify')(
-      // 	{
-      // 		//cell_size: 20, x_colors: currentVariations
-      // 		cell_size: 20,
-      // 		x_colors: [
-      // 			colorVariations.deep[number],
-      // 			colorVariations.medium[number],
-      // 			colorVariations.light[number]
-      // 		]
-      // 	})
-      // 	.png();
-      // }, 2500);
-    },
-    takeUserToNextField (enteredNumber, nextFieldIndex) {
-      if (
-        enteredNumber.trim() === '' ||
+		setGradientBackground () {
+			/*
+			 * const colorVariations = {
+			 * 	deep  : ['#DB5B00', '#872E06', '#AF4F14', '#BF4E08'],
+			 * 	medium: ['#F99B2F', '#F99F34', '#F4811E', '#F9AE61'],
+			 * 	light : ['#FFFBD1', '#FFFBD0', '#FFDD86', '#FFC25C']
+			 * };
+			 * let currentVariations = [
+			 * 	colorVariations.deep[0],colorVariations.medium[0], colorVariations.light[0]
+			 * ];
+			 */
+			this.imageBackgroundURL = require('trianglify')(
+				{
+					cell_size: 20,
+					x_colors: ['#DB5B00', '#F99B2F', '#FFFBD1']
+				})
+				.png()
+			/*
+			 * setInterval(() => {
+			 * 	let number = Math.floor(   Math.random() * (0 - 3 + 1) + 3);
+			 * 	this.imageBackgroundURL = require('trianglify')(
+			 * 	{
+			 * 		//cell_size: 20, x_colors: currentVariations
+			 * 		cell_size: 20,
+			 * 		x_colors: [
+			 * 			colorVariations.deep[number],
+			 * 			colorVariations.medium[number],
+			 * 			colorVariations.light[number]
+			 * 		]
+			 * 	})
+			 * 	.png();
+			 * }, 2500);
+			 */
+		},
+		takeUserToNextField (enteredNumber, nextFieldIndex) {
+			if (
+				enteredNumber.trim() === '' ||
 				isNaN(toNumber(enteredNumber.trim()))
-      ) {
-        return
-      }
+			) {
+				return
+			}
 
-      this.$refs['textFieldWithIndex' + nextFieldIndex].focus()
-    }
-  },
-  created () {
-    this.setGradientBackground()
-  }
+			this.$refs['textFieldWithIndex' + nextFieldIndex].focus()
+		}
+	},
+	created () {
+		this.setGradientBackground()
+	}
 }
 </script>
 <style lang="scss" scoped>

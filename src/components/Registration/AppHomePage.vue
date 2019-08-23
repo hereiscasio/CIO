@@ -67,62 +67,62 @@
 import { toNumber, isNaN } from 'lodash-core'
 import { mask } from 'vue-the-mask'
 export default {
-  directives: { mask },
-  props: {
-    makeRequestToReceiveOTP: { type: Function }
-  },
-  data () {
-    return {
-      mobileNumber: [],
-      toggleVisibilityOfButton: false
-    }
-  },
-  watch: {
-    mobileNumber (value) {
-      if (value.length !== 3) {
-        this.toggleVisibilityOfButton = false
-        return
-      }
-      if (
-        value[0].length === 4 &&
+	directives: { mask },
+	props: {
+		makeRequestToReceiveOTP: { type: Function }
+	},
+	data () {
+		return {
+			mobileNumber: [],
+			toggleVisibilityOfButton: false
+		}
+	},
+	watch: {
+		mobileNumber (value) {
+			if (value.length !== 3) {
+				this.toggleVisibilityOfButton = false
+				return
+			}
+			if (
+				value[0].length === 4 &&
 				value[1].length === 3 &&
 				value[2].length === 3
-      ) {
-        this.toggleVisibilityOfButton = true
-        return
-      }
-      this.toggleVisibilityOfButton = false
-    }
-  },
-  methods: {
-    autoInsertNumber09 () {
-      if (this.mobileNumber[0] === undefined) {
-        this.$set(this.mobileNumber, 0, '09')
-      }
-    },
-    takeUserToNextField (enteredNumber, nextFieldIndex) {
-      if (
-        enteredNumber.trim() === '' ||
+			) {
+				this.toggleVisibilityOfButton = true
+				return
+			}
+			this.toggleVisibilityOfButton = false
+		}
+	},
+	methods: {
+		autoInsertNumber09 () {
+			if (this.mobileNumber[0] === undefined) {
+				this.$set(this.mobileNumber, 0, '09')
+			}
+		},
+		takeUserToNextField (enteredNumber, nextFieldIndex) {
+			if (
+				enteredNumber.trim() === '' ||
 				isNaN(toNumber(enteredNumber.trim()))
-      ) {
-        return
-      }
-      if (nextFieldIndex === 1 && enteredNumber.length === 4) {
-        this.$refs.secondTextField.focus()
-      } else if (nextFieldIndex === 2 && enteredNumber.length === 3) {
-        this.$refs.thirdTextField.focus()
-      }
-    },
-    setGradientBackground () {
-      this.imageBackgroundURL = require('trianglify')({
-        cell_size: 40,
-        x_colors: ['#AF4F14', '#F4811E', '#FFFBD1']
-      }).png()
-    }
-  },
-  created () {
-    this.setGradientBackground()
-  }
+			) {
+				return
+			}
+			if (nextFieldIndex === 1 && enteredNumber.length === 4) {
+				this.$refs.secondTextField.focus()
+			} else if (nextFieldIndex === 2 && enteredNumber.length === 3) {
+				this.$refs.thirdTextField.focus()
+			}
+		},
+		setGradientBackground () {
+			this.imageBackgroundURL = require('trianglify')({
+				cell_size: 40,
+				x_colors: ['#AF4F14', '#F4811E', '#FFFBD1']
+			}).png()
+		}
+	},
+	created () {
+		this.setGradientBackground()
+	}
 }
 </script>
 
