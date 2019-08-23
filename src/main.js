@@ -10,6 +10,6 @@ Vue.prototype.eventBus = new Vue()
 Vue.use(helper)
 
 new Vue({
-  vuetify,
-  render: h => h(App)
+	vuetify,
+	render: h => h(App)
 }).$mount('#app')

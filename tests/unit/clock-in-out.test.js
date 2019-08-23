@@ -2,17 +2,13 @@ import ClockInOut from '@/components/ClockInOut'
 import helper, { getCurrentTime } from './../../src/helper.js'
 import { render, fireEvent } from '@testing-library/vue'
 import '@testing-library/jest-dom/extend-expect'
-
 import Vuetify from 'vuetify'
-/**
- * below 2 lines are important to solve the unit test error when run Jest currently
- * see more below :
- * http://nidkil.me/2019/01/18/vuetify-multiple-instances-of-vue-detected/
- */
 import Vue from 'vue'
-Vue.use(Vuetify)
 
+Vue.use(Vuetify)
 Vue.use(helper)
+
+const installVuetify = () => ({vuetify: new Vuetify()});
 
 describe('ClockInOut ➡️ ', () => // name of unit under test
 {
@@ -21,9 +17,9 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
          * INPUT: user name + token: firstTimeUse
          * OUTPUT: notification
          */
-    it(`Only show say-hello-notification if user is 1st time to access this view`, () => {
+    it(`C1: Only show say-hello-notification if user is 1st time to access this view`, () => {
       localStorage.setItem('firstTimeUse', undefined)
-      const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } })
+      const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } }, installVuetify)
       const $notification = queryByText('Hello', { exact: false })
 
       expect($notification).toBeInTheDocument()
@@ -32,9 +28,9 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
          * INPUT: user interaction
          * OUTPUT: rendered Output
          */
-    it(`Hide say-hello-notification once user turn off it`, async () => {
+    it(`C2: Hide say-hello-notification once user turn off it`, async () => {
       localStorage.setItem('firstTimeUse', undefined)
-      const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } })
+      const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } }, installVuetify)
       const $buttonToTurnOff = queryByText('close')
       const $notification = () => queryByText('Hello', { exact: false })
 
@@ -46,9 +42,9 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
          * INPUT: user name + token: firstTimeUse
          * OUTPUT: rendered Output
          */
-    it(`Shouldn't show say-hello-notification if use access this view again`, () => {
+    it(`C3: Shouldn't show say-hello-notification if use access this view again`, () => {
       localStorage.setItem('firstTimeUse', false)
-      const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } })
+      const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } }, installVuetify)
       const $notification = queryByText('Hello', { exact: false })
 
       expect($notification).not.toBeInTheDocument()
@@ -59,8 +55,8 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
      * INPUT: user interaction
      * OUTPUT: rendered Output
      */
-  it(`Toggle visibility of more-features-menu once user toggle show-more-button`, async () => {
-    const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } })
+  it(`C4: Toggle visibility of more-features-menu once user toggle show-more-button`, async () => {
+    const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } }, installVuetify)
     const $buttonToShowMore = queryByText('menu')
     const $itemOnMenu = () => queryByText('Logout')
 
@@ -74,9 +70,9 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
          * INPUT: history data
          * OUTPUT: rendered Output
          */
-    it(`Show clock-in-button, if user haven't clock in today`, () => {
+    it(`C5: Show clock-in-button, if user haven't clock in today`, () => {
       const props = { name: 'Jack', latestClockIn: undefined }
-      const { queryByText } = render(ClockInOut, { props })
+      const { queryByText } = render(ClockInOut, { props }, installVuetify)
       const $buttonToClockIn = () => queryByText('timer')
       const $buttonToClockOut = () => queryByText('timer_off')
 
@@ -87,10 +83,10 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
          * INPUT: history data
          * OUTPUT: rendered Output
          */
-    it(`Show clock-out-button & a card which record clock-in data
+    it(`C6: Show clock-out-button & a card which record clock-in data
                 if user have clocked in today`, () => {
       const props = { name: 'Jack', latestClockIn: { time: '11:15', date: '2019-07-08' } }
-      const { queryByText } = render(ClockInOut, { props })
+      const { queryByText } = render(ClockInOut, { props }, installVuetify)
       const $buttonToClockIn = () => queryByText('timer')
       const $buttonToClockOut = () => queryByText('timer_off')
 
@@ -102,9 +98,26 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
          * INPUT: user interaction
          * OUTPUT: rendered Output
          */
-    it(`Show 2 cards which record clock-in/out data once user perform clock out`, async () => {
+    it(`C7: Show clock-out-button & a card which record clock-in data
+                once user perform clock in`, async () => {
+        localStorage.setItem('firstTimeUse', undefined);
+        const { queryByText } = render(ClockInOut, { props: { name: 'Jack' } }, installVuetify);
+        const $buttonToClockIn = () => queryByText('timer');
+        const $buttonToClockOut = () => queryByText('timer_off');
+
+        await fireEvent.click($buttonToClockIn());
+
+        expect($buttonToClockIn()).not.toBeInTheDocument()
+        expect($buttonToClockOut()).toBeInTheDocument()
+    })
+
+    /**
+         * INPUT: user interaction
+         * OUTPUT: rendered Output
+         */
+    it(`C9: Show 2 cards which record clock-in/out data once user perform clock out`, async () => {
       const props = { name: 'Jack', latestClockIn: { time: '11:15', date: '2019-07-08' } }
-      const { queryByText, getByText } = render(ClockInOut, { props })
+      const { queryByText, getByText } = render(ClockInOut, { props }, installVuetify)
       const $buttonToClockIn = () => queryByText('timer')
       const $buttonToClockOut = () => queryByText('timer_off')
       const timeOfClockedOut = getCurrentTime()
@@ -114,6 +127,7 @@ describe('ClockInOut ➡️ ', () => // name of unit under test
       expect($buttonToClockOut()).not.toBeInTheDocument()
 
       expect(queryByText(props.latestClockIn.time)).toBeInTheDocument()
+      expect(queryByText(props.latestClockIn.date)).toBeInTheDocument()
       expect(queryByText(timeOfClockedOut)).toBeInTheDocument()
     })
   })

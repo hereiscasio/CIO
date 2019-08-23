@@ -1,14 +1,15 @@
 <template>
 <div>
-    <!-- Hack / Workaround:
-        `light`, `data-app` are attr to avoid annoying warning when do the testing
-    -->
     <v-time-picker
         v-model="currentTime"
         full-width readonly class="elevation-0"
         color='red'
     ></v-time-picker>
 
+    <!-- Hack / Workaround:
+        `light`, `data-app` are attr to avoid annoying warning when do the testing
+        TODO: it seems like we can scrape `light` out now
+    -->
     <v-menu offset-y light data-app close-on-click bottom max-width='164'>
         <template v-slot:activator="{ on }">
             <v-btn
@@ -35,33 +36,33 @@
 <script>
 
 export default {
-  data () {
-    return {
-      currentTime: this.$helper.getCurrentTime()
-    }
-  },
-  created () {
-    this.keepToShowCurrentTime()
-    this.featureListing = [
-      {
-        icon: 'directions_run', feature: 'Logout'
-      },
-      {
-        icon: 'show_chart', feature: 'History'
-      },
-      {
-        icon: 'settings', feature: 'Settings'
-      }
-    ]
-  },
-  methods: {
-    keepToShowCurrentTime () {
-      setInterval(() => {
-        this.currentTime = this.$helper.getCurrentTime()
-      },
-      1000 * 60)
-    }
-  }
+	data () {
+		return {
+			currentTime: this.$helper.getCurrentTime()
+		}
+	},
+	created () {
+		this.keepToShowCurrentTime()
+		this.featureListing = [
+			{
+				icon: 'directions_run', feature: 'Logout'
+			},
+			{
+				icon: 'show_chart', feature: 'History'
+			},
+			{
+				icon: 'settings', feature: 'Settings'
+			}
+		]
+	},
+	methods: {
+		keepToShowCurrentTime () {
+			setInterval(() => {
+				this.currentTime = this.$helper.getCurrentTime()
+			},
+			1000 * 60)
+		}
+	}
 }
 </script>
 
