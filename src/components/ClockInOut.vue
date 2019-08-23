@@ -6,14 +6,14 @@
 
 	<v-btn
 		v-if='shouldShowClockInButton'
-		height='52' block tile light elevation='10'
+		height='52' block tile light elevation='3'
 		@click='clockIn' class='font-weight-bold'
 	>
 			<v-icon left v-text='`timer`'/>&nbsp;CLOCK IN
 	</v-btn>
 	<v-btn
 		v-else-if='shouldShowClockOutButton'
-		height='52' block tile light elevation='10'
+		height='52' block tile light elevation='3'
 		@click='clockOut' class='font-weight-bold'
 	>
 		<v-icon left v-text='`timer_off`'/>&nbsp;CLOCK OUT
@@ -95,9 +95,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-time-picker-title__time * {
-		font-family: krungthep;
-}
 ::v-deep .v-picker__title {
 		padding-top: 32px;
 }

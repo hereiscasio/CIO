@@ -4,24 +4,27 @@
 	min-height='260' min-width="260" class='d-flex flex-column'
 >
 	<v-card-title
-		class='font-weight-bold white--text pb-4 pt-6'
+		class='font-weight-bold white--text pb-4 pt-6 card-title--time-freezer'
 	>CLOCK IN
 	</v-card-title>
 
 	<v-card-text
 		class='d-flex justify-center align-center black--text'
 	>
-	{{data.time}}
+        <v-badge color='transparent'>
+			<template v-slot:badge>
+			<v-icon class='mr-n1' @click='shouldShowTimeEditingPanel = true'>edit</v-icon>
+			</template>
+
+			<span class="time--time-freezer">
+			{{data.time}}
+			</span>
+        </v-badge>
 
 		<v-dialog
 			v-model="shouldShowTimeEditingPanel"
 			persistent max-width="600px" data-app
 		>
-			<template v-slot:activator="{ on }">
-				<v-btn tile v-on="on">
-					<v-icon>edit</v-icon>
-				</v-btn>
-			</template>
 			<v-form v-model="validInputField">
 				<v-card>
 					<v-card-title>
@@ -30,18 +33,20 @@
 					<v-card-text>
 						<v-container>
 							<v-row>
-								<v-col cols="12" sm="6" md="4">
+								<v-col cols="6">
 									<v-text-field
 										label="Hr" v-model='enteredTime.hr'
-										:placeholder="defaultHour"
+										:placeholder="defaultHour" outlined
+										class='input-field--time-editing-panel'
 										v-mask='`##`' :rules="[rules.required, rules.maxHour]"
 									>
 									</v-text-field>
 								</v-col>
-								<v-col cols="12" sm="6" md="4">
+								<v-col cols="6">
 									<v-text-field
 										label="Min" :placeholder="defaultMinute"
-										v-model='enteredTime.min'
+										v-model='enteredTime.min' outlined
+										class='input-field--time-editing-panel'
 										v-mask='`##`' :rules="[rules.required, rules.maxMinute]"
 									>
 									</v-text-field>
@@ -130,13 +135,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.v-card__title {
-		font-size: 32px;
-		background: #3D5AFE;
+.card-title--time-freezer {
+	font-size: 32px;
+	background: #3D5AFE;
 }
 .v-card__text {
-		font-family: krungthep;
-		font-size: 63px;
-		flex-grow: 1; // TODO: use Vuetify API to achieve the same effect
+	font-family: krungthep;
+	font-size: 63px;
+	flex-grow: 1; // TODO: use Vuetify API to achieve the same effect
+}
+.v-badge__badge .v-icon {
+    font-size: 18px;
+}
+.input-field--time-editing-panel ::v-deep input {
+	text-align: center;
+}
+.time--time-freezer {
+	font-family: krungthep;
 }
 </style>

@@ -67,6 +67,9 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+::v-deep .v-time-picker-title__time * {
+	font-family: krungthep;
+}
 :root {
     position: relative;
 }
