@@ -49,6 +49,11 @@
 		</v-card>
 	</v-dialog>
 
+	<!-- FIXME: refactor below stuff to independent component -->
+	<v-dialog v-model="shouldShowHistoryView" fullscreen hide-overlay transition="dialog-bottom-transition">
+		leave
+	</v-dialog>
+
 	<v-dialog v-model="shouldShowLogoutConfirmView">
 		<v-card>
 			<v-card-title class="headline">ARE YOU SURE ?</v-card-title>
@@ -105,7 +110,8 @@ export default {
 		return {
 			currentTime: this.$helper.getCurrent().time(),
 			shouldShowSettingsView: false,
-			shouldShowLogoutConfirmView: false
+			shouldShowLogoutConfirmView: false,
+			shouldShowHistoryView: false
 		}
 	},
 	created () {
@@ -120,7 +126,7 @@ export default {
 			{
 				icon: 'show_chart',
 				feature: 'History',
-				trigger: () => {}
+				trigger: () => (this.shouldShowHistoryView = true)
 			},
 			{
 				icon: 'settings',

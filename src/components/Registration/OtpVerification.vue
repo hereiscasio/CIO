@@ -79,7 +79,7 @@ export default {
 		otpNumber: {
 			handler (value) {
 				if (value.length === 4) {
-					this.$emit('showThisPage', 'Dashboard')
+					this.$emit('showThisPage', 'HistoryDashboard')
 				}
 			}
 		}

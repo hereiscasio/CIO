@@ -36,6 +36,10 @@ describe('ClockWidget ➡️ ', () => // name of unit under test
 		expect($oneOfInfoOnSettingsView()).not.toBeVisible()
 	});
 
+	/**
+	 * INPUT: user interaction
+	 * OUTPUT: rendered Output
+	 */
 	it(`C2: toggle view--logout-confirmation if user activate/deactivate it via
 		button--show-more-features/button--confirm-to-logout
 	`, async () => {
@@ -53,4 +57,18 @@ describe('ClockWidget ➡️ ', () => // name of unit under test
 		await fireEvent.click($buttonToConfirmLogout())
 		expect($titleOnLogoutPanel()).not.toBeVisible()
 	});
+
+	it(`C3: show view--history-dashboard if user activate
+		it via button--show-more-features`, async () =>
+	{
+		const { queryByText } = render(ClockWidget, {}, installVuetify)
+		const $buttonToShowMenu = queryByText('menu')
+		const $buttonToShowHistoryView = () => queryByText('History')
+		const $buttonToHideHistory = () => queryByText('leave')
+
+		await fireEvent.click($buttonToShowMenu)
+		await fireEvent.click($buttonToShowHistoryView())
+
+		expect($buttonToHideHistory()).toBeVisible()
+	})
 })

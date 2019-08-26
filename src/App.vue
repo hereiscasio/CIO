@@ -23,13 +23,14 @@
 		</v-snackbar> -->
     <ClockInOut name='Jack'></ClockInOut>
 	</template>
-	<Dashboard v-else/>
+	<HistoryDashboard v-else/>
 </v-app>
 </template>
 
 <script>
+
+import HistoryDashboard from './components/HistoryDashboard'
 import ClockInOut from './components/ClockInOut'
-import Dashboard from './components/Dashboard'
 import AppHomePage from './components/Registration/AppHomePage'
 import OtpVerification from './components/Registration/OtpVerification'
 import Notification from './components/Notification'
@@ -41,7 +42,7 @@ export default {
 			notificationMode: 'otpProvider',
 			shouldShow: {
 				appHomePage: true,
-				dashboard: false,
+				historyDashboard: false,
 				notification: false
 			},
 			otpCode: undefined,
@@ -52,7 +53,7 @@ export default {
 		shouldShowOtpVerification () {
 			if (
 				this.shouldShow.appHomePage === false &&
-				this.shouldShow.dashboard === false
+				this.shouldShow.historyDashboard === false
 			) {
 				return true
 			}
@@ -69,7 +70,7 @@ export default {
 	methods: {
 		showThisPage (pageName) {
 			switch (pageName) {
-				case 'Dashboard' : this.shouldShow.dashboard = true; break
+				case 'HistoryDashboard' : this.shouldShow.historyDashboard = true; break
 				case 'AppHomePage': this.shouldShow.appHomePage = true; break
 			}
 		},
@@ -92,9 +93,9 @@ export default {
 	components: {
 		AppHomePage,
 		OtpVerification,
-		Dashboard,
 		Notification,
-		ClockInOut
+		ClockInOut,
+		HistoryDashboard
 	}
 }
 </script>

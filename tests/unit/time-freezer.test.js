@@ -50,7 +50,7 @@ describe('TimeFreezer ➡️ ', () => {
         await fireEvent.update($hourInputField(), '')
         await fireEvent.click($buttonToSaveChanged())
 
-        expect(queryByText('Editing Clock-in Time')).toBeVisible();
+        expect(queryByText('Edit History')).toBeVisible();
     });
     // TODO: auto prefix 0 if user only enter single number into either hr or min input field
     describe(`He can't enter below any character into input field, otherwise, saved-button will be disabled`, () =>
@@ -69,7 +69,7 @@ describe('TimeFreezer ➡️ ', () => {
             await fireEvent.update($minuteInputField(), '53');
             await fireEvent.click($buttonToSaveChanged())
 
-            expect(queryByText('Editing Clock-in Time')).toBeVisible();
+            expect(queryByText('Edit History')).toBeVisible();
         })
 
         it(`T5: number > 59 in minute input field`, async () => {
@@ -85,7 +85,7 @@ describe('TimeFreezer ➡️ ', () => {
             await fireEvent.update($minuteInputField(), '60')
             await fireEvent.click($buttonToSaveChanged())
 
-            expect(queryByText('Editing Clock-in Time')).toBeVisible();
+            expect(queryByText('Edit History')).toBeVisible();
         })
     })
 

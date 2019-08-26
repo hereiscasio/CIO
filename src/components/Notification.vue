@@ -1,6 +1,6 @@
 <template>
 <v-snackbar
-		:value='shouldShowSnackBar' color='#F99B2F' dark :timeout='0'
+	:value='shouldShowSnackBar' color='#F99B2F' dark :timeout='timeout'
 >
 		<v-layout
 				v-if='mode === "otpProvider"'
@@ -10,12 +10,12 @@
 				<v-flex class='font-weight-black'>{{otpCode}}</v-flex>
 		</v-layout>
 
-		<template v-else-if='mode === "greeting"'>
-				Hello, {{name}}
+		<template v-else-if='mode === "greeting" || mode === "usageTips"'>
+				{{content}}
 				<v-btn
-						@click="shouldShowSnackBar = false" text icon
+					@click="shouldShowSnackBar = false" text icon
 				>
-						<v-icon v-text='`close`'/>
+					<v-icon v-text='`close`'/>
 				</v-btn>
 		</template>
 </v-snackbar>
@@ -29,13 +29,15 @@
 import TYPE from 'vue-types'
 export default {
 	props: {
-		name: String,
-		mode: TYPE.string.def(''),
-		otpCode: TYPE.string.def('')
+		name    : String,
+		content : String,
+		mode    : TYPE.string.def(''),
+		otpCode : TYPE.string.def('')
 	},
 	data () {
 		return {
-			shouldShowSnackBar: false
+			shouldShowSnackBar : false,
+			timeout            : 0
 		}
 	},
 	methods: {
@@ -61,7 +63,11 @@ export default {
 				switch (val) {
 					case 'greeting':
 						this.sayHelloToUserInCertainCircumstance()
-						debugger
+						break
+
+					case 'usageTips':
+						this.shouldShowSnackBar = true
+						this.timeout = 3000
 						break
 
 					case '': this.shouldShowSnackBar = false; break

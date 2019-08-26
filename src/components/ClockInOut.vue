@@ -1,6 +1,6 @@
 <template>
 <div class='px-4'>
-	<Notification mode='greeting'/>
+	<Notification mode='greeting' :content='textToSayHello'/>
 
 	<ClockWidget class='mx-n4'/>
 
@@ -37,18 +37,23 @@ export default {
 	props: {
 		name: String,
 		latestClockIn: TYPE.shape({
-			time: String,
-			date: String
+			time : String,
+			date : String
 		})
+	},
+	computed: {
+		textToSayHello () {
+			return 'Hello, ' + this.name
+		}
 	},
 	data () {
 		return {
-			shouldShowClockInButton: false,
-			shouldShowClockOutButton: false,
-			currentClockInTime: undefined,
-			currentClockOutTime: undefined,
-			clockInData: undefined,
-			clockOutData: undefined
+			shouldShowClockInButton  : false,
+			shouldShowClockOutButton : false,
+			currentClockInTime       : undefined,
+			currentClockOutTime      : undefined,
+			clockInData              : undefined,
+			clockOutData             : undefined
 		}
 	},
 	watch: {
