@@ -1,6 +1,6 @@
 <template>
 <v-snackbar
-	:value='shouldShowSnackBar' color='#F99B2F' dark :timeout='timeout'
+	:value='shouldShowSnackBar' :color='snackBarColor' dark :timeout='snackBarTimeout'
 >
 		<v-layout
 				v-if='mode === "otpProvider"'
@@ -37,7 +37,8 @@ export default {
 	data () {
 		return {
 			shouldShowSnackBar : false,
-			timeout            : 0
+			snackBarTimeout    : 0,
+			snackBarColor      : '#F99B2F'
 		}
 	},
 	methods: {
@@ -67,7 +68,8 @@ export default {
 
 					case 'usageTips':
 						this.shouldShowSnackBar = true
-						this.timeout = 3000
+						this.snackBarTimeout = 3000
+						this.snackBarColor = '#3D5AFE'
 						break
 
 					case '': this.shouldShowSnackBar = false; break

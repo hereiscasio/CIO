@@ -1,31 +1,46 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<div data-cy='view--dashboard--home'>
+<v-dialog
+	data-cy='view--dashboard--home'
+	data-testid='dialog-wrapper--history-dashboard'
+	:value="true" persistent
+	fullscreen hide-overlay transition="dialog-bottom-transition"
+>
+	<!--
+		Style Bug :
+		Can not place Notification at horizontal center inside v-dialog
+		The workaround is moving Notification out of v-dialog,
+		but it will cause other bug
+	-->
 	<Notification mode='usageTips' :content='usageTips'/>
 
-	<v-dialog
-		:value="shouldShowHistoryByDatePicker"
-		fullscreen hide-overlay transition="dialog-bottom-transition"
-	>
-		<v-date-picker
-			v-if='focusedTabTitle === "date"'
-			data-testid='view--history-date'
-			v-model="selectedDate"
-			@click:date="onClickDateButton"
-		></v-date-picker>
+	<HistoryEditor
+		v-if='shouldShowHistoryEditor'
+		:defaultTime='timeOfSelectedDate' mode='history'
+	/>
 
-		<v-data-table
-			v-else-if='focusedTabTitle === "table"'
-			data-testid='view--history-table'
-			:headers="headers"
-			:items="desserts"
-		>
-		</v-data-table>
+	<v-date-picker
+		full-width
+		v-if='focusedTabTitle === "date"'
+		data-testid='view--history-date'
+		v-model="selectedDate"
+		@click:date="onClickDateButton"
+		color='#3D5AFE'
+	></v-date-picker>
+
+	<v-data-table
+		v-else-if='focusedTabTitle === "table"'
+		data-testid='view--history-table'
+		:headers="headers"
+		:items="desserts"
+	>
+	</v-data-table>
 
 		<v-bottom-navigation
-			v-model="focusedTabTitle" horizontal
+			v-model="focusedTabTitle"
+			horizontal fixed class='elevation-24' color='#3D5AFE'
 		>
-			<v-btn value="leave" @click='shouldShowHistoryByDatePicker = false'>
+			<v-btn value="leave">
 				Leave
 				<v-icon>directions_run</v-icon>
 			</v-btn>
@@ -40,14 +55,7 @@
 				<v-icon>view_list</v-icon>
 			</v-btn>
 		</v-bottom-navigation>
-
-	</v-dialog>
-
-	<HistoryEditor
-		v-if='shouldShowHistoryEditor'
-		:defaultTime='timeOfSelectedDate' mode='history'
-	/>
-</div>
+</v-dialog>
 <!--eslint-enable-->
 </template>
 
@@ -60,7 +68,6 @@ export default {
 		return {
 			shouldShowHistoryEditor      : false,
 			focusedTabTitle               : 'date',
-			shouldShowHistoryByDatePicker: true,
 			selectedDate            	  : this.$helper.getCurrent().date(),
 			timeOfSelectedDate           : '',
 
