@@ -21,7 +21,7 @@
 			</span>
         </v-badge>
 
-		<HistoryEditor v-if='shouldShowHistoryEditor' :defaultTime='data.time' mode='time'/>
+		<HistoryEditor v-if='shouldShowHistoryEditor' :timeData='[data.time]'/>
 	</v-card-text>
 
 	<v-card-actions class='justify-center py-4'>

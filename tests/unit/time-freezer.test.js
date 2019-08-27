@@ -38,57 +38,6 @@ describe('TimeFreezer ➡️ ', () => {
         expect(queryByPlaceholderText('11')).toBeInTheDocument()
         expect(queryByPlaceholderText('15')).toBeInTheDocument()
     });
-    // TODO: should reset to default value if user cancel invalid editing action
-    it(`T3: If he eliminate any input field to empty, then saved-button will be disabled`, async () =>
-    {
-        const { queryByText, queryByLabelText } = render(TimeFreezer, { props }, installVuetify);
-        const $buttonToShowPanel = queryByText('edit');
-        const $hourInputField   = () => queryByLabelText('Hr');
-        const $buttonToSaveChanged = () => queryByText('SAVE');
-
-        await fireEvent.click($buttonToShowPanel);
-        await fireEvent.update($hourInputField(), '')
-        await fireEvent.click($buttonToSaveChanged())
-
-        expect(queryByText('Edit History')).toBeVisible();
-    });
-    // TODO: auto prefix 0 if user only enter single number into either hr or min input field
-    describe(`He can't enter below any character into input field, otherwise, saved-button will be disabled`, () =>
-    {
-
-        it(`T4: number > 24 in hour input field`, async () => {
-
-            const { queryByText, queryByLabelText } = render(TimeFreezer, { props }, installVuetify);
-            const $buttonToShowPanel = queryByText('edit');
-            const $hourInputField   = () => queryByLabelText('Hr');
-            const $minuteInputField = () => queryByLabelText('Min');
-            const $buttonToSaveChanged = () => queryByText('SAVE');
-
-            await fireEvent.click($buttonToShowPanel);
-            await fireEvent.update($hourInputField(), '25')
-            await fireEvent.update($minuteInputField(), '53');
-            await fireEvent.click($buttonToSaveChanged())
-
-            expect(queryByText('Edit History')).toBeVisible();
-        })
-
-        it(`T5: number > 59 in minute input field`, async () => {
-
-            const { queryByText, queryByLabelText } = render(TimeFreezer, { props }, installVuetify);
-            const $buttonToShowPanel = queryByText('edit');
-            const $hourInputField   = () => queryByLabelText('Hr');
-            const $minuteInputField = () => queryByLabelText('Min');
-            const $buttonToSaveChanged = () => queryByText('SAVE');
-
-            await fireEvent.click($buttonToShowPanel);
-            await fireEvent.update($hourInputField(), '13')
-            await fireEvent.update($minuteInputField(), '60')
-            await fireEvent.click($buttonToSaveChanged())
-
-            expect(queryByText('Edit History')).toBeVisible();
-        })
-    })
-
 })
 // // Thinking: 要測的功能 lib 或 framework 有提供嗎？有的話就不用測，例「 點擊頁面任意處都可以把 menu 關掉 」
 // /**

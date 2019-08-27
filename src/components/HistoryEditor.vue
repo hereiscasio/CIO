@@ -1,7 +1,11 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
+<!-- TODO:
+	Vuetify Bug ?
+	without `hide-overlay`, this dialog will be overlap by its overlay
+-->
 <v-dialog
-	:value='shouldShowDialog' persistent max-width="600px" data-app
+	v-model='shouldShowDialog' persistent hide-overlay max-width="600px" data-app
 >
 	<v-form v-model="validInputField">
 		<v-card>
@@ -9,32 +13,37 @@
 				<v-list-item two-line>
 				<v-list-item-content>
 					<v-list-item-title class="headline">Edit History</v-list-item-title>
-					<v-list-item-subtitle v-if='mode === "history"'>To use different way to edit the time, please access tab: "Table" shown below</v-list-item-subtitle>
+					<v-list-item-subtitle class='text-wrap' v-if='timeData.length === 2'>To use different way to edit the time, please access tab: "Table" shown below</v-list-item-subtitle>
 				</v-list-item-content>
 				</v-list-item>
 			</v-card-title>
-			<v-card-text>
-				<v-container>
-					<v-row>
-						<v-col cols="6">
+			<v-card-text class='pb-0'>
+				<v-container class='pb-0'>
+					<template v-for='(time, index) in timeData'>
+					<v-row :key='index' v-if='timeData.length > 1'>
+						{{`Clock-${index === 0 ? 'in' : 'out'} Time`}}
+					</v-row>
+					<v-row :key='time'>
+						<v-col cols="6" class='pb-0'>
 							<v-text-field
-								label="Hr" v-model='enteredTime.hr'
-								:placeholder="defaultHour" outlined
+								label="Hr" v-model='enteredTime.hr[0]'
+								:placeholder="enteredTime.hr[0]" outlined
 								class='input-field--time-editing-panel'
 								v-mask='`##`' :rules="[rules.required, rules.maxHour]"
 							>
 							</v-text-field>
 						</v-col>
-						<v-col cols="6">
+						<v-col cols="6" class='pb-0'>
 							<v-text-field
-								label="Min" v-model='enteredTime.min'
-								:placeholder="defaultMinute" outlined
+								label="Min" v-model='enteredTime.min[0]'
+								:placeholder="enteredTime.min[0]" outlined
 								class='input-field--time-editing-panel'
 								v-mask='`##`' :rules="[rules.required, rules.maxMinute]"
 							>
 							</v-text-field>
 						</v-col>
 					</v-row>
+					</template>
 				</v-container>
 			</v-card-text>
 			<v-card-actions>
@@ -61,27 +70,16 @@
 
 <script>
 import TYPE from 'vue-types' // eslint-disable-line
+import { isArray, includes } from 'lodash-core'
 import { mask } from 'vue-the-mask'
 export default {
 	props: {
-		mode: TYPE.string.isRequired,
-		defaultTime: TYPE.string.isRequired
-	},
-	// FIXME: can not show default input value when open dialog
-	computed: {
-		defaultHour () {
-			return this.defaultTime.split(':')[0]
-		},
-		defaultMinute () {
-			return this.defaultTime.split(':')[1]
-		}
+		timeData: TYPE.custom(value => {
+			return isArray(value) && value.length >= 1 && value.length <= 2
+		})
 	},
 	data () {
 		return {
-			enteredTime: {
-				hr: this.defaultHour,
-				min: this.defaultMinute
-			},
 			rules: {
 				/**
 				 * if no value provided, display the text : 'Required'
@@ -93,8 +91,24 @@ export default {
 				maxHour: value => parseInt(value, 10) < 25 || 'Max hour = 24',
 				maxMinute: value => parseInt(value, 10) < 60 || 'Max minute = 59'
 			},
+			enteredTime: { hr: '', min: '' },
 			validInputField: true,
-			shouldShowDialog: true
+			shouldShowDialog: false
+		}
+	},
+	watch: {
+		timeData: {
+			handler (value) {
+				if (
+					!includes(value, undefined) && value[0] !== ''
+				) {
+					this.shouldShowDialog = true
+					this.enteredTime.hr = this.timeData.map(time => time.split(':')[0])
+					this.enteredTime.min = this.timeData.map(time => time.split(':')[1])
+				}
+			},
+			deep: true,
+			immediate: true
 		}
 	},
 	methods: {

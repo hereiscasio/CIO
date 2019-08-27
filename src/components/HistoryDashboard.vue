@@ -4,7 +4,7 @@
 	data-cy='view--dashboard--home'
 	data-testid='dialog-wrapper--history-dashboard'
 	:value="true" persistent
-	fullscreen hide-overlay transition="dialog-bottom-transition"
+	fullscreen transition="dialog-bottom-transition"
 >
 	<!--
 		Style Bug :
@@ -15,8 +15,7 @@
 	<Notification mode='usageTips' :content='usageTips'/>
 
 	<HistoryEditor
-		v-if='shouldShowHistoryEditor'
-		:defaultTime='timeOfSelectedDate' mode='history'
+		v-if='shouldShowHistoryEditor' :timeData='timeOfSelectedDate'
 	/>
 
 	<v-date-picker
@@ -36,25 +35,25 @@
 	>
 	</v-data-table>
 
-		<v-bottom-navigation
-			v-model="focusedTabTitle"
-			horizontal fixed class='elevation-24' color='#3D5AFE'
-		>
-			<v-btn value="leave">
-				Leave
-				<v-icon>directions_run</v-icon>
-			</v-btn>
+	<v-bottom-navigation
+		v-model="focusedTabTitle"
+		horizontal fixed class='elevation-24' color='#3D5AFE'
+	>
+		<v-btn value="leave">
+			Leave
+			<v-icon>directions_run</v-icon>
+		</v-btn>
 
-			<v-btn value="date">
-				Date
-				<v-icon>date_range</v-icon>
-			</v-btn>
+		<v-btn value="date">
+			Date
+			<v-icon>date_range</v-icon>
+		</v-btn>
 
-			<v-btn value="table">
-				Table
-				<v-icon>view_list</v-icon>
-			</v-btn>
-		</v-bottom-navigation>
+		<v-btn value="table">
+			Table
+			<v-icon>view_list</v-icon>
+		</v-btn>
+	</v-bottom-navigation>
 </v-dialog>
 <!--eslint-enable-->
 </template>
@@ -69,7 +68,7 @@ export default {
 			shouldShowHistoryEditor      : false,
 			focusedTabTitle               : 'date',
 			selectedDate            	  : this.$helper.getCurrent().date(),
-			timeOfSelectedDate           : '',
+			timeOfSelectedDate           : [''],
 
 			// FIXME: fake data
 			headers: [
@@ -93,7 +92,7 @@ export default {
 	},
 	methods: {
 		onClickDateButton (selectedDate) {
-			this.timeOfSelectedDate = '11:15' // FIXME: hard code
+			this.timeOfSelectedDate = ['11:15', ''] // FIXME: hard code
 			this.shouldShowHistoryEditor = true
 		}
 	},

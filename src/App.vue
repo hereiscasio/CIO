@@ -1,6 +1,6 @@
 <template>
 <v-app>
-	<!-- <Notification
+	<Notification
 		v-if='shouldShow.notification'
 		:mode='notificationMode'
 		:otpCode='otpCode'
@@ -11,20 +11,18 @@
 		/>
 		<OtpVerification
 			v-if='shouldShowOtpVerification' @showThisPage='showThisPage'
-		/> -->
-		<!--
-
-		<v-snackbar
+		/>
+		<!-- <v-snackbar
 		v-show='!shouldShow.appHomePage' :value='true' color='#FF5252' dark
 		data-cy="snack-bar--otp-checker"
 		>
 		Expired or wrong code
 		<v-btn color="white" text v-text='`Resend`'/>
 		</v-snackbar> -->
-    <!-- <ClockInOut name='Jack'></ClockInOut>
+	<ClockInOut name='Jack'></ClockInOut>
 	</template>
-	<HistoryDashboard v-else/> -->
-	<HistoryDashboard/>
+	<HistoryDashboard v-else/>
+	<!-- <HistoryDashboard/> -->
 </v-app>
 </template>
 
