@@ -17,35 +17,29 @@
 	<HistoryEditor
 		v-if='shouldShowHistoryEditor' :timeData='timeOfSelectedDate'
 	/>
-
+	<!-- TODO: use vue-router to switch view -->
 	<v-date-picker
 		full-width
-		v-if='focusedTabTitle === "date"'
-		data-testid='view--history-date'
+		v-if='focusedTabTitle === "calendar"'
+		data-testid='view--history-calendar'
 		v-model="selectedDate"
 		@click:date="onClickDateButton"
 		color='#3D5AFE'
 	></v-date-picker>
 
-	<v-data-table
-		v-else-if='focusedTabTitle === "table"'
-		data-testid='view--history-table'
-		:headers="headers"
-		:items="desserts"
-	>
-	</v-data-table>
+	<TableToShowHistory v-else-if='focusedTabTitle === "table"'/>
 
 	<v-bottom-navigation
 		v-model="focusedTabTitle"
-		horizontal fixed class='elevation-24' color='#3D5AFE'
+		horizontal absolute class='elevation-24' color='#3D5AFE'
 	>
 		<v-btn value="leave">
 			Leave
 			<v-icon>directions_run</v-icon>
 		</v-btn>
 
-		<v-btn value="date">
-			Date
+		<v-btn value="calendar">
+			Calendar
 			<v-icon>date_range</v-icon>
 		</v-btn>
 
@@ -60,31 +54,16 @@
 
 <script>
 import HistoryEditor from './HistoryEditor'
+import TableToShowHistory from './TableToShowHistory'
 import * as CONSTANTS from './../constants'
 import Notification from './Notification'
 export default {
 	data () {
 		return {
 			shouldShowHistoryEditor      : false,
-			focusedTabTitle               : 'date',
+			focusedTabTitle               : 'calendar',
 			selectedDate            	  : this.$helper.getCurrent().date(),
-			timeOfSelectedDate           : [''],
-
-			// FIXME: fake data
-			headers: [
-				{
-					text: 'Dessert (100g serving)',
-					align: 'left',
-					sortable: false,
-					value: 'name'
-				},
-				{ text: 'Calories', value: 'calories' },
-				{ text: 'Fat (g)', value: 'fat' },
-				{ text: 'Carbs (g)', value: 'carbs' },
-				{ text: 'Protein (g)', value: 'protein' },
-				{ text: 'Actions', value: 'action', sortable: false }
-			],
-			desserts: []
+			timeOfSelectedDate           : ['']
 		}
 	},
 	created () {
@@ -96,6 +75,6 @@ export default {
 			this.shouldShowHistoryEditor = true
 		}
 	},
-	components: { Notification, HistoryEditor }
+	components: { Notification, HistoryEditor, TableToShowHistory }
 }
 </script>

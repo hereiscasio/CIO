@@ -70,7 +70,7 @@ describe('HistoryDashboard ➡️ ', () => // name of unit under test
 	 * INPUT: user interaction
 	 * OUTPUT: rendered Output
 	 */
-    it(`can access specific view ( "Date", "Table" ) by clicking related tab`, async () =>
+    it(`can access specific view ( "Calendar", "Table" ) by clicking related tab`, async () =>
     {
         const props = {dateData: '2019-08-23'}
         const { queryByText, queryByTestId } = render(HistoryDashboard, {props}, installVuetify)
@@ -80,7 +80,7 @@ describe('HistoryDashboard ➡️ ', () => // name of unit under test
         await fireEvent.click($buttonToShowView('Table'))
         expect($viewOf('Table')).toBeVisible()
 
-        await fireEvent.click($buttonToShowView('Date'))
-        expect($viewOf('Date')).toBeVisible()
+        await fireEvent.click($buttonToShowView('Calendar'))
+        expect($viewOf('Calendar')).toBeVisible()
     })
 });
