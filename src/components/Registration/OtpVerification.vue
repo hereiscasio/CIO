@@ -9,7 +9,7 @@
 		<v-toolbar flat color='transparent' class='pa-0 mx-n7 mb-2'>
 				<v-btn
 						icon color='white' data-cy="button--to-app-home-page"
-						@click="$emit('showThisPage', 'AppHomePage')"
+						@click="$router.go(-1)"
 				>
 						<v-icon v-text='`arrow_back`'/>
 				</v-btn>
@@ -79,7 +79,7 @@ export default {
 		otpNumber: {
 			handler (value) {
 				if (value.length === 4) {
-					this.$emit('showThisPage', 'HistoryDashboard')
+					// TODO: if valid number, go to ClockInOut
 				}
 			}
 		}

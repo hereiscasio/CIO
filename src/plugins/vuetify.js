@@ -6,13 +6,16 @@ Vue.use(Vuetify)
 export default new Vuetify({
 	theme: {
 		options: {
+			/**
+			 * Enable to use Vuetify CSS variable in <style>
+			 */
 			customProperties: true
 		},
 		themes: {
 			light: {
-				primary: '#ee44aa',
-				secondary: '#424242',
-				accent: '#82B1FF',
+				primary: '#3D5AFE',
+				secondary: '#03A9F4',
+				accent: '#7B2B07',
 				error: '#FF5252',
 				info: '#2196F3',
 				success: '#4CAF50',

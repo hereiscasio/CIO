@@ -1,3 +1,4 @@
+mock/*
 tests/*
 node_modules/*
 yarn-error.log

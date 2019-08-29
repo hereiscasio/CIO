@@ -2,79 +2,76 @@
 <!-- eslint-disable vue/no-v-html -->
 <v-dialog
 	data-cy='view--dashboard--home'
-	data-testid='dialog-wrapper--history-dashboard'
-	:value="true" persistent
+	:value="true" persistent scrollable
 	fullscreen transition="dialog-bottom-transition"
 >
+	<v-card>
 	<!--
 		Style Bug :
 		Can not place Notification at horizontal center inside v-dialog
 		The workaround is moving Notification out of v-dialog,
 		but it will cause other bug
 	-->
-	<Notification mode='usageTips' :content='usageTips'/>
-
-	<HistoryEditor
-		v-if='shouldShowHistoryEditor' :timeData='timeOfSelectedDate'
+	<Notification
+		v-if='shouldShowUsageTips'
+		mode='usageTips' :content='usageTips'
+		@on-click-closing-button='turnOffUsageTipsForever'
 	/>
-	<!-- TODO: use vue-router to switch view -->
-	<v-date-picker
-		full-width
-		v-if='focusedTabTitle === "calendar"'
-		data-testid='view--history-calendar'
-		v-model="selectedDate"
-		@click:date="onClickDateButton"
-		color='#3D5AFE'
-	></v-date-picker>
-
+	<v-card-text class='pa-0'>
+	<CalendarToShowHistory v-if='focusedTabTitle === "calendar"'/>
 	<TableToShowHistory v-else-if='focusedTabTitle === "table"'/>
-
+	</v-card-text>
+	<v-card-actions>
 	<v-bottom-navigation
 		v-model="focusedTabTitle"
-		horizontal absolute class='elevation-24' color='#3D5AFE'
+		horizontal fixed class='elevation-24' color='#3D5AFE'
 	>
-		<v-btn value="leave">
-			Leave
-			<v-icon>directions_run</v-icon>
-		</v-btn>
-
-		<v-btn value="calendar">
-			Calendar
-			<v-icon>date_range</v-icon>
-		</v-btn>
-
-		<v-btn value="table">
-			Table
-			<v-icon>view_list</v-icon>
+		<v-btn
+			v-for='btn in buttonInfoOfBottomNavigator' :key='btn.name'
+			:value="btn.name.toLowerCase()"
+			@click='onSwitchTab(btn.name)'
+		>
+			{{btn.name}}
+			<v-icon v-text='btn.icon'/>
 		</v-btn>
 	</v-bottom-navigation>
+	</v-card-actions>
+	</v-card>
 </v-dialog>
 <!--eslint-enable-->
 </template>
 
 <script>
-import HistoryEditor from './HistoryEditor'
+import CalendarToShowHistory from './CalendarToShowHistory'
 import TableToShowHistory from './TableToShowHistory'
-import * as CONSTANTS from './../constants'
 import Notification from './Notification'
+import TYPE from 'vue-types' // eslint-disable-line
+import { TEXT } from './../constants'
 export default {
 	data () {
 		return {
-			shouldShowHistoryEditor      : false,
-			focusedTabTitle               : 'calendar',
-			selectedDate            	  : this.$helper.getCurrent().date(),
-			timeOfSelectedDate           : ['']
+			focusedTabTitle: 'calendar'
 		}
 	},
 	created () {
-		this.usageTips = CONSTANTS.TEXT.USAGE_TIPS
+		this.usageTips = TEXT.USAGE_TIPS
+
+		this.shouldShowUsageTips = localStorage.doNotShowUsageTipsAgain === undefined
+		this.buttonInfoOfBottomNavigator = [
+			{ name:'Leave', icon: 'directions_run' },
+			{ name:'Calendar', icon: 'date_range' },
+			{ name:'Table', icon: 'view_list' }
+		]
 	},
 	methods: {
-		onClickDateButton (selectedDate) {
-			this.timeOfSelectedDate = ['11:15', ''] // FIXME: hard code
-			this.shouldShowHistoryEditor = true
+		turnOffUsageTipsForever() {
+			debugger
+			localStorage.setItem('doNotShowUsageTipsAgain', true)
+		},
+		onSwitchTab (tabName) {
+			if (tabName === 'Leave') this.$router.go(-1)
 		}
 	},
-	components: { Notification, HistoryEditor, TableToShowHistory }
+	components: { Notification, TableToShowHistory, CalendarToShowHistory }
 }
 </script>

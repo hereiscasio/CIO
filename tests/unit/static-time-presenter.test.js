@@ -1,16 +1,33 @@
-import TimeFreezer from '@/components/TimeFreezer'
-import helper from './../../src/helper.js'
-import { render, fireEvent, queryByPlaceholderText } from '@testing-library/vue'
+import StaticTimePresenter from '@/components/StaticTimePresenter'
+import helper, { getCurrent, stringWithSeparator } from './../../src/helper.js'
+import { render, fireEvent, wait, waitForElement } from '@testing-library/vue'
 import '@testing-library/jest-dom/extend-expect'
-import Vuetify from 'vuetify'
 import Vue from 'vue'
+import Vuex from 'vuex'
+import Router from 'vue-router'
+import store from './../../src/store'
+import router from './../../src/router'
+import Vuetify from 'vuetify'
+import axios from 'axios'
+import { mockHttp } from './http-mocker'
 
+const http = {
+    install() {
+        Vue.prototype.$http = axios;
+    }
+};
 Vue.use(Vuetify)
 Vue.use(helper)
+Vue.use(http)
+Vue.use(Router)
+Vue.use(Vuex)
 
-const installVuetify = () => ({vuetify: new Vuetify()});
+const installPlugins = () => {
+	store.commit('RESET_ALL')
+	return ({vuetify: new Vuetify(), store, router})
+}
 
-describe('TimeFreezer ➡️ ', () => {
+describe('StaticTimePresenter.vue 📄', () => {
     /**
          * INPUT: props
          * OUTPUT: rendered Output
@@ -20,24 +37,20 @@ describe('TimeFreezer ➡️ ', () => {
         // 然後現在又於本檔案再單獨測試子組件：傳進 time, date，會正確顯示 time, date
         // 初步感覺這樣是在浪費測試，因為好像有重疊，但其實沒有，前者測的是 integration
         // 後者是 unit，事實證明，後者運作正常不代表前者運作正常
-    const props = {data: { time: '11:15', date: '2019-07-08' }};
-
-    it(`T1: Present time & date if there's such data comes in`, () =>
+	/**
+	 * @Dependency: #UC12, #UC7
+	 */
+    it(`Present time & date on card if receive such input`, () =>
     {
-        const { queryByText, queryByPlaceholderText } = render(TimeFreezer, { props }, installVuetify);
-        expect(queryByText(props.data.time)).toBeInTheDocument()
-        expect(queryByText(props.data.date)).toBeInTheDocument()
+		const props = { time: getCurrent().time() };
+		const { queryByText } = render(StaticTimePresenter, { props }, installPlugins);
+		const $cardWithCurrentTime = queryByText(getCurrent().timeWithSeparator())
+		const $cardWithDateOfToday = queryByText(getCurrent().dateWithSeparator())
+
+		expect($cardWithCurrentTime).toBeInTheDocument()
+		expect($cardWithDateOfToday).toBeInTheDocument()
     });
 
-    it(`T2: Present the panel with time once he click button--time-edit on the card`, async () =>
-    {
-        const { queryByText, queryByPlaceholderText } = render(TimeFreezer, { props }, installVuetify);
-        const $buttonToShowPanel = queryByText('edit');
-
-        await fireEvent.click($buttonToShowPanel);
-        expect(queryByPlaceholderText('11')).toBeInTheDocument()
-        expect(queryByPlaceholderText('15')).toBeInTheDocument()
-    });
 })
 // // Thinking: 要測的功能 lib 或 framework 有提供嗎？有的話就不用測，例「 點擊頁面任意處都可以把 menu 關掉 」
 // /**
