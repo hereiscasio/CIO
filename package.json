@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node ./mock/bin/www",
-    "api": "nodemon --watch ./mock/routes --watch ./mock/data --watch ./mock/app.js --watch --watch ./mock/bin/www",
+	"start": "node ./mock-server.js",
+	"api": "nodemon --watch ./functions/app.js --watch ./functions/data/db.json --watch ./mock-server.js",
     "build": "vue-cli-service build",
     "dev": "vue-cli-service serve",
     "e2e": "yarn dev & npx cypress open",

@@ -3,7 +3,7 @@ var express = require('express');
 var fs = require('fs');
 var app = express();
 var db = require('./data/db.json')
-var usersRouter = require('./routes/users');
+//var usersRouter = require('./routes/users');
 
 
 
@@ -49,7 +49,7 @@ app.use('/user/:phoneNumber/*', (req, res, next) =>
 	}
 })
 
-app.use('/users', usersRouter);
+//app.use('/users', usersRouter);
 
 /**
  * Add a new record ✅
