@@ -10,7 +10,6 @@ import router from './../../src/router'
 import Vuetify from 'vuetify'
 import axios from 'axios'
 import { mockHttp } from './http-mocker'
-
 const http = {
     install() {
         Vue.prototype.$http = axios;

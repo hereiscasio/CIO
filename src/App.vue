@@ -20,6 +20,10 @@
 <script>
 export default {
 	beforeCreate() {
+		/*
+		 * temporarily comment out
+		 * this.$router.push({ path: 'landing' })
+		 */
 		localStorage.setItem('userId', '0966001596')
 		/**
 		 * Go view: sign-up if haven't registered, otherwise redirect to view: logged
@@ -57,5 +61,8 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Space+Mono&display=swap');
 * {
 	font-family: 'Space Mono', monospace;
+}
+.v-application--wrap {
+	background: white;
 }
 </style>
