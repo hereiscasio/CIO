@@ -49,7 +49,7 @@
 		</v-card>
 	</v-dialog>
 
-	<v-dialog v-model="shouldShowLogoutConfirmView">
+	<v-dialog v-model="shouldShowLogoutConfirmView" max-width="320">
 		<v-card>
 			<v-card-title class="headline">ARE YOU SURE ?</v-card-title>
 
@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import { API } from './../constants'
 export default {
 	data () {
 		return {
@@ -153,18 +152,18 @@ export default {
 		 */
 		confirmToLogout () {
 			this.shouldShowLogoutConfirmView = false
-			this.$http.delete(API.DELETE_MY_ACCOUNT()).then(({ data }) =>
-			{
-				// TODO: redirect to view: registration-start, see #UC2US2B
-				[
-					// 'userId', // DEPRECATED: use firebase instead
-					'firstTImeUse',
-					'doNotShowUsageTipsAgain'
-				].map(
-					e => localStorage.removeItem(e)
-				)
-				this.$store.commit('REMOVE_EVERY_THINGS')
+			this.$firebase.auth().signOut().then(this.removeAllDataRelatedToThisUser)
+		},
+		removeAllDataRelatedToThisUser()
+		{
+			this.$db.ref().update({
+				[`/users/${localStorage.accountSnapshot}`]: null
 			})
+			localStorage.removeItem('accountSnapshot')
+			localStorage.removeItem('firstTImeUse')
+			localStorage.removeItem('doNotShowUsageTipsAgain')
+			// localStorage.removeItem('userId') // DEPRECATED: use firebase instead
+			this.$store.commit('REMOVE_EVERY_THINGS')
 		}
 	}
 }

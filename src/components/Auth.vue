@@ -69,56 +69,57 @@ export default {
 		}
 	},
 	methods: {
+		/**
+		 * @note
+		 * return `true` if want to automatically redirect
+		 */
+		signInSuccessWithAuthResult(authResult, redirectUrl)
+		{
+			console.warn('this.$firebase.auth.UserCredential: ', this.$firebase.auth.UserCredential)
+			console.warn('authResult: ', authResult, 'redirectUrl: ', redirectUrl)
+
+			this.shouldShowSubView.startAuth = false
+			this.shouldShowSubView.successAuth = true
+
+			localStorage.setItem('accountSnapshot', this.$db.ref('users').push().key)
+			console.warn('localStorage.accountSnapshot: ', localStorage.accountSnapshot)
+
+			this.$db.ref('users').update({
+				[`${localStorage.accountSnapshot}`]: authResult.user.phoneNumber
+			})
+			setTimeout(() => {
+				console.warn('count down 3 sec to redirect to other page')
+				this.$router.push('/')
+			}, 3000)
+		},
+		/**
+		 *
+		 * @note
+		 * `authResult.user` = `firebase.auth.UserCredential`
+		 */
 		showViewOfStartAuth() {
 			this.shouldShowSubView.beforeAuth = false
 			this.shouldShowSubView.startAuth = true
-			// console.warn('this.$firebase.auth().currentUser: ', this.$firebase.auth().currentUser)
-			this.$nextTick(() => {
-				// only triggered on sign-in or sign-out.
-				this.$firebase.auth().onAuthStateChanged(user =>
-				{
-					if(user) {
-						console.warn('Success to register or User is signed in, user = ', user)
-					} else {
-						console.warn('Enter your phone number')
-					}
-				})
-				/**
-				 * Initialize the FirebaseUI Widget using Firebase
-				 */
-				const ui = new firebaseui.auth.AuthUI(this.$firebase.auth())
-				/**
-				 * The start method will wait until the DOM is loaded.
-				 * @todo
-				 * TEST: `this.$firebase.auth.UserCredential` = `authResult`
-				 */
-				ui.start('#firebaseui-auth-container',
-					{
-						/**
-						 * return `true` if want to automatically redirect
-						 */
-						callbacks: {
-							signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-								console.warn('this.$firebase.auth.UserCredential: ', this.$firebase.auth.UserCredential);
-								console.warn('authResult: ', authResult, 'redirectUrl: ', redirectUrl);
-								this.shouldShowSubView.startAuth = false
-								this.shouldShowSubView.successAuth = true
+			console.warn('this.$firebase.auth().currentUser: ', this.$firebase.auth().currentUser)
 
-								setTimeout(() => {
-									console.warn('count down 3 sec to redirect to other page')
-									this.$router.push('/')
-								}, 3000)
-							},
-							uiShown: () => (this.shouldShowIndicator = false)
-						},
-						signInOptions: [
-							{
-								provider: this.$firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-								defaultCountry: 'TW',
-								defaultNationalNumber: '09'
-							}
-						]
-					})
+			this.$nextTick(() => {
+				// Initialize the FirebaseUI Widget using Firebase
+				const ui = new firebaseui.auth.AuthUI(this.$firebase.auth())
+
+				// The start method will wait until the DOM is loaded.
+				ui.start('#firebaseui-auth-container', {
+					callbacks: {
+						signInSuccessWithAuthResult: this.signInSuccessWithAuthResult,
+						uiShown: () => (this.shouldShowIndicator = false)
+					},
+					signInOptions: [
+						{
+							provider: this.$firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+							defaultCountry: 'TW',
+							defaultNationalNumber: '09'
+						}
+					]
+				})
 			})
 		}
 	}
