@@ -157,7 +157,7 @@ export default {
 			{
 				// TODO: redirect to view: registration-start, see #UC2US2B
 				[
-					'userId',
+					// 'userId', // DEPRECATED: use firebase instead
 					'firstTImeUse',
 					'doNotShowUsageTipsAgain'
 				].map(

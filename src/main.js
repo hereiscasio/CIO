@@ -26,6 +26,7 @@ new Vue({
 			messagingSenderId: '110179811261',
 			appId: '1:110179811261:web:8b4c411f85ce79160f1cd4'
 		})
+		Vue.prototype.$firebase = firebase
 	},
 	router,
 	store,

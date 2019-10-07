@@ -59,7 +59,8 @@ import { API } from './../constants'
 export default {
 	computed: {
 		textToSayHello () {
-			return `Hello, ${localStorage.userId}`
+			 // return `Hello, ${localStorage.userId}` DEPRECATED
+			return 'Hello'
 		},
 		todayRecord () {
 			return this.$store.state.todayRecord
