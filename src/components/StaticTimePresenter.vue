@@ -53,9 +53,7 @@ export default {
 <style lang="scss" scoped>
 .card--clock-in-out {
 	font-size : 32px;
-	//background: #3D5AFE;
 	background: var(--v-primary-base);
-	//background: var(--v-secondary-base);
 }
 .v-card__text {
 	font-family: krungthep;

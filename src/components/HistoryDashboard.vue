@@ -12,16 +12,13 @@
 		The workaround is moving Notification out of v-dialog,
 		but it will cause other bug
 	-->
-	<Notification
-		v-if='shouldShowUsageTips'
-		mode='usageTips' :content='usageTips'
-		@on-click-closing-button='turnOffUsageTipsForever'
-	/>
-	<v-card-text class='pa-0'>
-	<CalendarToShowHistory v-if='focusedTabTitle === "calendar"'/>
-	<TableToShowHistory v-else-if='focusedTabTitle === "table"'/>
-	</v-card-text>
-	<v-card-actions>
+	<Notification mode='tip'/>
+
+	<v-sheet height='100%' class='overflow-y-hidden'>
+		<CalendarToShowHistory v-if='focusedTabTitle === "calendar"'/>
+		<TableToShowHistory v-else-if='focusedTabTitle === "table"'/>
+	</v-sheet>
+
 	<v-bottom-navigation
 		v-model="focusedTabTitle"
 		horizontal fixed class='elevation-24' color='#3D5AFE'
@@ -35,7 +32,6 @@
 			<v-icon v-text='btn.icon'/>
 		</v-btn>
 	</v-bottom-navigation>
-	</v-card-actions>
 	</v-card>
 </v-dialog>
 <!--eslint-enable-->
@@ -45,8 +41,7 @@
 import CalendarToShowHistory from './CalendarToShowHistory'
 import TableToShowHistory from './TableToShowHistory'
 import Notification from './Notification'
-import TYPE from 'vue-types' // eslint-disable-line
-import { TEXT } from './../constants'
+
 export default {
 	data () {
 		return {
@@ -54,9 +49,9 @@ export default {
 		}
 	},
 	created () {
-		this.usageTips = TEXT.USAGE_TIPS
-
-		this.shouldShowUsageTips = localStorage.doNotShowUsageTipsAgain === undefined
+		/**
+		 * TODO: enable user move bracket to next line in ESLint
+		 */
 		this.buttonInfoOfBottomNavigator = [
 			{ name:'Leave', icon: 'directions_run' },
 			{ name:'Calendar', icon: 'date_range' },
@@ -64,10 +59,6 @@ export default {
 		]
 	},
 	methods: {
-		turnOffUsageTipsForever() {
-			debugger
-			localStorage.setItem('doNotShowUsageTipsAgain', true)
-		},
 		onSwitchTab (tabName) {
 			if (tabName === 'Leave') this.$router.go(-1)
 		}

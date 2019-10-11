@@ -20,21 +20,7 @@ function getCurrent () {
 		dateWithSeparator: () => format(today, 'yyyy-LL-dd')
 	}
 }
-// /**
-//  * @return '2019-03'
-//  */
-// function getThisMonthWithYear () {
-// 	return Number(format(Date.now(), 'yyyyLL'))
-// }
 
-// /**
-//  * @param {String} date '1990-07-15' || '1990-07'
-//  * @return '1990 Jul'
-//  */
-// function getYearAndMonthInEnglish (date) {
-// 	let _date = date.toString()
-// 	return `${getYear(new Date(_date))} ${format(new Date(_date), 'LLL')}`
-// }
 /**
  * @param {String} str "20160323"
  * @param {String} symbol
@@ -60,17 +46,15 @@ function removeDashAndReturnNumber(date) {
 	return Number(date.toString().replace(/-/g, ''))
 }
 
-export { getCurrent,
-	//getYearAndMonthInEnglish,
-	stringWithSeparator, removeDashAndReturnNumber }
+export { getCurrent, stringWithSeparator, removeDashAndReturnNumber }
+
 export default {
 	install () {
-		Vue.prototype.$helper = {
+		Vue.prototype.$helper =
+		{
 			getCurrent,
-			//getYearAndMonthInEnglish,
 			stringWithSeparator,
 			removeDashAndReturnNumber
-			//, getThisMonthWithYear
 		}
 	}
 }

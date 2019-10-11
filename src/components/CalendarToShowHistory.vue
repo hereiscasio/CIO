@@ -5,17 +5,18 @@
 		v-model="selectedDateInCalendar"
 		@click:date="onClickDateButton"
 		data-testid='view--history-calendar'
-		color='#3D5AFE' full-width :show-current='currentDateWithSeparator'
+		color='#3D5AFE' full-width :show-current='dateOfTodayIndicator'
 		:events='dateSetOfWorkingDays'
 		event-color="green lighten-1"
+
 	></v-date-picker>
 
 	<RecordEditor
 		v-if='shouldShowRecordEditor'
 		:timeData='timeOfCurrentEditingRecord'
-		@finish-record-editing='requestToUpdateRecord'
-		@finish-record-adding='requestToAddNewRecord'
-		@cancel-record-editing='toggleRecordEditor(false)'
+		@finish-record-editing='updateRecord'
+		@finish-record-adding='updateRecord'
+		@cancel-record-editing='shouldShowRecordEditor = false'
 		editTarget='clockInOut' no-built-in-trigger
 	/>
 </div>
@@ -23,86 +24,79 @@
 </template>
 
 <script>
-import { API } from './../constants'
-import TYPE from 'vue-types' // eslint-disable-line
 import RecordEditor from './RecordEditor'
-import { size } from 'lodash-core'
+import { flatMap, values } from 'lodash-core'
+
 export default {
 	data () {
 		return {
-			selectedDateInCalendar: this.getPreviousLatestOneIfNoTodayRecord(),
+			selectedDateInCalendar: '',
 			shouldShowRecordEditor: false,
-			timeOfCurrentEditingRecord: ['', '']
+			timeOfCurrentEditingRecord: ['', ''],
+			dateSetOfWorkingDays: []
 		}
 	},
-	beforeCreate() {
-		this.currentDateWithSeparator = this.$helper.getCurrent().dateWithSeparator()
+	created() {
+		this.initializeDataIntoCalendar()
 	},
 	computed: {
-		dateSetOfWorkingDays() {
-			return this.$store.state.allRecordDates.map(date => this.$helper.stringWithSeparator(date, '-'))
-		},
 		selectedDateWithoutSeparator() {
 			return this.$helper.removeDashAndReturnNumber(this.selectedDateInCalendar)
 		}
 	},
 	methods: {
-		toggleRecordEditor(onOrOff) {
-			this.shouldShowRecordEditor = onOrOff
-		},
-		requestToUpdateRecord(editedRecord)
+		/**
+		 *	TODO: the way to detect RTDB data change below still not a best strategy
+		 */
+		initializeDataIntoCalendar ()
 		{
-			this.toggleRecordEditor(false)
+			this.dateOfTodayIndicator = this.$helper.getCurrent().dateWithSeparator()
+			this.selectedDateInCalendar = this.dateOfTodayIndicator
+
+			this.$db.ref(this.$root.uid).on('value', snapshot =>
+			{
+				const records = flatMap(snapshot.val(), value => values(value))
+				const dateFormater = date => this.$helper.stringWithSeparator(date, '-')
+				this.dateSetOfWorkingDays = records.map(record => dateFormater(record.date))
+			})
+		},
+
+		updateRecord(editedRecord)
+		{
+			this.shouldShowRecordEditor = false
+
 			editedRecord.date = this.selectedDateWithoutSeparator
 
-			this.$http.patch(API.TO_RECORD(editedRecord.date), editedRecord).then(({ data }) =>
-			{
-				this.$store.commit('PUT_RECORD', data)
-			})
+			this.dataRefInDB().update({ [editedRecord.date]: editedRecord })
 		},
-		requestToAddNewRecord(newRecord)
-		{
-			this.toggleRecordEditor(false)
-			newRecord.date = this.selectedDateWithoutSeparator
 
-			this.$http.post(API.TO_RECORD(), newRecord).then(({ data }) =>
-			{
-				this.$store.commit('PUT_RECORD', data)
-			})
-		},
-		getPreviousLatestOneIfNoTodayRecord() {
-			if (
-				this.$store.getters.haveTodayRecord()
-			) {
-				debugger
-				return this.currentDateWithSeparator
-			}
-			debugger
-			return this.$helper.stringWithSeparator(
-				this.$store.getters.getPreviousLatestRecord(), '-'
+		dataRefInDB (date)
+		{
+			const dateWithoutDay = Number(
+				(date || this.selectedDateWithoutSeparator).toString().slice(0, 6)
+			)
+			return this.$db.ref(
+				this.$root.uid + '/' + dateWithoutDay
 			)
 		},
-		onClickDateButton (selectedDate)
-		{
-			const API_ENDPOINT = API.TO_RECORD(this.selectedDateWithoutSeparator)
 
-			this.$http.get(API_ENDPOINT).then(({ data }) =>
+		onClickDateButton ()
+		{
+			this.dataRefInDB().child(this.selectedDateWithoutSeparator).once('value', snapshot =>
 			{
-				this.toggleRecordEditor(true)
-				if (size(data) !== 0) {
-					this.$store.commit('PUT_RECORD', data)
-					this.timeOfCurrentEditingRecord = [data.clockIn, data.clockOut]
+				const record = snapshot.val()
+
+				this.shouldShowRecordEditor = true
+
+				if (record) {
+					this.timeOfCurrentEditingRecord = [record.clockIn, record.clockOut]
 					return
 				}
 				this.timeOfCurrentEditingRecord = ['', '']
 			})
-				.catch(error => {
-					console.warn('FAIL: HTTP GET', error)
-				})
 		}
 	},
 	components: { RecordEditor }
-
 }
 </script>
 

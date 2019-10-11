@@ -1,42 +1,47 @@
 <template>
 <v-app>
-	<router-view/>
+	<v-row
+		v-if='userCredential === undefined'
+		justify='center' align='center' class='fill-height'
+	>
+		<v-progress-circular
+		:size="50" :width="7" color="purple" indeterminate
+		></v-progress-circular>
+	</v-row>
+	<router-view v-else id='wrapper--router-view'/>
 </v-app>
 </template>
 
 <script>
 export default {
-	beforeCreate() {
-		/*
-		 * temporarily comment out
-		 * this.$router.push({ path: 'landing' })
-		 * DEPRECATED
-		 */
-		//localStorage.setItem('userId', '0966001596')
+	data() {
+		return {
+			userCredential: undefined // will be assign `null` by Firebase if he is not login
+		}
+	},
+	created() {
 		/**
-		 * Go view: sign-up if haven't registered, otherwise redirect to view: logged
-		 * DEPRECATED
-		 */
-		/*
-		 * if (localStorage.userId === undefined) {
-		 * 	this.$router.replace({ path: 'signup' })
-		 * }
-		 */
-		/**
-		 * @todo
-		 * TEST: only triggered on sign-in or sign-out.
-		 * @note
-		 * `userCredential` will be `null` if user is logout
+		 * TODO:
+		 * 		TEST: only triggered on sign-in or sign-out.
+		 * CASE_A, CASE_B are possible ways that user accessing our App
 		 */
 		this.$firebase.auth().onAuthStateChanged(userCredential =>
 		{
-			console.warn('userCredential = ', userCredential)
+			console.log('userCredential = ', userCredential)
+			this.userCredential = userCredential
 
 			if(userCredential) {
-				console.warn('Success to register or User is signed in')
+				console.log('Success to register or User is signed in')
+				if (this.$router.currentRoute.name !== 'clock') // CASE_A
+				{
+					this.$router.push({ path: '/' })
+				}
 				return
 			}
-			this.$router.push({ path: 'login' })
+			if (this.$router.currentRoute.name !== 'login') // CASE_B
+			{
+				this.$router.push({ path: 'login' })
+			}
 		})
 	}
 }
@@ -46,7 +51,7 @@ export default {
 * {
 	font-family: 'Space Mono', monospace;
 }
-.v-application--wrap {
-	background: white;
+.v-application {
+	min-width: 320px;
 }
 </style>

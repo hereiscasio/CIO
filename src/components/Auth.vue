@@ -73,24 +73,24 @@ export default {
 		 * @note
 		 * return `true` if want to automatically redirect
 		 */
-		signInSuccessWithAuthResult(authResult, redirectUrl)
+		async signInSuccessWithAuthResult(authResult, redirectUrl)
 		{
 			console.warn('this.$firebase.auth.UserCredential: ', this.$firebase.auth.UserCredential)
 			console.warn('authResult: ', authResult, 'redirectUrl: ', redirectUrl)
 
+			this.$root.uid = authResult.user.phoneNumber
+
 			this.shouldShowSubView.startAuth = false
 			this.shouldShowSubView.successAuth = true
 
-			localStorage.setItem('accountSnapshot', this.$db.ref('users').push().key)
-			console.warn('localStorage.accountSnapshot: ', localStorage.accountSnapshot)
+			await this.$vlf.setItem('phoneNumber', this.$root.uid)
 
-			this.$db.ref('users').update({
-				[`${localStorage.accountSnapshot}`]: authResult.user.phoneNumber
-			})
 			setTimeout(() => {
 				console.warn('count down 3 sec to redirect to other page')
 				this.$router.push('/')
 			}, 3000)
+
+			return false
 		},
 		/**
 		 *
@@ -104,10 +104,10 @@ export default {
 
 			this.$nextTick(() => {
 				// Initialize the FirebaseUI Widget using Firebase
-				const ui = new firebaseui.auth.AuthUI(this.$firebase.auth())
+				this.ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(this.$firebase.auth())
 
 				// The start method will wait until the DOM is loaded.
-				ui.start('#firebaseui-auth-container', {
+				this.ui.start('#firebaseui-auth-container', {
 					callbacks: {
 						signInSuccessWithAuthResult: this.signInSuccessWithAuthResult,
 						uiShown: () => (this.shouldShowIndicator = false)
@@ -137,10 +137,6 @@ export default {
 }
 #boundary--before-auth {
 	padding: 20% 0%;
-}
-#bg--before-auth {
-	position: fixed;
-	bottom: 0;
 }
 #button--before-auth {
 	position: fixed;

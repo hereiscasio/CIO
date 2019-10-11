@@ -33,8 +33,8 @@
 					<v-row :key='index' v-if='timeData.length > 1'>
 						{{`Clock-${index === 0 ? 'in' : 'out'} Time`}}
 					</v-row>
-					<v-row :key='index+99'>
-						<v-col cols="6" class='pb-0'>
+					<v-row :key='index+99' :class='layoutRule'>
+						<v-col class='pb-0'>
 							<v-text-field
 								label="Hr" v-model='record.hr[index]'
 								:placeholder="record.hr[index]" outlined
@@ -44,11 +44,12 @@
 							>
 							</v-text-field>
 						</v-col>
-						<v-col cols="6" class='pb-0'>
+						<v-col class='pb-0'>
 							<v-text-field
 								label="Min" v-model='record.min[index]'
+								class='input-field--time-editing-panel'
 								:placeholder="record.min[index]" outlined
-							@change='reformatValueInTextField($event, "min", index)'
+								@change='reformatValueInTextField($event, "min", index)'
 								v-mask='`##`' :rules="[rules.required, rules.maxMinute]"
 							>
 							</v-text-field>
@@ -107,6 +108,15 @@ export default {
 		mode: TYPE.string.def('edit'),
 		usedWithTable: Boolean
 	},
+	computed: {
+		layoutRule () {
+			return this.editTarget === 'clockInOut' ? {
+				'flex-column': false
+			} : {
+				'flex-column': true
+			}
+		}
+	},
 	data () {
 		return {
 			rules: {
@@ -134,6 +144,9 @@ export default {
 			immediate: true
 		},
 		timeData: {
+			/**
+			 * TODO: seems like below logic is too complicated ?
+			 */
 			handler (value) {
 				if (
 					!includes(value, undefined) && value[0] !== ''

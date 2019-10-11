@@ -1,6 +1,5 @@
 <template>
 <div>
-
 	<v-time-picker
 		v-model="currentTime"
 		full-width readonly class="elevation-0" color='primary'
@@ -62,9 +61,14 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn
-					color="green darken-1" text
+					color="red" text class='font-weight-black' large
 					@click="confirmToLogout"
 				>YES
+				</v-btn>
+				<v-btn
+					class='grey--text mr-3' large text
+					@click="shouldShowLogoutConfirmView = false"
+				>CANCEL
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -87,7 +91,6 @@
 			<v-list-item
 				v-for="(item, index) in featureListing" :key="index"
 				@click='item.trigger'
-				v-show='item.feature === "History" ? anyLocalSavedRecord : true'
 			>
 				<v-list-item-icon class='mr-4'>
 					<v-icon v-text="item.icon"></v-icon>
@@ -103,19 +106,14 @@
 export default {
 	data () {
 		return {
-			currentTime: this.reformatTimeWithSeparator(),
 			shouldShowSettingsView: false,
-			shouldShowLogoutConfirmView: false
+			shouldShowLogoutConfirmView: false,
+			currentTime: this.reformatTimeWithSeparator()
 		}
 	},
 	created () {
 		this.keepToShowCurrentTime()
 		this.populateItemsInMenu()
-	},
-	computed: {
-		anyLocalSavedRecord() {
-			return this.$store.state.allRecordDates.length !== 0
-		}
 	},
 	methods: {
 		populateItemsInMenu() {
@@ -124,7 +122,6 @@ export default {
 					icon: 'directions_run',
 					feature: 'Logout',
 					trigger: () => (this.shouldShowLogoutConfirmView = true)
-
 				},
 				{
 					icon: 'show_chart',
@@ -141,29 +138,25 @@ export default {
 		reformatTimeWithSeparator() {
 			return this.$helper.getCurrent().timeWithSeparator()
 		},
-		keepToShowCurrentTime () {
+		keepToShowCurrentTime ()
+		{
 			setInterval(() => {
-					this.currentTime = this.reformatTimeWithSeparator()
-				},
-				1000 * 60)
+				this.currentTime = this.reformatTimeWithSeparator()
+			}, 1000 * 60)
 		},
-		/**
-		 * TODO: json-server should handle unique id name from `date` to `id`
-		 */
 		confirmToLogout () {
 			this.shouldShowLogoutConfirmView = false
 			this.$firebase.auth().signOut().then(this.removeAllDataRelatedToThisUser)
 		},
+		/**
+		 * TODO: Remove all data saved by $vlf at once
+		 */
 		removeAllDataRelatedToThisUser()
 		{
-			this.$db.ref().update({
-				[`/users/${localStorage.accountSnapshot}`]: null
-			})
-			localStorage.removeItem('accountSnapshot')
-			localStorage.removeItem('firstTImeUse')
-			localStorage.removeItem('doNotShowUsageTipsAgain')
-			// localStorage.removeItem('userId') // DEPRECATED: use firebase instead
-			this.$store.commit('REMOVE_EVERY_THINGS')
+			this.$db.ref(this.$root.uid).remove()
+			this.$vlf.removeItem('doNotShowTipAnyMore')
+			this.$vlf.removeItem('phoneNumber')
+			this.$root.uid = undefined
 		}
 	}
 }

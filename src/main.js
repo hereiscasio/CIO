@@ -5,22 +5,25 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import helper from './helper.js'
 import axios from 'axios'
+import Vlf from 'vlf'
 import router from './router'
-import store from './store'
-import firebaseDB from './plugins/firebaseDB'
+import firebaseRTDB from './plugins/firebaseRTDB'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$http = axios
 Vue.prototype.eventBus = new Vue()
 
+Vue.use(Vlf)
 Vue.use(helper)
-Vue.use(firebaseDB)
+Vue.use(firebaseRTDB)
 
 new Vue({
 	router,
-	store,
 	vuetify,
+	async created() {
+		this.uid = await this.$vlf.getItem('phoneNumber')
+	},
 	render: h => h(App)
 })
 	.$mount('#app')
