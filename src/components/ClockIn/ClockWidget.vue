@@ -1,9 +1,44 @@
 <template>
 <div>
-	<v-time-picker
-		v-model="currentTime"
-		full-width readonly class="elevation-0" color='primary'
-	></v-time-picker>
+	<v-row no-gutters id='wrapper--clock-widget' class='mx-auto'>
+		<v-col cols='auto' id='toolbar--landscape'>
+			<v-card
+				class="mx-auto" height="100%" width="196" elevation='10'
+			>
+				<v-navigation-drawer
+					class="transparent" dark permanent
+				>
+					<v-list dense>
+					<v-list-item
+						v-for="item in featureListing"
+						:key="item.icon"
+						link
+					>
+						<v-list-item-content>
+						<v-btn outlined tile x-large @click='item.trigger'>
+							<v-icon left>{{ item.icon }}</v-icon>
+							{{ item.feature }}
+						</v-btn>
+						</v-list-item-content>
+					</v-list-item>
+					</v-list>
+
+					<template v-slot:append>
+					<div id='digital-time--landscape'>
+						{{currentTime}}
+					</div>
+					</template>
+				</v-navigation-drawer>
+			</v-card>
+		</v-col>
+		<v-col cols='12' :sm='true' class='pa-0'>
+			<v-time-picker
+				v-model="currentTime"
+				full-width readonly class="elevation-0" color='primary'
+			></v-time-picker>
+			<slot></slot>
+		</v-col>
+	</v-row>
 
 	<v-dialog v-model="shouldShowSettingsView" fullscreen hide-overlay transition="dialog-bottom-transition">
 		<v-card flat color='black' dark class='pa-4 pt-12'>
@@ -184,7 +219,7 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 	padding-top: 16px;
 }
 
-::v-deep .v-picker__title { // Toolbar
+::v-deep .v-picker__title, #toolbar--landscape > .v-card { // Toolbar
 	padding-top: 32px;
 	background: var(--v-primary-base);
 	background: linear-gradient(0deg, var(--v-primary-base) 0%, var(--v-secondary-base) 100%);
@@ -196,12 +231,42 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 }
 
 ::v-deep .v-time-picker-clock__ampm {
-		display: none !important; // hide am pm
+	display: none !important; // hide am pm
+}
+
+.v-picker.v-card, .v-picker__body {
+  background: transparent !important;
 }
 
 ::v-deep .v-time-picker-clock { // add shadow around the time picker
 		box-shadow: $shadow;
 		background: #EEEEEE;
+}
 
+#toolbar--landscape {
+	display: none;
+}
+
+::v-deep .v-time-picker-clock__container {
+	padding-top: 32px;
+}
+
+@media (min-width: 599px) { // if >= 600, then ...
+	::v-deep .v-picker__title, #button--menu-on-clock {
+		display: none;
+	}
+	#toolbar--landscape {
+		display: block;
+	}
+	#wrapper--clock-widget {
+		max-width: 516px;
+	}
+	#digital-time--landscape {
+		font-size: 50px;
+		text-align: center;
+		font-family: krungthep;
+		color: white;
+		padding-bottom: 8px;
+	}
 }
 </style>

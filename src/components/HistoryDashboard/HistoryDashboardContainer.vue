@@ -3,7 +3,8 @@
 <v-dialog
 	data-cy='view--dashboard--home'
 	:value="true" persistent scrollable
-	fullscreen transition="dialog-bottom-transition"
+	transition="dialog-bottom-transition"
+	content-class='wrapper--history-dashboard'
 >
 	<v-card>
 	<!--
@@ -21,7 +22,7 @@
 
 	<v-bottom-navigation
 		v-model="focusedTabTitle"
-		horizontal fixed class='elevation-24' color='#3D5AFE'
+		horizontal abs	olute class='elevation-24' color='#3D5AFE'
 	>
 		<v-btn
 			v-for='btn in buttonInfoOfBottomNavigator' :key='btn.name'
@@ -40,7 +41,7 @@
 <script>
 import CalendarToShowHistory from './CalendarToShowHistory'
 import TableToShowHistory from './TableToShowHistory'
-import Notification from './Notification'
+import Notification from './../Notification'
 
 export default {
 	data () {
@@ -66,3 +67,22 @@ export default {
 	components: { Notification, TableToShowHistory, CalendarToShowHistory }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep .wrapper--history-dashboard {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+::v-deep .v-dialog:not(.v-dialog--fullscreen) { // modify Vuetify default styling
+    max-height: 100%;
+}
+@media (min-width: 599px) {
+	::v-deep .wrapper--history-dashboard {
+		height: 80%;
+		max-width: 320px;
+	}
+	::v-deep .v-dialog:not(.v-dialog--fullscreen) {
+		max-height: 568px;
+	}
+}
+</style>

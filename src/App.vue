@@ -8,7 +8,7 @@
 		:size="50" :width="7" color="purple" indeterminate
 		></v-progress-circular>
 	</v-row>
-	<router-view v-else id='wrapper--router-view'/>
+	<router-view v-else class='pa-0 ma-0'/>
 </v-app>
 </template>
 

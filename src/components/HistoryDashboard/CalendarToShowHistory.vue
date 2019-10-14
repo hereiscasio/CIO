@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import RecordEditor from './RecordEditor'
+import RecordEditor from './../RecordEditor'
 import { flatMap, values } from 'lodash-core'
 
 export default {

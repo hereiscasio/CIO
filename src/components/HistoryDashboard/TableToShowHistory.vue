@@ -63,7 +63,7 @@
 
 <script>
 import { format } from 'date-fns'
-import RecordEditor from './RecordEditor'
+import RecordEditor from './../RecordEditor'
 
 export default {
 	data () {

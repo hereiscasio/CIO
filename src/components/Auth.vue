@@ -1,6 +1,6 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-		<div style='height:100%' id='outer-boundary'>
+<div style='height:100%' id='outer-boundary'>
 
    <div
 		v-if='shouldShowSubView.beforeAuth' id='boundary--before-auth'

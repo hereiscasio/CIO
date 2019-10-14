@@ -3,8 +3,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Auth from './components/Auth.vue'
-import ClockInOut from './components/ClockInOut'
-import HistoryDashboard from './components/HistoryDashboard'
+import ClockIn from './components/ClockIn/ClockInContainer'
+import HistoryDashboard from './components/HistoryDashboard/HistoryDashboardContainer'
 
 Vue.use(Router)
 /**
@@ -19,12 +19,11 @@ export const routes = [
 	{
 		path: '/',
 		name: 'clock',
-		component: ClockInOut
-	},
-	{
-		path: '/history',
-		name: 'history',
-		component: HistoryDashboard
+		component: ClockIn,
+		children: [{
+			path: 'history',
+			component: HistoryDashboard
+		}]
 	}
 ]
 const router = new Router({ routes })

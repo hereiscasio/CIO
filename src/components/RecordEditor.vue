@@ -1,11 +1,7 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<!-- TODO:
-	Vuetify Bug ?
-	without `hide-overlay`, this dialog will be overlap by its overlay
--->
 <v-dialog
-	v-model='shouldShowDialog' persistent hide-overlay max-width="600px" data-app
+	v-model='shouldShowDialog' persistent max-width="288px" data-app
 	:style='{"display": shouldShowDialog ? "inline" : "none"}'
 	@click:outside='toggleDialog(false)'
 >

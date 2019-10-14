@@ -4,9 +4,7 @@
  *     '@vue/app'
  *   ]
  * }
- */
-
-/**
+ *
  * The original, vue-cli default configuration of this file is shown above
  *
  * Below is workaround to solve the issue:

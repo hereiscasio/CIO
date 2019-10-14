@@ -1,62 +1,84 @@
 <template>
-<div class='px-4'>
-	<ClockWidget class='mx-n4' />
-	<v-btn
-		v-if='todayRecord === null'
-		height='52' block tile light elevation='2'
-		@click='clockIn' class='font-weight-bold my-3'
-	>
-		<v-icon color='primary' left v-text='`timer`'/>&nbsp;CLOCK IN
-	</v-btn>
-	<v-btn
-		v-else-if='todayRecord && todayRecord.clockOut === ""'
-		height='52' block tile light elevation='2'
+<Layout :todayRecord='todayRecord'>
+	<template v-slot:clockWidget>
+		<ClockWidget>
+			<div class='mx-4 mt-5'>
+			<v-btn
+				v-if='todayRecord === null'
+				height='52' block tile light elevation='3'
+				@click='clockIn' class='font-weight-bold mb-2'
+			>
+				<v-icon color='primary' left v-text='`timer`'/>&nbsp;CLOCK IN
+			</v-btn>
+			<v-btn
+				v-else-if='todayRecord && todayRecord.clockOut === ""'
+				height='52' block tile light elevation='3'
+				@click='clockOut()' class='font-weight-bold mb-2'
+			>
+				<v-icon color='primary' left v-text='`timer_off`'/>&nbsp;CLOCK OUT
+			</v-btn>
+			</div>
+		</ClockWidget>
+	</template>
 
-		@click='clockOut()' class='font-weight-bold my-3'
-	>
-		<v-icon color='primary' left v-text='`timer_off`'/>&nbsp;CLOCK OUT
-	</v-btn>
+	<template v-slot:clockInCard>
+		<StaticTimePresenter
+			v-if='todayRecord && todayRecord.clockIn'
+			@click-close-button='deleteClockIn'
+			:time='todayRecord.clockIn' title='CLOCK-IN' :deletable='canDeleteClockIn' class='my-4'
+		>
+			<RecordEditor
+				:timeData='[todayRecord.clockIn]'
+				editTarget='clockIn'
+				@finish-record-editing='updateTodayRecord'
+			/>
+		</StaticTimePresenter>
+	</template>
 
-	<StaticTimePresenter
-		v-if='todayRecord && todayRecord.clockIn'
-		@click-close-button='deleteClockIn'
-		:time='todayRecord.clockIn' title='CLOCK-IN' :deletable='canDeleteClockIn' class='my-4'
-	>
-		<RecordEditor
-			:timeData='[todayRecord.clockIn]'
-			editTarget='clockIn'
-			@finish-record-editing='updateTodayRecord'
-		/>
-	</StaticTimePresenter>
-
-	<StaticTimePresenter
-		v-if='todayRecord && todayRecord.clockOut'
-		:time='todayRecord.clockOut' title='CLOCK-OUT' class='my-4'
-	>
-		<RecordEditor
-			:timeData='[todayRecord.clockOut]'
-			editTarget='clockOut'
-			@finish-record-editing='updateTodayRecord'
-		/>
-	</StaticTimePresenter>
-
-</div>
+	<template v-slot:clockOutCard>
+		<StaticTimePresenter
+			v-if='todayRecord && todayRecord.clockOut'
+			:time='todayRecord.clockOut' title='CLOCK-OUT' class='my-4'
+		>
+			<RecordEditor
+				:timeData='[todayRecord.clockOut]'
+				editTarget='clockOut'
+				@finish-record-editing='updateTodayRecord'
+			/>
+		</StaticTimePresenter>
+	</template>
+</Layout>
 </template>
+
 <script>
-import RecordEditor from './RecordEditor'
+import RecordEditor from './../RecordEditor'
 import StaticTimePresenter from './StaticTimePresenter'
 import ClockWidget from './ClockWidget'
+import Layout from './ClockInLayout'
 
 export default {
 	data () {
 		return {
 			canDeleteClockIn: false,
-			todayRecord: null
+			todayRecord: null,
+			virtualSpaceBetweenCards: 0
+		}
+	},
+	computed: {
+		maxWidthOfCards() {
+			let didClockOut = this.todayRecord && this.todayRecord.clockOut
+
+			return this.$vuetify.breakpoint.smAndUp ?
+				(didClockOut ? '593px' : '516px') : '100%'
 		}
 	},
 	watch: {
+		maxWidthOfCards (value) {
+			this.virtualSpaceBetweenCards = value === '593px' ? 16 : 0
+		},
 		todayRecord (value)
 		{
+			console.warn('todayRecord change: ', value)
 			if (value === null || value.clockOut !== '')
 			{
 				this.canDeleteClockIn = false
@@ -72,6 +94,21 @@ export default {
 		this.removeTodayRecordAutoResetter()
 	},
 	methods: {
+		/**
+		 * TODO: setup color by using Vuetify API
+		 */
+		setGradientBackground ()
+		{
+			const imgURI = require('trianglify')({
+				cell_size: 25,
+				seed: 'av7k8',
+				x_colors: 'random',
+				variance: '0.76'
+
+			}).png()
+
+			return { 'background': `url( ${imgURI} ) no-repeat center/100% 100%` }
+		},
 		syncTodayRecordWithRTDB ()
 		{
 			this.detectedDataRefInDB = this.getTodayRecordRefInDB()
@@ -122,6 +159,7 @@ export default {
 		},
 		clockOut ()
 		{
+			debugger
 			const clockOut = this.$helper.getCurrent().time()
 			this.getTodayRecordRefInDB().update({ clockOut })
 		},
@@ -144,7 +182,7 @@ export default {
 		}
 	},
 	components: {
-		StaticTimePresenter, ClockWidget, RecordEditor
+		StaticTimePresenter, ClockWidget, RecordEditor, Layout
 	}
 }
 </script>
