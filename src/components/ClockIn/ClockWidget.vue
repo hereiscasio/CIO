@@ -223,7 +223,8 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 	padding-top: 32px;
 	background: var(--v-primary-base);
 	background: linear-gradient(0deg, var(--v-primary-base) 0%, var(--v-secondary-base) 100%);
-	box-shadow: $shadow
+	box-shadow: $shadow;
+	border-radius: 0;
 }
 
 ::v-deep .v-picker__body { // Help to show shadow of Toolbar

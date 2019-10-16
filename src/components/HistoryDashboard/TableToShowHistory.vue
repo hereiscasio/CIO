@@ -80,10 +80,10 @@ export default {
 		}
 	},
 	mounted() {
-		console.warn('mounted !!!');
+		console.warn('mounted !!!')
 	},
 	created() {
-		console.warn('created !!!');
+		console.warn('created !!!')
 		this.tableHeaders = [
 			{ text: 'Date', align: 'left', value: 'date' },
 			{ text: 'Clock-in', value: 'clockIn' },
@@ -117,7 +117,7 @@ export default {
 
 			this.detectingDataRefInDB.on('child_added', snapshot =>
 			{
-				console.warn('child_added: ', snapshot.val());
+				console.warn('child_added: ', snapshot.val())
 				this.tableItems.push(snapshot.val())
 			})
 			this.detectingDataRefInDB.on('child_changed', snapshot =>

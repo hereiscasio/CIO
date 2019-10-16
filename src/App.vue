@@ -51,7 +51,19 @@ export default {
 * {
 	font-family: 'Space Mono', monospace;
 }
+/**
+ * ︎⚙︎ avoid to "scroll bouncing" ( https://tinyurl.com/y62mvq6k )
+ */
+body, html {
+	overflow: hidden !important;
+	height: 100% !important;
+}
+/**
+ * the min size of app = the width of iPhoneSE-like
+ */
 .v-application {
 	min-width: 320px;
+	height: 100%; // ⚙︎
+	overflow-y: auto; // ⚙︎
 }
 </style>
