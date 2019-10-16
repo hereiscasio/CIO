@@ -3,7 +3,7 @@
 	<v-row no-gutters id='wrapper--clock-widget' class='mx-auto'>
 		<v-col cols='auto' id='toolbar--landscape'>
 			<v-card
-				class="mx-auto" height="100%" width="196" elevation='10'
+				tile class="mx-auto" height="100%" width="196" elevation='10'
 			>
 				<v-navigation-drawer
 					class="transparent" dark permanent
@@ -41,7 +41,7 @@
 	</v-row>
 
 	<v-dialog v-model="shouldShowSettingsView" fullscreen hide-overlay transition="dialog-bottom-transition">
-		<v-card flat color='black' dark class='pa-4 pt-12'>
+		<v-card flat tile color='black' dark class='pa-4 pt-12'>
 			<v-btn
 				color='#3D5AFE' fab dark absolute right top text large
 				@click="shouldShowSettingsView = false"
@@ -224,7 +224,7 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 	background: var(--v-primary-base);
 	background: linear-gradient(0deg, var(--v-primary-base) 0%, var(--v-secondary-base) 100%);
 	box-shadow: $shadow;
-	border-radius: 0;
+	border-radius: 0 !important;
 }
 
 ::v-deep .v-picker__body { // Help to show shadow of Toolbar

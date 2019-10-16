@@ -6,7 +6,7 @@
 	transition="dialog-bottom-transition"
 	content-class='wrapper--history-dashboard'
 >
-	<v-card>
+	<v-card tile>
 	<!--
 		Style Bug :
 		Can not place Notification at horizontal center inside v-dialog
@@ -15,7 +15,7 @@
 	-->
 	<Notification mode='tip'/>
 
-	<v-sheet height='100%' class='overflow-y-hidden'>
+	<v-sheet height='100%' class='overflow-y-hidden' tile>
 		<CalendarToShowHistory v-if='focusedTabTitle === "calendar"'/>
 		<TableToShowHistory v-show='focusedTabTitle === "table"'/>
 	</v-sheet>
@@ -72,6 +72,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	margin: 0;
+	border-radius: 0;
 }
 ::v-deep .v-dialog:not(.v-dialog--fullscreen) { // modify Vuetify default styling
     max-height: 100%;

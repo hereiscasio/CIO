@@ -104,4 +104,7 @@ export default {
 #root--calendar-to-show-history, .v-picker--date {
 	height: 100%;
 }
+::v-deep .v-picker--date {
+	border-radius: 0 !important;
+}
 </style>
