@@ -33,7 +33,6 @@
 
 	<v-footer
 		absolute style='margin-bottom: 64px' color='transparent'
-		ref='buttonOfMonthSwitching'
 	>
 		<v-btn class="px-0" min-width='36' color='white' @click='onClickButtonOfPrevMonth'>
 			<v-icon dark>keyboard_arrow_left</v-icon>
@@ -51,6 +50,7 @@
 	<RecordEditor
 		v-if='shouldShowRecordEditor'
 		:timeData='timeOfCurrentEditingRecord'
+		:dayValidator='checkEnteredDayIsValid'
 		@finish-record-editing='updateRecord'
 		@finish-record-adding='addNewRecord'
 		@cancel-record-editing='shouldShowRecordEditor = false'
@@ -62,8 +62,9 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
+import { format, getDaysInMonth } from 'date-fns'
 import RecordEditor from './../RecordEditor'
+import { find } from 'lodash-core'
 
 export default {
 	data () {
@@ -78,7 +79,11 @@ export default {
 			dateOfCurrentEditingRecord: ''
 		}
 	},
+	mounted() {
+		console.warn('mounted !!!');
+	},
 	created() {
+		console.warn('created !!!');
 		this.tableHeaders = [
 			{ text: 'Date', align: 'left', value: 'date' },
 			{ text: 'Clock-in', value: 'clockIn' },
@@ -88,6 +93,18 @@ export default {
 		this.populateTableItems()
 	},
 	methods: {
+		checkEnteredDayIsValid(day)
+		{
+			if (day.length < 2) return 'please enter 2 numbers'
+
+			const yearWithMonth = new Date(this.yearInCurrentView, this.monthInCurrentView)
+			const enteredDayOverMaxInMonth = Number(day) > getDaysInMonth(yearWithMonth)
+			const date = Number(this.monthWithYearInCurrentView + day)
+
+			if (enteredDayOverMaxInMonth) return 'over max day in the month'
+			if (find(this.tableItems, { date })) return 'record already existed in this day'
+			return true
+		},
 		populateTableItems()
 		{
 			if (this.detectingDataRefInDB !== undefined) // reset
@@ -100,6 +117,7 @@ export default {
 
 			this.detectingDataRefInDB.on('child_added', snapshot =>
 			{
+				console.warn('child_added: ', snapshot.val());
 				this.tableItems.push(snapshot.val())
 			})
 			this.detectingDataRefInDB.on('child_changed', snapshot =>
@@ -237,7 +255,7 @@ export default {
 }
 #wrapper--table-to-show-history {
 	height: 100%;
-	overflow-y: hidden;
+	// overflow-y: hidden;
 }
 ::v-deep .v-data-table__mobile-row__header {
     font-weight: normal;

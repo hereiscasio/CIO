@@ -5,7 +5,7 @@ module.exports = {
 		 * All unknowns request will proxy to below domain: mock server
 		 * which is a faker to handle api request
 		 */
-		proxy:'http://localhost:3000'
+		// proxy:'http://localhost:3000'
 		// proxy: {
 		// 	'/otp': {
 		// 		target: 'http://localhost:3001/',

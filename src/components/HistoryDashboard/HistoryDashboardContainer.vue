@@ -17,7 +17,7 @@
 
 	<v-sheet height='100%' class='overflow-y-hidden'>
 		<CalendarToShowHistory v-if='focusedTabTitle === "calendar"'/>
-		<TableToShowHistory v-else-if='focusedTabTitle === "table"'/>
+		<TableToShowHistory v-show='focusedTabTitle === "table"'/>
 	</v-sheet>
 
 	<v-bottom-navigation

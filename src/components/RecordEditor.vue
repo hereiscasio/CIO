@@ -64,7 +64,7 @@
 								v-model='record.date'
 								class='input-field--time-editing-panel'
 								@change='() => {}'
-								v-mask='`##`' :rules="[rules.required]"
+								v-mask='`##`' :rules="[rules.required, dayValidator]"
 							>
 							</v-text-field>
 							</v-col>
@@ -102,7 +102,8 @@ export default {
 		editTarget: String,
 		noBuiltInTrigger: Boolean,
 		mode: TYPE.string.def('edit'),
-		usedWithTable: Boolean
+		usedWithTable: Boolean,
+		dayValidator: Function
 	},
 	computed: {
 		layoutRule () {

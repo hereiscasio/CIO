@@ -80,7 +80,6 @@ module.exports = {
 		"tab",
 		{ 'baseIndent': 0, "switchCase": 1 }
 	],
-
   },
   /**
    * avoid apply ESLint `rules > indent` on .vue file.
