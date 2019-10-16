@@ -22,7 +22,7 @@ export default {
 		return {
 			shouldShowSnackBar : false,
 			snackBarTimeout    : 0,
-			snackBarColor      : '#F99B2F',
+			snackBarColor      : '#3D5AFE',
 			content			   : ''
 		}
 	},
@@ -48,7 +48,6 @@ export default {
 								this.content = 'Click any date above to see the clock-in-out time at that day'
 								this.shouldShowSnackBar = true
 								this.snackBarTimeout = 3000
-								this.snackBarColor = '#3D5AFE'
 							}
 						})
 						break
@@ -62,3 +61,18 @@ export default {
 	}
 }
 </script>
+<style lang='scss' scoped>
+.v-snack {
+	right: 8px;
+	left: 8px;
+}
+@media (min-width: 599px) { // if >= 600, then ...
+	.v-snack {
+		top: 8px;
+		right: 36px;
+		bottom: auto;
+		left: auto; // TODO: remove this, because it's bug from Vuetify
+		max-width: 320px;
+	}
+}
+</style>
