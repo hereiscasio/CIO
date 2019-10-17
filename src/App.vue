@@ -63,12 +63,15 @@ body, html {
 }
 /**
  * ⏏︎ Safari Bug:
- * v-application directly child can't have height 100% as v-application
+ * v-application--wrap height can't be expanded by its directly child
+ * the main reason is its directly parent, v-application, declare `display: flex`
+ * WARNING:
+ * do not declare `height: 100%;` below
  */
 .v-application {
 	min-width: 320px; // the min size of app = the width of iPhoneSE-like
-	height: 100%; // ⚙︎
 	overflow-y: auto; // ⚙︎
-	display: block; // ⏏︎
+	height: 100vh !important; // ⚙︎
+	display: block !important; // ⏏︎
 }
 </style>

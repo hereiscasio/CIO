@@ -94,21 +94,6 @@ export default {
 		this.removeTodayRecordAutoResetter()
 	},
 	methods: {
-		/**
-		 * TODO: setup color by using Vuetify API
-		 */
-		setGradientBackground ()
-		{
-			const imgURI = require('trianglify')({
-				cell_size: 25,
-				seed: 'av7k8',
-				x_colors: 'random',
-				variance: '0.76'
-
-			}).png()
-
-			return { 'background': `url( ${imgURI} ) no-repeat center/100% 100%` }
-		},
 		syncTodayRecordWithRTDB ()
 		{
 			this.detectedDataRefInDB = this.getTodayRecordRefInDB()

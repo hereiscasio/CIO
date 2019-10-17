@@ -1,6 +1,6 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<div style='height:100%' id='outer-boundary'>
+<div id='outer-boundary'>
 
    <div
 		v-if='shouldShowSubView.beforeAuth' id='boundary--before-auth'
@@ -146,6 +146,7 @@ export default {
 #outer-boundary {
 	background: url('~@/assets/bg--landing-page_mobile.png') no-repeat center bottom;
 	background-size: contain;
+	height: 100vh;
 }
 @media (min-width: 600px) {
 	#outer-boundary {

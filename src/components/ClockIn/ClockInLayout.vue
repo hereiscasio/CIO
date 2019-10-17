@@ -3,6 +3,10 @@
 	justify="center" no-gutters :style='setGradientBackground()'
 	:align-content='$vuetify.breakpoint.smAndUp ? "center" : "start"'
 >
+<!-- <v-row
+	justify="center" no-gutters
+	:align-content='$vuetify.breakpoint.smAndUp ? "center" : "start"'
+> -->
 	<router-view></router-view>
 
 	<v-col

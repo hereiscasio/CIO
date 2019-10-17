@@ -4,6 +4,7 @@
 	v-model='shouldShowDialog' persistent max-width="288px" data-app
 	:style='{"display": shouldShowDialog ? "inline" : "none"}'
 	@click:outside='toggleDialog(false)'
+	v-body-scroll-lock='shouldShowDialog'
 >
 	<template v-slot:activator="{ on }" v-show='!noBuiltInTrigger'>
 		<v-icon
@@ -198,10 +199,10 @@ export default {
 		},
 		toggleDialog (onOrOff) {
 			if (onOrOff) {
-				this.shouldShowDialog = true
+				this.$set(this, 'shouldShowDialog', true)
 				return
 			}
-			this.shouldShowDialog = false
+			this.$set(this, 'shouldShowDialog', false)
 			this.$forceUpdate()
 			this.$emit('cancel-record-editing')
 		}

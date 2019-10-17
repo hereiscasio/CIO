@@ -1,7 +1,13 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-    css: {
+	/**
+	 * Not sure if this setting still necessary due to current
+	 * Vuetify version 2.x
+	 * see more : https://tinyurl.com/yycsp56o
+	 */
+	transpileDependencies:[/node_modules[/\\\\]vuetify[/\\\\]/],
+	css: {
 		/**
 		 * related issue / sol
 		 * https://joshuatz.com/posts/2019/vue-mixing-sass-with-scss-with-vuetify-as-an-example/
@@ -17,26 +23,28 @@ module.exports = {
 			}
 		}
 	},
-    configureWebpack: {
-		optimization: {
-			minimizer: [
-				new UglifyJsPlugin({
-					uglifyOptions: {
-						compress: {
-							warnings: false,
-							drop_console: true, //console
-							drop_debugger: true,
-							pure_funcs: ['console.log']// remove console
-						}
-					}
-				})
-			]
-		}
-	},
+	/**
+	 * if use, bug appear
+	 */
+	// configureWebpack: {
+	// 	optimization: {
+	// 		minimizer: [
+	// 			new UglifyJsPlugin({
+	// 				uglifyOptions: {
+	// 					compress: {
+	// 						drop_console: true, //console
+	// 						drop_debugger: true,
+	// 						pure_funcs: ['console.log', 'console.warn']// remove console
+	// 					}
+	// 				}
+	// 			})
+	// 		]
+	// 	}
+	// },
 
-    lintOnSave: false,
+	lintOnSave: false,
 
-    devServer: {
+	devServer: {
 		/**
 		 * All unknowns request will proxy to below domain: mock server
 		 * which is a faker to handle api request
