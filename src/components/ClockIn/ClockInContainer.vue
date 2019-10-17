@@ -159,7 +159,6 @@ export default {
 		},
 		clockOut ()
 		{
-			debugger
 			const clockOut = this.$helper.getCurrent().time()
 			this.getTodayRecordRefInDB().update({ clockOut })
 		},

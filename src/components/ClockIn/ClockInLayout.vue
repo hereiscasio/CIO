@@ -1,6 +1,7 @@
 <template>
 <v-row
-	justify="center" no-gutters align-content='center' :style='setGradientBackground()'
+	justify="center" no-gutters :style='setGradientBackground()'
+	:align-content='$vuetify.breakpoint.smAndUp ? "center" : "start"'
 >
 	<router-view></router-view>
 
@@ -12,7 +13,7 @@
 
 	<v-col cols='12' class='px-4'>
 		<div
-			:class='`d-flex mx-auto ${$vuetify.breakpoint.xsOnly ? "flex-column" : "flex-row"}`'
+			:class='`d-flex mx-auto ${$vuetify.breakpoint.smAndUp ? "flex-row" : "flex-column"}`'
 			:style='{"max-width": maxWidthOfCards}'
 		>
 			<slot name='clockInCard'></slot>
@@ -70,7 +71,7 @@ export default {
 
 <style lang='scss' scoped>
 
-@media (min-width: 599px) { // if >= 600, then ...
+@media (min-width: 563px) { // if >= 564, then ...
 	.rwd-wrapper--card {
 		max-width: 312px;
 		padding-right: 8px !important;

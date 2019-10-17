@@ -1,5 +1,7 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
+<div>
+<Notification mode='tip'/>
 <v-dialog
 	data-cy='view--dashboard--home'
 	:value="true" persistent scrollable
@@ -7,19 +9,11 @@
 	content-class='wrapper--history-dashboard'
 >
 	<v-card tile>
-	<!--
-		Style Bug :
-		Can not place Notification at horizontal center inside v-dialog
-		The workaround is moving Notification out of v-dialog,
-		but it will cause other bug
-	-->
-	<Notification mode='tip'/>
 
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
 		<CalendarToShowHistory v-if='focusedTabTitle === "calendar"'/>
-		<TableToShowHistory v-show='focusedTabTitle === "table"'/>
+		<TableToShowHistory v-else-if='focusedTabTitle === "table"'/>
 	</v-sheet>
-
 	<v-bottom-navigation
 		v-model="focusedTabTitle"
 		horizontal abs	olute class='elevation-24' color='#3D5AFE'
@@ -35,6 +29,7 @@
 	</v-bottom-navigation>
 	</v-card>
 </v-dialog>
+</div>
 <!--eslint-enable-->
 </template>
 
@@ -77,7 +72,7 @@ export default {
 ::v-deep .v-dialog:not(.v-dialog--fullscreen) { // modify Vuetify default styling
     max-height: 100%;
 }
-@media (min-width: 599px) {
+@media (min-width: 563px) {
 	::v-deep .wrapper--history-dashboard {
 		height: 80%;
 		max-width: 320px;

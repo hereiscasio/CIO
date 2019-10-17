@@ -252,7 +252,7 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 	padding-top: 32px;
 }
 
-@media (min-width: 599px) { // if >= 600, then ...
+@media (min-width: 563px) { // if >= 564, then ...
 	::v-deep .v-picker__title, #button--menu-on-clock {
 		display: none;
 	}
@@ -268,6 +268,15 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 		font-family: krungthep;
 		color: white;
 		padding-bottom: 8px;
+	}
+	/**
+	* TODO: remove this ugly hack due to bad doc, bad bug of Vuetify
+	* that's, success to override $grid-breakpoints, but it still not works
+	*/
+	.col-sm {
+		flex-basis: 0;
+		flex-grow: 1;
+		max-width: 100%;
 	}
 }
 </style>

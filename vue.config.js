@@ -1,8 +1,23 @@
-
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-	configureWebpack: {
+    css: {
+		/**
+		 * related issue / sol
+		 * https://joshuatz.com/posts/2019/vue-mixing-sass-with-scss-with-vuetify-as-an-example/
+		 * https://github.com/vuetifyjs/vuetify/issues/6767
+		 * https://github.com/vuetifyjs/vuetify/issues/6816
+		 * https://stackoverflow.com/questions/57333274/how-to-change-breakpoints-in-the-scss-in-vuetify-v2
+		 *
+		 * issue still existed
+		 */
+		loaderOptions: {
+			scss: {
+				data: `@import "@/sass/variables.scss";`
+			}
+		}
+	},
+    configureWebpack: {
 		optimization: {
 			minimizer: [
 				new UglifyJsPlugin({
@@ -18,8 +33,10 @@ module.exports = {
 			]
 		}
 	},
-	lintOnSave: false,
-	devServer: {
+
+    lintOnSave: false,
+
+    devServer: {
 		/**
 		 * All unknowns request will proxy to below domain: mock server
 		 * which is a faker to handle api request

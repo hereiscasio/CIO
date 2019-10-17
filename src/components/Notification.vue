@@ -1,6 +1,7 @@
 <template>
 <v-snackbar
 	:value='shouldShowSnackBar' :color='snackBarColor' dark :timeout='snackBarTimeout'
+	v-bind='position'
 >
 		{{content}}
 		<v-btn
@@ -37,6 +38,15 @@ export default {
 			}
 		}
 	},
+	computed: {
+		position() {
+			let smAndUp = this.$vuetify.breakpoint.smAndUp
+			return {
+				right: smAndUp,
+				top: smAndUp
+			}
+		}
+	},
 	watch: {
 		mode: {
 			handler: function (value) {
@@ -62,17 +72,11 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.v-snack {
-	right: 8px;
-	left: 8px;
-}
-@media (min-width: 599px) { // if >= 600, then ...
-	.v-snack {
-		top: 8px;
-		right: 36px;
-		bottom: auto;
-		left: auto; // TODO: remove this, because it's bug from Vuetify
-		max-width: 320px;
+// TODO: try to remove this in future, because it's bug from Vuetify
+@media (min-width: 600px) {
+	::v-deep .v-snack__wrapper {
+		min-width: 320px !important;
+		max-width: 320px !important;
 	}
 }
 </style>

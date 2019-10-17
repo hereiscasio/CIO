@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { format, getDaysInMonth } from 'date-fns'
+import { format, getDaysInMonth, addMonths, subMonths } from 'date-fns'
 import RecordEditor from './../RecordEditor'
 import { find } from 'lodash-core'
 
@@ -79,11 +79,7 @@ export default {
 			dateOfCurrentEditingRecord: ''
 		}
 	},
-	mounted() {
-		console.warn('mounted !!!')
-	},
 	created() {
-		console.warn('created !!!')
 		this.tableHeaders = [
 			{ text: 'Date', align: 'left', value: 'date' },
 			{ text: 'Clock-in', value: 'clockIn' },
@@ -221,12 +217,13 @@ export default {
 		 */
 		showMonthInEnglishFormat()
 		{
-			const monthInCurrentView = this.monthInCurrentView
-			const getMonthAsEnglish = month => format(new Date(month.toString()), 'LLL')
-			return {
-				nextMonth: getMonthAsEnglish(monthInCurrentView === 12 ? 1 : monthInCurrentView + 1),
-				prevMonth: getMonthAsEnglish(monthInCurrentView === 1 ? 12 : monthInCurrentView - 1)
-			}
+			const monthInCurrentView = Number(this.monthInCurrentView)
+			const yearInCurrentView = Number(this.yearInCurrentView)
+			const date = new Date(yearInCurrentView, monthInCurrentView - 1, 1)
+			const nextMonth = format(addMonths(date, 1), 'LLL')
+			const prevMonth = format(subMonths(date, 1), 'LLL')
+
+			return { nextMonth, prevMonth }
 		},
 		/**
 		 * @param {String} date '1990-07-15' || '1990-07'
@@ -255,7 +252,6 @@ export default {
 }
 #wrapper--table-to-show-history {
 	height: 100%;
-	// overflow-y: hidden;
 }
 ::v-deep .v-data-table__mobile-row__header {
     font-weight: normal;

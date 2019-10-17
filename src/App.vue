@@ -1,7 +1,7 @@
 <template>
 <v-app>
 	<v-row
-		v-if='userCredential === undefined'
+		v-if='shouldShowLoadingIndicator'
 		justify='center' align='center' class='fill-height'
 	>
 		<v-progress-circular
@@ -16,13 +16,16 @@
 export default {
 	data() {
 		return {
-			userCredential: undefined // will be assign `null` by Firebase if he is not login
+			userCredential: undefined, // will be assign `null` by Firebase if he is not login
+			shouldShowLoadingIndicator: true
 		}
 	},
 	created() {
 		/**
-		 * TODO:
-		 * 		TEST: only triggered on sign-in or sign-out.
+		 * TODO: TEST: only triggered on sign-in or sign-out.
+		 * TODO: for who haven't login, he will see clock route first, then see login route
+		 * , we now avoid this situation by using `setTimeout`
+		 *
 		 * CASE_A, CASE_B are possible ways that user accessing our App
 		 */
 		this.$firebase.auth().onAuthStateChanged(userCredential =>
@@ -36,12 +39,12 @@ export default {
 				{
 					this.$router.push({ path: '/' })
 				}
-				return
 			}
-			if (this.$router.currentRoute.name !== 'login') // CASE_B
+			else if (this.$router.currentRoute.name !== 'login') // CASE_B
 			{
 				this.$router.push({ path: 'login' })
 			}
+			setTimeout(() => (this.shouldShowLoadingIndicator = false), 1000)
 		})
 	}
 }
@@ -59,11 +62,13 @@ body, html {
 	height: 100% !important;
 }
 /**
- * the min size of app = the width of iPhoneSE-like
+ * ⏏︎ Safari Bug:
+ * v-application directly child can't have height 100% as v-application
  */
 .v-application {
-	min-width: 320px;
+	min-width: 320px; // the min size of app = the width of iPhoneSE-like
 	height: 100%; // ⚙︎
 	overflow-y: auto; // ⚙︎
+	display: block; // ⏏︎
 }
 </style>

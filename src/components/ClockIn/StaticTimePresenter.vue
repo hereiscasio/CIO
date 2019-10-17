@@ -2,7 +2,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <v-card
 	v-if='time'
-	width='100%' min-height='260' min-width="260" class='d-flex flex-column'
+	width='100%' min-height='260' class='d-flex flex-column'
 	data-testid='card--clock-in-out'
 >
 	<v-card-title

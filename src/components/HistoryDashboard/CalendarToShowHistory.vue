@@ -1,6 +1,6 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<div id='root--calendar-to-show-history'>
+<div id='wrapper--calendar-to-show-history'>
 	<v-date-picker
 		v-model="selectedDateInCalendar"
 		@click:date="onClickDateButton"
@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#root--calendar-to-show-history, .v-picker--date {
+#wrapper--calendar-to-show-history, .v-picker--date {
 	height: 100%;
 }
 ::v-deep .v-picker--date {

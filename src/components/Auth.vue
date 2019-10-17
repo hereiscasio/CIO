@@ -7,10 +7,7 @@
 	>
 		<v-row justify="center" no-gutters>
 			<v-col cols='12' class='mb-4'>
-				<v-img
-					src="@/assets/logo.svg"
-					max-width="173" class='mx-auto'
-				></v-img>
+				<img width='173' src="@/assets/logo.svg" class='mx-auto d-block'>
 			</v-col>
 			<v-col cols='12'>
 				<v-sheet max-width='232' class='text-justify body-2 gray--text mx-auto' color='transparent'>
@@ -69,11 +66,14 @@ export default {
 		}
 	},
 	methods: {
+		async memorizeUserPhoneNumberInHisDevice() {
+			await this.$vlf.setItem('phoneNumber', this.$root.uid)
+		},
 		/**
 		 * @note
 		 * return `true` if want to automatically redirect
 		 */
-		async signInSuccessWithAuthResult(authResult, redirectUrl)
+		signInSuccessWithAuthResult(authResult, redirectUrl)
 		{
 			console.warn('this.$firebase.auth.UserCredential: ', this.$firebase.auth.UserCredential)
 			console.warn('authResult: ', authResult, 'redirectUrl: ', redirectUrl)
@@ -83,7 +83,7 @@ export default {
 			this.shouldShowSubView.startAuth = false
 			this.shouldShowSubView.successAuth = true
 
-			await this.$vlf.setItem('phoneNumber', this.$root.uid)
+			this.memorizeUserPhoneNumberInHisDevice()
 
 			setTimeout(() => {
 				console.warn('count down 3 sec to redirect to other page')

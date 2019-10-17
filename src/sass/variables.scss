@@ -1,0 +1,38 @@
+// $customized: (
+// 	'xs': 514px,
+// 	'sm': 768px
+// );
+
+// Globals
+@import '~vuetify/src/styles/styles.sass';
+// @import '~vuetify/src/styles/settings/_variables.scss';
+
+// You need to map-merge your new SASS variables
+// $grid-breakpoints: map-merge($grid-breakpoints, (
+//   'xs': 514px,
+//   'sm': 768px
+// ));
+
+$grid-breakpoints: (
+		'xs': 514px,
+	'sm': 768px,
+	'md': 800px,
+	'lg': 992px,
+	'xl': 1200px
+);
+@debug $grid-breakpoints;
+// $grid-breakpoints: map-deep-merge($grid-breakpoints, (
+//   'xs': 514px,
+//   'sm': 768px
+// ));
+
+// $grid-breakpoints: map-merge(
+// 	$grid-breakpoints,
+// // 	(
+// // 		// 'xs': 0,
+// // 		// 'sm': 514px
+// //   'xs': 514px,
+// //   'sm': 768px
+// // 	)
+// 	$customized
+// );
