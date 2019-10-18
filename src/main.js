@@ -9,14 +9,12 @@ import axios from 'axios'
 import Vlf from 'vlf'
 import router from '@/router'
 import firebaseRTDB from '@/plugins/firebaseRTDB'
-import VBodyScrollLock from 'v-body-scroll-lock'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$http = axios
 Vue.prototype.eventBus = new Vue()
 
-Vue.use(VBodyScrollLock)
 Vue.use(Vlf)
 Vue.use(helper)
 Vue.use(firebaseRTDB)

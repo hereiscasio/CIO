@@ -26,21 +26,23 @@ module.exports = {
 	/**
 	 * if use, bug appear
 	 */
-	// configureWebpack: {
-	// 	optimization: {
-	// 		minimizer: [
-	// 			new UglifyJsPlugin({
-	// 				uglifyOptions: {
-	// 					compress: {
-	// 						drop_console: true, //console
-	// 						drop_debugger: true,
-	// 						pure_funcs: ['console.log', 'console.warn']// remove console
-	// 					}
-	// 				}
-	// 			})
-	// 		]
-	// 	}
-	// },
+	/*
+	 * configureWebpack: {
+	 * 	optimization: {
+	 * 		minimizer: [
+	 * 			new UglifyJsPlugin({
+	 * 				uglifyOptions: {
+	 * 					compress: {
+	 * 						drop_console: true, //console
+	 * 						drop_debugger: true,
+	 * 						pure_funcs: ['console.log', 'console.warn', 'alert']// remove console
+	 * 					}
+	 * 				}
+	 * 			})
+	 * 		]
+	 * 	}
+	 * },
+	 */
 
 	lintOnSave: false,
 

@@ -3,8 +3,7 @@
 <v-dialog
 	v-model='shouldShowDialog' persistent max-width="288px" data-app
 	:style='{"display": shouldShowDialog ? "inline" : "none"}'
-	@click:outside='toggleDialog(false)'
-	v-body-scroll-lock='shouldShowDialog'
+	@click:outside='toggleDialog(false)' scrollable
 >
 	<template v-slot:activator="{ on }" v-show='!noBuiltInTrigger'>
 		<v-icon
@@ -13,7 +12,7 @@
 		/>
     </template>
 	<v-form v-model="validInputField">
-		<v-card>
+		<v-card class='card--record-editor' max-height='536'>
 			<v-card-title>
 				<v-list-item two-line>
 				<v-list-item-content>
@@ -25,7 +24,7 @@
 				</v-list-item>
 			</v-card-title>
 			<v-card-text class='pb-0'>
-				<v-container class='pb-0'>
+				<v-container class='py-0' ref='container'>
 					<template v-for='(time, index) in timeData'>
 					<v-row :key='index' v-if='timeData.length > 1'>
 						{{`Clock-${index === 0 ? 'in' : 'out'} Time`}}
@@ -34,8 +33,8 @@
 						<v-col class='pb-0'>
 							<v-text-field
 								label="Hr" v-model='record.hr[index]'
-								:placeholder="record.hr[index]" outlined
 								class='input-field--time-editing-panel'
+								:placeholder="record.hr[index]" outlined type='tel'
 								@change='reformatValueInTextField($event, "hr", index)'
 								v-mask='`##`' :rules="[rules.required, rules.maxHour]"
 							>
@@ -45,7 +44,7 @@
 							<v-text-field
 								label="Min" v-model='record.min[index]'
 								class='input-field--time-editing-panel'
-								:placeholder="record.min[index]" outlined
+								:placeholder="record.min[index]" outlined type='tel'
 								@change='reformatValueInTextField($event, "min", index)'
 								v-mask='`##`' :rules="[rules.required, rules.maxMinute]"
 							>
@@ -61,9 +60,9 @@
 						<v-row>
 							<v-col cols="12" class='pb-0'>
 							<v-text-field
-								label='day of this month' type='tel' placeholder='e.g. 03' outlined
-								v-model='record.date'
+								label='day of this month' v-model='record.date'
 								class='input-field--time-editing-panel'
+								placeholder='e.g. 03' outlined type='tel'
 								@change='() => {}'
 								v-mask='`##`' :rules="[rules.required, dayValidator]"
 							>
@@ -95,6 +94,7 @@
 import TYPE from 'vue-types' // eslint-disable-line
 import { isArray, includes } from 'lodash-core'
 import { mask } from 'vue-the-mask'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 export default {
 	props: {
 		timeData: TYPE.custom(value => {
@@ -134,7 +134,17 @@ export default {
 			typeOfEditing: 'edit'
 		}
 	},
+	beforeDestroy() {
+		clearAllBodyScrollLocks()
+	},
 	watch: {
+		shouldShowDialog(value) {
+			if (value) {
+				disableBodyScroll(this.$refs.container.$el)
+				return
+			}
+			clearAllBodyScrollLocks()
+		},
 		noBuiltInTrigger: {
 			handler (value) {
 				if (value) this.toggleDialog(true)
@@ -222,5 +232,14 @@ export default {
 }
 .v-list-item__subtitle {
 	line-height: 1.5;
+}
+
+::v-deep .card--record-editor .v-card__text .container {
+	overflow-y: scroll !important;
+	-webkit-overflow-scrolling: touch !important;
+	max-height: 290px; // without this, we can't scroll content on iOS
+}
+::v-deep .v-list-item__content { // just make styling feels good
+	padding: 0;
 }
 </style>
