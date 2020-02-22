@@ -7,22 +7,22 @@ module.exports = {
 	 * see more : https://tinyurl.com/yycsp56o
 	 */
 	transpileDependencies:[/node_modules[/\\\\]vuetify[/\\\\]/],
-	css: {
-		/**
-		 * related issue / sol
-		 * https://joshuatz.com/posts/2019/vue-mixing-sass-with-scss-with-vuetify-as-an-example/
-		 * https://github.com/vuetifyjs/vuetify/issues/6767
-		 * https://github.com/vuetifyjs/vuetify/issues/6816
-		 * https://stackoverflow.com/questions/57333274/how-to-change-breakpoints-in-the-scss-in-vuetify-v2
-		 *
-		 * issue still existed
-		 */
-		loaderOptions: {
-			scss: {
-				data: `@import "@/sass/variables.scss";`
-			}
-		}
-	},
+	// css: {
+	// 	/**
+	// 	 * related issue / sol
+	// 	 * https://joshuatz.com/posts/2019/vue-mixing-sass-with-scss-with-vuetify-as-an-example/
+	// 	 * https://github.com/vuetifyjs/vuetify/issues/6767
+	// 	 * https://github.com/vuetifyjs/vuetify/issues/6816
+	// 	 * https://stackoverflow.com/questions/57333274/how-to-change-breakpoints-in-the-scss-in-vuetify-v2
+	// 	 *
+	// 	 * issue still existed
+	// 	 */
+	// 	loaderOptions: {
+	// 		scss: {
+	// 			data: `@import "@/sass/variables.scss";`
+	// 		}
+	// 	}
+	// },
 	/**
 	 * if use, bug appear
 	 */

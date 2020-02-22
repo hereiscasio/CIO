@@ -20,7 +20,7 @@ $grid-breakpoints: (
 	'lg': 992px,
 	'xl': 1200px
 );
-@debug $grid-breakpoints;
+// @debug $grid-breakpoints;
 // $grid-breakpoints: map-deep-merge($grid-breakpoints, (
 //   'xs': 514px,
 //   'sm': 768px
