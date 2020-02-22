@@ -92,13 +92,12 @@
 
 <script>
 import TYPE from 'vue-types' // eslint-disable-line
-import { isArray, includes } from 'lodash-core'
 import { mask } from 'vue-the-mask'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 export default {
 	props: {
 		timeData: TYPE.custom(value => {
-			return isArray(value) && value.length >= 1 && value.length <= 2
+			return Array.isArray(value) && value.length >= 1 && value.length <= 2
 		}),
 		editTarget: String,
 		noBuiltInTrigger: Boolean,
@@ -157,7 +156,7 @@ export default {
 			 */
 			handler (value) {
 				if (
-					!includes(value, undefined) && value[0] !== ''
+					!require('lodash.includes')(value, undefined) && value[0] !== ''
 				) {
 					this.record.hr = this.timeData.map(time => time.substr(0, 2))
 					this.record.min = this.timeData.map(time => time.substr(2, 4))

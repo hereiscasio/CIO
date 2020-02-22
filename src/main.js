@@ -1,23 +1,20 @@
-import 'normalize.css'
+import router from '@/router.js';
 import Vue from 'vue'
 import App from '@/App.vue'
-import vuetify from '@/plugins/vuetify'
+import vuetify from '@/plugins/vuetify.js'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import helper from '@/helper.js'
-import axios from 'axios'
 import Vlf from 'vlf'
-import router from '@/router'
-import firebaseRTDB from '@/plugins/firebaseRTDB'
+
+import '@/plugins/firebaseInit.js';
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = axios
 Vue.prototype.eventBus = new Vue()
 
 Vue.use(Vlf)
 Vue.use(helper)
-Vue.use(firebaseRTDB)
 
 new Vue({
 	router,

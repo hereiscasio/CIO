@@ -63,8 +63,8 @@
 
 <script>
 import { format, getDaysInMonth, addMonths, subMonths } from 'date-fns'
-import RecordEditor from './../RecordEditor'
-import { find } from 'lodash-core'
+import RecordEditor from './../RecordEditor.vue'
+
 
 export default {
 	data () {
@@ -98,7 +98,7 @@ export default {
 			const date = Number(this.monthWithYearInCurrentView + day)
 
 			if (enteredDayOverMaxInMonth) return 'over max day in the month'
-			if (find(this.tableItems, { date })) return 'record already existed in this day'
+			if (require('lodash.find')(this.tableItems, { date })) return 'record already existed in this day'
 			return true
 		},
 		populateTableItems()

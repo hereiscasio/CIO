@@ -1,8 +1,0 @@
-{
-  "pluginsFile": "tests/e2e/plugins/index.js",
-  "baseUrl": "http://localhost:8080/",
-  "ignoreTestFiles": "*.{csv,vue,disable}",
-  "watchForFileChanges": false,
-  "viewportWidth": 320,
-  "viewportHeight": 568
-}

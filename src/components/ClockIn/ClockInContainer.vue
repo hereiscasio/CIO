@@ -51,10 +51,10 @@
 </template>
 
 <script>
-import RecordEditor from './../RecordEditor'
-import StaticTimePresenter from './StaticTimePresenter'
-import ClockWidget from './ClockWidget'
-import Layout from './ClockInLayout'
+import RecordEditor from './../RecordEditor.vue'
+import StaticTimePresenter from './StaticTimePresenter.vue'
+import ClockWidget from './ClockWidget.vue'
+import Layout from './ClockInLayout.vue'
 
 export default {
 	data () {

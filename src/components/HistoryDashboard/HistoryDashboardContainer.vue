@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import CalendarToShowHistory from './CalendarToShowHistory'
-import TableToShowHistory from './TableToShowHistory'
-import Notification from './../Notification'
+import CalendarToShowHistory from './CalendarToShowHistory.vue'
+import TableToShowHistory from './TableToShowHistory.vue'
+import Notification from './../Notification.vue'
 
 export default {
 	data () {

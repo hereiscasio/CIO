@@ -3,8 +3,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Auth from './components/Auth.vue'
-import ClockIn from './components/ClockIn/ClockInContainer'
-import HistoryDashboard from './components/HistoryDashboard/HistoryDashboardContainer'
+import ClockIn from './components/ClockIn/ClockInContainer.vue'
+import HistoryDashboard from './components/HistoryDashboard/HistoryDashboardContainer.vue'
 
 Vue.use(Router)
 /**

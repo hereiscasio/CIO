@@ -1,6 +1,7 @@
-last 10 versions
-not ie < 11
-Edge >= 12
-not safari < 9
-not iOS < 9
+> 0.5%
+last 6 versions
+not iOS  < 9
+not Safari <= 10
+Firefox ESR
 not dead
+not IE 9-11

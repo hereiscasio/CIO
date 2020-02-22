@@ -24,8 +24,7 @@
 </template>
 
 <script>
-import RecordEditor from './../RecordEditor'
-import { flatMap, values } from 'lodash-core'
+import RecordEditor from './../RecordEditor.vue'
 
 export default {
 	data () {
@@ -55,7 +54,7 @@ export default {
 
 			this.$db.ref(this.$root.uid).on('value', snapshot =>
 			{
-				const records = flatMap(snapshot.val(), value => values(value))
+				const records = require('lodash.flatmap')(snapshot.val(), value => require('lodash.values')(value))
 				const dateFormater = date => this.$helper.stringWithSeparator(date, '-')
 				this.dateSetOfWorkingDays = records.map(record => dateFormater(record.date))
 			})
