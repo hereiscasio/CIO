@@ -6,10 +6,14 @@
 	@click:outside='toggleDialog(false)' scrollable
 >
 	<template v-slot:activator="{ on }" v-show='!noBuiltInTrigger'>
-		<v-icon
+		<!-- <v-icon
 			v-on="on" class='mr-n1 button--show-record-editor' v-text='`edit`'
 			@click='toggleDialog(true)'
-		/>
+		/> -->
+		<!-- ❗️❗️❗️ v-on 和	click 可能都不起作用了 -->
+		<svg width='24' height='24' v-on="on" class='mr-n1 button--show-record-editor' @click='toggleDialog(true)'>
+			<use xlink:href="@/assets/sprite.svg#pencil"></use>
+		</svg>
     </template>
 	<v-form v-model="validInputField">
 		<v-card class='card--record-editor' max-height='536'>

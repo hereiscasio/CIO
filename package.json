@@ -21,8 +21,6 @@
     "lodash.flatmap": "^4.5.0",
     "lodash.includes": "4.3.0",
     "lodash.values": "4.3.0",
-    "material-design-icons-iconfont": "^5.0.1",
-    "roboto-fontface": "*",
     "trianglify": "^2.0.0",
     "vlf": "^1.0.5",
     "vue": "2.6.10",

@@ -16,15 +16,18 @@
 	</v-sheet>
 	<v-bottom-navigation
 		v-model="focusedTabTitle"
-		horizontal abs	olute class='elevation-24' color='#3D5AFE'
+		horizontal absolute class='elevation-24' color='#3D5AFE'
 	>
 		<v-btn
 			v-for='btn in buttonInfoOfBottomNavigator' :key='btn.name'
 			:value="btn.name.toLowerCase()"
-			@click='onSwitchTab(btn.name)'
+			@click='btn.name === "Leave" && $router.go(-1)'
 		>
 			{{btn.name}}
-			<v-icon v-text='btn.icon'/>
+			<svg width='24' height='24'>
+				<use :xlink:href="require('@/assets/sprite.svg') + '#' + btn.icon"></use>
+			</svg>
+			<!-- <v-icon v-text='btn.icon'/> -->
 		</v-btn>
 	</v-bottom-navigation>
 	</v-card>
@@ -45,19 +48,11 @@ export default {
 		}
 	},
 	created () {
-		/**
-		 * TODO: enable user move bracket to next line in ESLint
-		 */
 		this.buttonInfoOfBottomNavigator = [
-			{ name:'Leave', icon: 'directions_run' },
-			{ name:'Calendar', icon: 'date_range' },
-			{ name:'Table', icon: 'view_list' }
+			{ name:'Leave', icon: 'run' },
+			{ name:'Calendar', icon: 'calendar-range' },
+			{ name:'Table', icon: 'view-list' }
 		]
-	},
-	methods: {
-		onSwitchTab (tabName) {
-			if (tabName === 'Leave') this.$router.go(-1)
-		}
 	},
 	components: { Notification, TableToShowHistory, CalendarToShowHistory }
 }

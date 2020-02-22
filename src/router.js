@@ -14,15 +14,24 @@ export const routes = [
 	{
 		path: '/login',
 		name: 'login',
+		// component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "home" */ '@/components/HomePage.vue')
 		component: Auth
 	},
 	{
 		path: '/',
 		name: 'clock',
+		// component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "home" */ '@/components/HomePage.vue')
 		component: ClockIn,
+		meta: {
+			requiresAuth: true
+		},
 		children: [{
 			path: 'history',
-			component: HistoryDashboard
+			// component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "home" */ '@/components/HomePage.vue')
+			component: HistoryDashboard,
+			meta: {
+				requiresAuth: true
+			}
 		}]
 	}
 ]

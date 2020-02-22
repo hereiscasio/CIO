@@ -16,14 +16,24 @@
 			<v-toolbar flat color="white">
 			<v-toolbar-title class='headline font-weight-black'>{{tableTitle}}</v-toolbar-title>
 			<v-spacer></v-spacer>
-			<v-btn @click='onClickButtonOfItemAdding' color='primary'><v-icon left>add</v-icon> History</v-btn>
+			<v-btn @click='onClickButtonOfItemAdding' color='primary'>
+				<svg width='24' height='24'>
+					<use xlink:href="@/assets/sprite.svg#plus"></use>
+				</svg>
+				<!-- <v-icon left>add</v-icon>  -->
+				History
+			</v-btn>
 			</v-toolbar>
 		</template>
 
 		<template v-slot:item.action="{ item }">
-			<v-icon
+			<!-- <v-icon
 				small @click='onClickButtonOfItemEditing(item)' v-text='`edit`'
-			/>
+			/> -->
+			<!-- click 可能不起作用了❗️❗️❗️❗️❗️ -->
+			<svg width='24' height='24' @click='onClickButtonOfItemEditing(item)'>
+				<use xlink:href="@/assets/sprite.svg#pencil"></use>
+			</svg>
 		</template>
 
 		<template v-slot:item.date="{ item }">
@@ -35,7 +45,10 @@
 		absolute style='margin-bottom: 64px' color='transparent'
 	>
 		<v-btn class="px-0" min-width='36' color='white' @click='onClickButtonOfPrevMonth'>
-			<v-icon dark>keyboard_arrow_left</v-icon>
+			<!-- <v-icon dark>keyboard_arrow_left</v-icon> -->
+			<svg width='36' height='36'>
+				<use xlink:href="@/assets/sprite.svg#chevron-left"></use>
+			</svg>
 		</v-btn>
 
 		<v-subheader>{{showMonthInEnglishFormat.prevMonth}}</v-subheader>
@@ -43,7 +56,10 @@
 		<v-subheader>{{showMonthInEnglishFormat.nextMonth}}</v-subheader>
 
 		<v-btn class="px-0" min-width='36' color='white' @click='onClickButtonOfNextMonth'>
-			<v-icon dark>keyboard_arrow_right</v-icon>
+			<!-- <v-icon dark>keyboard_arrow_right</v-icon> -->
+			<svg width='36' height='36'>
+				<use xlink:href="@/assets/sprite.svg#chevron-right"></use>
+			</svg>
 		</v-btn>
 	</v-footer>
 

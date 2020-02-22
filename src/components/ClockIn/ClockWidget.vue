@@ -16,7 +16,11 @@
 					>
 						<v-list-item-content>
 						<v-btn outlined tile x-large @click='item.trigger'>
-							<v-icon left>{{ item.icon }}</v-icon>
+							<!-- <v-icon left>{{ item.icon }}</v-icon> -->
+							<!-- {{item.icon}} -->
+							<svg width='24' height='24'>
+								<use :xlink:href="require('@/assets/sprite.svg') + '#' + item.icon"></use>
+							</svg>
 							{{ item.feature }}
 						</v-btn>
 						</v-list-item-content>
@@ -36,7 +40,7 @@
 				v-model="currentTime"
 				full-width readonly class="elevation-0" color='primary'
 			></v-time-picker>
-			<slot></slot>
+			<slot name='buttons'></slot>
 		</v-col>
 	</v-row>
 
@@ -47,7 +51,9 @@
 				@click="shouldShowSettingsView = false"
 				class='mt-10'
 			>
-				<v-icon>close</v-icon>
+				<svg width='24' height='24'>
+					<use xlink:href="@/assets/sprite.svg#close"></use>
+				</svg>
 			</v-btn>
 			<v-container>
 				<v-row no-gutters>
@@ -117,9 +123,11 @@
 		<template v-slot:activator="{ on }">
 			<v-btn
 				id='button--menu-on-clock'
-				v-on="on" text fab large dark :ripple='false'
+				v-on="on" text fab dark :ripple='false'
 			>
-				<v-icon dark large>menu</v-icon>
+				<svg width='40' height='40'>
+					<use xlink:href="@/assets/sprite.svg#menu"></use>
+				</svg>
 			</v-btn>
 		</template>
 		<v-list>
@@ -128,7 +136,9 @@
 				@click='item.trigger'
 			>
 				<v-list-item-icon class='mr-4'>
-					<v-icon v-text="item.icon"></v-icon>
+					<svg width='24' height='24'>
+						<use :xlink:href="require('@/assets/sprite.svg') + '#' + item.icon"></use>
+					</svg>
 				</v-list-item-icon>
 				<v-list-item-title v-text='item.feature'></v-list-item-title>
 			</v-list-item>
@@ -154,17 +164,17 @@ export default {
 		populateItemsInMenu() {
 			this.featureListing = [
 				{
-					icon: 'directions_run',
+					icon: 'run',
 					feature: 'Logout',
 					trigger: () => (this.shouldShowLogoutConfirmView = true)
 				},
 				{
-					icon: 'show_chart',
+					icon: 'chart-bar',
 					feature: 'History',
 					trigger: () => this.$router.push({ path: 'history' })
 				},
 				{
-					icon: 'settings',
+					icon: 'cog',
 					feature: 'Settings',
 					trigger: () => (this.shouldShowSettingsView = true)
 				}
@@ -227,21 +237,17 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 	border-radius: 0 !important;
 }
 
-::v-deep .v-picker__body { // Help to show shadow of Toolbar
-	background: transparent;
-}
-
 ::v-deep .v-time-picker-clock__ampm {
 	display: none !important; // hide am pm
 }
 
-.v-picker.v-card, .v-picker__body {
+::v-deep .v-picker.v-card, ::v-deep .v-picker__body { // Help to show shadow of Toolbar
   background: transparent !important;
 }
 
 ::v-deep .v-time-picker-clock { // add shadow around the time picker
 		box-shadow: $shadow;
-		background: #EEEEEE;
+		background: white !important;
 }
 
 #toolbar--landscape {

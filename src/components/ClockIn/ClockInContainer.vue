@@ -1,21 +1,25 @@
 <template>
 <Layout :todayRecord='todayRecord'>
 	<template v-slot:clockWidget>
-		<ClockWidget>
+		<ClockWidget v-slot:buttons>
 			<div class='mx-4 mt-5'>
 			<v-btn
 				v-if='todayRecord === null'
 				height='52' block tile light elevation='3'
 				@click='clockIn' class='font-weight-bold mb-2'
 			>
-				<v-icon color='primary' left v-text='`timer`'/>&nbsp;CLOCK IN
+				<svg width='24' height='24' class='mr-2'>
+					<use xlink:href="@/assets/sprite.svg#alarm"></use>
+				</svg>CLOCK IN
 			</v-btn>
 			<v-btn
 				v-else-if='todayRecord && todayRecord.clockOut === ""'
 				height='52' block tile light elevation='3'
 				@click='clockOut()' class='font-weight-bold mb-2'
 			>
-				<v-icon color='primary' left v-text='`timer_off`'/>&nbsp;CLOCK OUT
+				<svg width='24' height='24' class='mr-2'>
+					<use xlink:href="@/assets/sprite.svg#alarm-off"></use>
+				</svg>&nbsp;CLOCK OUT
 			</v-btn>
 			</div>
 		</ClockWidget>

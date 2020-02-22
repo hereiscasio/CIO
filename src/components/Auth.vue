@@ -6,8 +6,11 @@
 		v-if='shouldShowSubView.beforeAuth' id='boundary--before-auth'
 	>
 		<v-row justify="center" no-gutters>
-			<v-col cols='12' class='mb-4'>
+			<v-col cols='12' class='mb-4 d-flex'>
 				<img width='173' src="@/assets/logo.svg" class='mx-auto d-block'>
+				<svg width='46' height='16' class='mx-auto d-block'>
+					<use xlink:href="@/assets/sprite.svg#brand-name"></use>
+				</svg>
 			</v-col>
 			<v-col cols='12'>
 				<v-sheet max-width='232' class='text-justify body-2 gray--text mx-auto' color='transparent'>
@@ -19,7 +22,10 @@
 				id='button--before-auth' color="primary"
 				@click="showViewOfStartAuth"
 			>
-				<v-icon left>phone</v-icon>Sign in with phone
+				<svg width='18' height='18'>
+					<use xlink:href="@/assets/sprite.svg#pencil"></use>
+				</svg>
+				Sign in with phone
 			</v-btn>
 		</v-row>
 	</div>

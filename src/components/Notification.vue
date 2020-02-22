@@ -5,9 +5,11 @@
 >
 		{{content}}
 		<v-btn
-			@click="onTurnOffNotification()" text icon
+			@click="onTurnOffNotification()" text
 		>
-			<v-icon v-text='`close`'/>
+			<svg width='24' height='24'>
+				<use xlink:href="@/assets/sprite.svg#close"></use>
+			</svg>
 		</v-btn>
 </v-snackbar>
 </template>

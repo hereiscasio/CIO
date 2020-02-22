@@ -10,7 +10,11 @@
 	>{{title}}
 	<template v-if='deletable'>
 		<v-spacer></v-spacer>
-		<v-icon dark v-text='`close`' @click='$emit(`click-close-button`)'/>
+		<!-- click 可能不起作用了❗️❗️❗️ -->
+		<svg width='24' height='24' @click='$emit(`click-close-button`)'>
+			<use xlink:href="@/assets/sprite.svg#close"></use>
+		</svg>
+		<!-- <v-icon dark v-text='`close`' @click='$emit(`click-close-button`)'/> -->
 	</template>
 	</v-card-title>
 
@@ -25,7 +29,11 @@
 
 	<v-card-actions class='justify-center py-4'>
 		<span>
-		<v-icon>date_range</v-icon>&nbsp;{{dateOfToday}}
+			<svg width='24' height='24'>
+				<use xlink:href="@/assets/sprite.svg#calendar-range"></use>
+			</svg>
+			&nbsp;{{dateOfToday}}
+		<!-- <v-icon>date_range</v-icon>&nbsp;{{dateOfToday}} -->
 		</span>
 	</v-card-actions>
 </v-card>
