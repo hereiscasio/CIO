@@ -1,29 +1,27 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
 <v-card
-	v-if='time'
 	width='100%' min-height='260' class='d-flex flex-column'
-	data-testid='card--clock-in-out'
 >
 	<v-card-title
 		class='font-weight-bold white--text pb-4 pt-6 card--clock-in-out'
-	>{{title}}
-	<template v-if='deletable'>
-		<v-spacer></v-spacer>
-		<!-- click 可能不起作用了❗️❗️❗️ -->
-		<svg width='24' height='24' @click='$emit(`click-close-button`)'>
-			<use xlink:href="@/assets/sprite.svg#close"></use>
-		</svg>
-		<!-- <v-icon dark v-text='`close`' @click='$emit(`click-close-button`)'/> -->
-	</template>
+	>
+	{{'Clock-' + dataType.slice(-2)}}
 	</v-card-title>
 
 	<v-card-text
 		class='d-flex justify-center align-center black--text'
 	>
         <span class="time--time-freezer">
-			{{timeWithSeparator}}
-			<slot/>
+			{{record[dataType]}}
+			<slot name='editing-button'/>
+			<!--
+				<RecordEditor
+					:timeData='[record.clockIn]'
+					:editTarget='dataType'
+					v-on="$listeners"
+				/>
+			-->
 		</span>
 	</v-card-text>
 
@@ -32,8 +30,7 @@
 			<svg width='24' height='24'>
 				<use xlink:href="@/assets/sprite.svg#calendar-range"></use>
 			</svg>
-			&nbsp;{{dateOfToday}}
-		<!-- <v-icon>date_range</v-icon>&nbsp;{{dateOfToday}} -->
+			&nbsp;{{record.date}}
 		</span>
 	</v-card-actions>
 </v-card>
@@ -41,23 +38,16 @@
 </template>
 
 <script>
+import RecordEditor from '@/components/RecordEditor.vue';
 import TYPE from 'vue-types' // eslint-disable-line
 export default {
-	props: {
-		time: String,
-		title: String,
-		deletable: Boolean
+	components: {
+		RecordEditor
 	},
-	computed: {
-		timeWithSeparator() {
-			return this.$helper.stringWithSeparator(this.time, ':')
-		}
-	},
-	created() {
-		this.dateOfToday = this.$helper.getCurrent().dateWithSeparator()
-	}
+	props: ['record', 'dataType']
 }
 </script>
+
 <style lang="scss" scoped>
 .card--clock-in-out {
 	font-size : 32px;

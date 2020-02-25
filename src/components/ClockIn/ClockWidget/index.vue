@@ -1,0 +1,128 @@
+<template>
+<div>
+	<v-row no-gutters id='wrapper--clock-widget' class='mx-auto'>
+
+		<v-col
+			v-if='$vuetify.breakpoint.smAndUp'
+			cols='auto' id='toolbar--landscape'
+		>
+			<WidgetSmAndUp :featureListing='featureListing' :currentTime='currentTime'/>
+		</v-col>
+
+		<v-col cols='12' :sm='true' class='pa-0'>
+			<v-time-picker
+				v-model="currentTime" full-width readonly class="elevation-0" color='primary'
+			></v-time-picker>
+			<slot name='buttons'></slot>
+		</v-col>
+
+	</v-row>
+
+	<!-- Hack / Workaround:
+		`light`, `data-app` are attr to avoid annoying warning when do the testing
+		TODO: it seems like we can scrape `light` out now
+	-->
+	<WidgetXsOnly v-if='$vuetify.breakpoint.xsOnly' :featureListing='featureListing'/>
+</div>
+</template>
+
+<script>
+import format from 'date-fns/format';
+import WidgetXsOnly from './WidgetXsOnly.vue';
+import WidgetSmAndUp from './WidgetSmAndUp.vue';
+
+export default {
+
+	data () {
+		this.keepToShowCurrentTime();
+
+		return {
+			currentTime: format(Date.now(), 'kk:mm'),
+
+			featureListing: [
+				{
+					icon: 'run',
+					feature: 'Logout',
+					trigger: () => this.$fire('request-dialog', {componentId: 'logout'})
+				},
+				{
+					icon: 'chart-bar',
+					feature: 'History',
+					trigger: () => this.$router.push('/history')
+				},
+				{
+					icon: 'cog',
+					feature: 'Settings',
+					trigger: () => this.$fire('request-dialog', {componentId: 'settings'})
+				}
+			]
+		}
+	},
+
+	methods: {
+		keepToShowCurrentTime ()
+		{
+			setInterval(() => this.currentTime = format(Date.now(), 'kk:mm'), 1000 * 60);
+		}
+	},
+
+	components: {
+		WidgetXsOnly, WidgetSmAndUp
+	}
+}
+</script>
+
+<style lang='scss' scoped>
+$shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
+
+:root {
+	position: relative;
+}
+
+::v-deep .v-picker__title { // Toolbar
+	padding-top: 32px;
+	background: var(--v-primary-base);
+	background: linear-gradient(0deg, var(--v-primary-base) 0%, var(--v-secondary-base) 100%);
+	box-shadow: $shadow;
+	border-radius: 0 !important;
+}
+
+::v-deep .v-time-picker-clock__ampm {
+	display: none !important; // hide am pm
+}
+
+::v-deep .v-picker.v-card, ::v-deep .v-picker__body { // Help to show shadow of Toolbar
+  background: transparent !important;
+}
+
+::v-deep .v-time-picker-title__time * {
+	font-family: krungthep;
+}
+
+::v-deep .v-time-picker-clock { // add shadow around the time picker
+		box-shadow: $shadow;
+		background: white !important;
+}
+
+::v-deep .v-time-picker-clock__container {
+	padding-top: 32px;
+}
+
+@media (min-width: 563px) { // if >= 564, then ...
+	::v-deep .v-picker__title {
+		display: none;
+	}
+	#wrapper--clock-widget {
+		max-width: 516px;
+	}
+	/**
+	* TODO: remove this ugly hack due to bad doc, bad bug of Vuetify
+	* that's, success to override $grid-breakpoints, but it still not works
+	*/
+	.col-sm {
+		flex-basis: 0;
+		flex-grow: 1;
+		max-width: 100%;
+	}
+}
+</style>

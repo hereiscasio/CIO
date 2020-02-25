@@ -1,54 +1,48 @@
 <template>
 <v-app>
-	<v-row
-		v-if='shouldShowLoadingIndicator'
-		justify='center' align='center' class='fill-height'
-	>
-		<v-progress-circular
-		:size="50" :width="7" color="purple" indeterminate
-		></v-progress-circular>
-	</v-row>
-	<router-view v-else class='pa-0 ma-0'/>
+	<router-view class='pa-0 ma-0'/>
+	<keep-alive>
+		<component :is="componentId"></component>
+	</keep-alive>
 </v-app>
 </template>
 
 <script>
-export default {
+import RecordEditor from '@/components/RecordEditor.vue';
+import Settings from '@/components/Settings.vue';
+import Logout from '@/components/Logout.vue';
+import Notification from '@/components/Notification.vue';
+
+export default
+{
+	components: {
+		RecordEditor, Logout, Settings, Notification
+	},
+
 	data() {
 		return {
-			userCredential: undefined, // will be assign `null` by Firebase if he is not login
-			shouldShowLoadingIndicator: true
+			componentId: ''
 		}
 	},
-	created() {
-		/**
-		 * TODO: TEST: only triggered on sign-in or sign-out.
-		 * TODO: for who haven't login, he will see clock route first, then see login route
-		 * , we now avoid this situation by using `setTimeout`
-		 *
-		 * CASE_A, CASE_B are possible ways that user accessing our App
-		 */
-		this.$firebase.auth().onAuthStateChanged(userCredential =>
-		{
-			console.log('userCredential = ', userCredential)
-			this.userCredential = userCredential
-
-			if(userCredential) {
-				console.log('Success to register or User is signed in')
-				if (this.$router.currentRoute.name !== 'clock') // CASE_A
-				{
-					this.$router.push({ path: '/' })
-				}
-			}
-			else if (this.$router.currentRoute.name !== 'login') // CASE_B
+	created ()
+	{
+		this.$subscribe(
+			'request-dialog', ({componentId, payload}) =>
 			{
-				this.$router.push({ path: 'login' })
+				this.componentId = componentId;
+				if (
+					componentId === 'notification' &&
+					localStorage.getItem('showTips') === 'false'
+				) {
+					return;
+				}
+				this.$nextTick(() => this.$fire("force-to-show-" + this.componentId, payload));
 			}
-			setTimeout(() => (this.shouldShowLoadingIndicator = false), 1000)
-		})
+		);
 	}
 }
 </script>
+
 <style lang="scss">
 @import "normalize.css/opinionated.css";
 * {

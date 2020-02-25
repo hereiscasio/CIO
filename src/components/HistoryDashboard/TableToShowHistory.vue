@@ -3,7 +3,6 @@
 <div id='wrapper--table-to-show-history'>
 	<v-data-table
 		id='record-table'
-		data-testid='view--history-table'
 		:headers="tableHeaders"
 		:items="tableItems"
 		:page.sync="currentFocusedPage"
@@ -69,9 +68,7 @@
 		:dayValidator='checkEnteredDayIsValid'
 		@finish-record-editing='updateRecord'
 		@finish-record-adding='addNewRecord'
-		@cancel-record-editing='shouldShowRecordEditor = false'
-		editTarget='clockInOut' no-built-in-trigger
-		usedWithTable
+		editTarget='clockInOut'
 	/>
 </div>
 <!--eslint-enable-->

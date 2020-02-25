@@ -3,10 +3,7 @@
 	justify="center" no-gutters :style='setGradientBackground()'
 	:align-content='$vuetify.breakpoint.smAndUp ? "center" : "start"'
 >
-<!-- <v-row
-	justify="center" no-gutters
-	:align-content='$vuetify.breakpoint.smAndUp ? "center" : "start"'
-> -->
+	<!-- nested-child-route: HistoryDashboardContainer.vue -->
 	<router-view></router-view>
 
 	<v-col
@@ -27,32 +24,25 @@
 			<slot name='clockOutCard'></slot>
 		</div>
 	</v-col>
-
 </v-row>
 </template>
 <script>
 
 export default {
 	props: ['todayRecord'],
-	data () {
-		return {
-			virtualSpaceBetweenCards: 0
-		}
-	},
+
 	computed: {
 		maxWidthOfCards()
 		{
-			let didClockOut = this.todayRecord && this.todayRecord.clockOut
-
 			return this.$vuetify.breakpoint.smAndUp ?
-				(didClockOut ? '593px' : '516px') : '100%'
+				(this.todayRecord ? '593px' : '516px') : '100%'
+		},
+
+		virtualSpaceBetweenCards() {
+			return this.maxWidthOfCards === '593px' ? 16 : 0;
 		}
 	},
-	watch: {
-		maxWidthOfCards (value) {
-			this.virtualSpaceBetweenCards = value === '593px' ? 16 : 0
-		}
-	},
+
 	methods: {
 		/**
 		 * TODO: setup color by using Vuetify API

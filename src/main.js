@@ -1,25 +1,22 @@
 import router from '@/router.js';
+import store from '@/store.js';
 import Vue from 'vue'
 import App from '@/App.vue'
 import vuetify from '@/plugins/vuetify.js'
 import helper from '@/helper.js'
-import Vlf from 'vlf'
 
-import '@/plugins/firebaseInit.js';
+Vue.config.productionTip = false;
 
-Vue.config.productionTip = false
+Vue.prototype.$eventBus = new Vue();
+Vue.prototype.$subscribe = require('@/utils.js').subscribe;
+Vue.prototype.$fire = require('@/utils.js').fire;
 
-Vue.prototype.eventBus = new Vue()
-
-Vue.use(Vlf)
-Vue.use(helper)
+Vue.use(helper);
 
 new Vue({
+	store,
 	router,
 	vuetify,
-	async created() {
-		this.uid = await this.$vlf.getItem('phoneNumber')
-	},
 	render: h => h(App)
 })
 	.$mount('#app')
