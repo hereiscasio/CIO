@@ -1,9 +1,5 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-	<!-- Hack / Workaround:
-		`light`, `data-app` are attr to avoid annoying warning when do the testing
-		TODO: it seems like we can scrape `light` out now
-	-->
 <v-menu offset-y close-on-click bottom max-width='164'>
 	<template v-slot:activator="{ on }">
 		<v-btn
@@ -33,7 +29,6 @@
 </template>
 
 <script>
-import TYPE from 'vue-types' // eslint-disable-line
 export default {
 	props: ['featureListing']
 }

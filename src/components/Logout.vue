@@ -1,6 +1,6 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<v-dialog v-model="shouldShowDialog" max-width="320">
+<v-dialog v-model="shouldShowDialog" max-width="320" transition="dialog-top-transition">
 	<v-card>
 		<v-card-title class="headline">ARE YOU SURE ?</v-card-title>
 
@@ -30,12 +30,18 @@
 
 <script>
 export default {
+	props: ['payload'],
+
+	watch: {
+		shouldShowDialog (value)
+		{
+			!value && this.$emit('onHideDialog');
+		}
+	},
+
 	data() {
-		this.$subscribe(
-			'force-to-show-logout', () => this.shouldShowDialog = true
-		);
 		return {
-			shouldShowDialog: false
+			shouldShowDialog: this.payload
 		}
 	}
 }

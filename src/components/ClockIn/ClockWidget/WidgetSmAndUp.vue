@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import TYPE from 'vue-types' // eslint-disable-line
 export default {
 	props: ['featureListing', 'currentTime']
 }
@@ -47,7 +46,7 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 	#digital-time--landscape {
 		font-size: 50px;
 		text-align: center;
-		font-family: krungthep;
+		font-family: krungthep !important;
 		color: white;
 		padding-bottom: 8px;
 	}

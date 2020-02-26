@@ -15,14 +15,19 @@
 </template>
 
 <script>
-import TYPE from 'vue-types'
 export default {
+	props: ['payload'],
+
+	watch: {
+		shouldShowSnackbar (value)
+		{
+			!value && this.$emit('onHideDialog');
+		}
+	},
+
 	data() {
-		this.$subscribe(
-			'force-to-show-notification', () => this.shouldShowSnackbar = true
-		);
 		return {
-			shouldShowSnackbar: false,
+			shouldShowSnackbar: this.payload
 		}
 	},
 

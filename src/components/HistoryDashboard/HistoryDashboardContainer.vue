@@ -10,12 +10,12 @@
 
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
 		<CalendarToShowHistory
-			v-if='focusedTabTitle === "Calendar"' :events='allRecordDatesInFocusedMonth'
+			v-show='focusedTabTitle === "Calendar"' :events='allRecordDatesInFocusedMonth'
 			@onClickDateButton='requestRecordOfTheDate'
 			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
 		/>
 		<TableToShowHistory
-			v-else-if='focusedTabTitle === "Table"' :focusedMonthWithYear='focusedMonthWithYear'
+			v-show='focusedTabTitle === "Table"' :focusedMonthWithYear='focusedMonthWithYear'
 			@onClickAddingButton='requestAddNewRecord'
 			@onClickEditingButton='requestRecordOfTheDate'
 			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
@@ -45,10 +45,9 @@
 </template>
 
 <script>
-import CalendarToShowHistory from './CalendarToShowHistory.vue'
-import TableToShowHistory from './TableToShowHistory.vue'
 import { getLoggedUser } from '@/plugins/firebase';
 import dbService from '@/helper/db.service.js';
+import CalendarToShowHistory from './CalendarToShowHistory.vue';
 
 export default {
 	data () {
@@ -98,11 +97,11 @@ export default {
 		 */
 		async fetchAllRecordDatesInFocusedMonth(monthWithYear)
 		{
-			const format = require('date-fns/format');
+			const format = require('date-fns/format').default;
 			this.focusedMonthWithYear = monthWithYear ? monthWithYear : format(Date.now(), 'yyyy-LL');
 			this.$fire('request-dialog', 'loading', true);
 			await dbService.trackRecordsInFocusedMonth(monthWithYear);
-			this.$fire('request-dialog', 'loading', false);
+			this.$fire('request-dialog', '', '');
 		}
 	},
 
@@ -116,7 +115,10 @@ export default {
 		];
 	},
 
-	components: { TableToShowHistory, CalendarToShowHistory }
+	components: {
+		TableToShowHistory: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "table" */ '@/components/HistoryDashboard/TableToShowHistory.vue'),
+		CalendarToShowHistory
+	}
 }
 </script>
 

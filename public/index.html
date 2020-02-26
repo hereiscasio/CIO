@@ -4,35 +4,25 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
-	<!-- <link rel="icon" type="image/png" href="<%= BASE_URL %>favicon-32x32.png" sizes="32x32" />
-	<link rel="icon" type="image/png" href="<%= BASE_URL %>favicon-16x16.png" sizes="16x16" />	 -->
+
 	<title>CIO System</title>
 
-	<!-- Below will download the specific font from our server -->
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 	<link rel="dns-prefetch" href="https://fonts.gstatic.com/" crossorigin>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Space+Mono:400,700&display=swap">
-	<!--
-		Avoid bug in Safari; the way to import package below is not a best
-		see also: https://cli.vuejs.org/guide/browser-compatibility.html#usebuiltins-usage
-	-->
-	<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
+	<link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700&display=swap" rel="stylesheet">
+
 	<style>
-	html * {
-		font-family: 'Space Mono', monospace;
-	}
-	@font-face {
-		font-family: 'krungthepregular';
-		src: url('krungthep-webfont.woff2') format('woff2'),
-		url('krungthep-webfont.woff') format('woff');
-		font-weight: normal;
-		font-style: normal;
-	}
+		@font-face {font-family: "Krungthep";
+			src: url("https://db.onlinewebfonts.com/t/736cf5b08b01082a3645e14038868e20.eot"); /* IE9*/
+			src: url("https://db.onlinewebfonts.com/t/736cf5b08b01082a3645e14038868e20.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+			url("https://db.onlinewebfonts.com/t/736cf5b08b01082a3645e14038868e20.woff2") format("woff2"), /* chrome firefox */
+			url("https://db.onlinewebfonts.com/t/736cf5b08b01082a3645e14038868e20.woff") format("woff"), /* chrome firefox */
+			url("https://db.onlinewebfonts.com/t/736cf5b08b01082a3645e14038868e20.ttf") format("truetype"), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+			url("https://db.onlinewebfonts.com/t/736cf5b08b01082a3645e14038868e20.svg#Krungthep") format("svg"); /* iOS 4.1- */
+		}
 	</style>
 </head>
 <body>
-	<div id='loading-indicator'></div>
 	<noscript>
 	<strong>We're sorry but main doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
 	</noscript>

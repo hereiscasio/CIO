@@ -1,24 +1,33 @@
 <template>
-<!-- eslint-disable vue/no-v-html -->
-<v-sheet height='100vh' class='wrapper--start-login'>
-	<v-progress-circular
-			v-if='shouldShowLoadingIndicator' indeterminate color="primary"
-	></v-progress-circular>
 
-	<div id="firebaseui-container"/>
-</v-sheet>
+<v-dialog v-model='shouldShowDialog' fullscreen transition="dialog-bottom-transition" persistent>
+<v-overlay :value='true'>
+
+	<v-card color='transparent' tile class='d-flex justify-center align-center'>
+		<v-progress-circular
+				v-if='shouldShowLoadingIndicator' indeterminate color="primary"
+		></v-progress-circular>
+
+		<div id="firebaseui-container"/>
+	</v-card>
+
+</v-overlay>
+</v-dialog>
+
 <!--eslint-enable-->
 </template>
 
 <script>
-import * as firebaseui from 'firebaseui'
+import * as firebaseui from 'firebaseui';
 
 export default {
 	data() {
 		return {
-			shouldShowLoadingIndicator: true
+			shouldShowLoadingIndicator: true,
+			shouldShowDialog: true
 		}
 	},
+
 	created() {
 		const cb = () =>
 		{
@@ -27,6 +36,7 @@ export default {
 				callbacks: {
 					signInSuccessWithAuthResult: () =>
 					{
+						this.shouldShowDialog = false;
 						this.$fire('on-success-login');
 						setTimeout(() => this.$router.push('/'), 3000);
 						return false;
@@ -53,19 +63,7 @@ export default {
 <style lang='scss' scoped>
 @import '~firebaseui/dist/firebaseui.css';
 
-.wrapper--start-login {
-	background: url('~@/assets/bg--landing-page_mobile.png') no-repeat center bottom;
-	background-size: contain;
-}
-@media (min-width: 564px) {
-	.wrapper--start-login {
-		background: url('~@/assets/bg--landing-page_desktop.png') no-repeat center bottom;
-		background-size: 100% 50%;
-	}
-}
-
 #firebaseui-container {
-	margin-top: 10%;
 	::v-deep .mdl-card {
 		border-top: 2px solid rgb(241, 240, 240);
 		box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important;

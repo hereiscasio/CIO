@@ -2,11 +2,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store.js';
-//import Auth from './components/Auth.vue'
-// import BeforeLogin from './components/LoginProcess/BeforeLogin.vue'
-// import ClockIn from './components/ClockIn/ClockInContainer.vue'
-// import HistoryDashboard from './components/HistoryDashboard/HistoryDashboardContainer.vue'
-
 import { firstTimeLoggedIn } from '@/plugins/firebase.js';
 
 Vue.use(Router);
@@ -16,7 +11,6 @@ export const routes = [
 		path: '/login',
 		name: 'login',
 		component: () => import(/* webpackChunkName: "login" */ '@/components/LoginProcess/BeforeLogin.vue'),
-		//component: BeforeLogin,
 		meta: {
 			public: true
 		}
@@ -25,22 +19,28 @@ export const routes = [
 		path: '/',
 		name: 'clock',
 		component: () => import(/* webpackChunkName: "clock" */ '@/components/ClockIn/ClockInContainer.vue'),
-		//component: ClockIn,
 		meta: {
 			public: false
 		},
 		children: [{
 			path: 'history',
 			name: 'history',
-			component: () => import(/* webpackChunkName: "history" */ '@/components/HistoryDashboard/HistoryDashboardContainer.vue'),
-			// component: HistoryDashboard,
+			/**
+			 * TODO: Seems like `webpackPrefetch` not work as expected
+			 */
+			component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "history" */ '@/components/HistoryDashboard/HistoryDashboardContainer.vue'),
 			meta: {
 				public: false
 			}
 		}]
 	}
 ]
-const router = new Router({routes});
+
+const router = new Router({
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes
+});
 
 router.beforeEach(async (to, from, next) =>
 {
@@ -59,6 +59,6 @@ router.beforeEach(async (to, from, next) =>
 	 * want go into /login ? then you should not a logged-in user
 	 */
 	await firstTimeLoggedIn ? next('/') : next();
-})
+});
 
 export default router;

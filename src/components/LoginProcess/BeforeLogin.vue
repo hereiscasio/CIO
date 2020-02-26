@@ -1,25 +1,17 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-
    <div>
-	<Portal to="logo" v-if="currentView !== 'startLogin'">
+	<Portal to="logo" >
 		<v-row justify="center" no-gutters>
-
-			<v-col cols='4'><img src="@/assets/logo.svg"/></v-col>
-
-			<v-col cols='8' class='d-flex justify-center flex-column'>
-
-				<svg width='57.5' height='20' class='mb-1'>
-					<use xlink:href="@/assets/sprite.svg#brand-name"></use>
-				</svg>
-				<span class='text-no-wrap primary--text subtitle-1' v-text='`Clock-in-out System`'/>
-
-			</v-col>
+			<svg width='192' height='66'>
+				<use xlink:href="@/assets/sprite.svg#brand"></use>
+			</svg>
 		</v-row>
 	</Portal>
 
 	<v-sheet
-	   	v-if='currentView === "beforeLogin"' class='wrapper--before-login' height='100vh'
+		v-if='!(currentView === "successLogin")'
+	   	class='wrapper--before-login' height='100vh'
 	>
 		<v-sheet max-width='230' class='mx-auto'>
 
@@ -42,49 +34,80 @@
 		</v-footer>
 	</v-sheet>
 
-	<StartLogin v-else-if='currentView === "startLogin"'/>
+	<StartLogin v-if='currentView === "startLogin"'/>
 
-	<SuccessLogin v-else-if='currentView === "successLogin"'/>
+	<SuccessLogin v-show='currentView === "successLogin"'/>
 
    </div>
 <!--eslint-enable-->
 </template>
 
 <script>
-import SuccessLogin from './SuccessLogin.vue';
-import StartLogin from './StartLogin.vue';
 
 export default {
 	data() {
 		this.$subscribe('on-success-login', () => this.currentView = 'successLogin');
 
 		return {
-			currentView: 'beforeLogin'
+			currentView: ''
 		}
 	},
 	components: {
-		SuccessLogin, StartLogin
+		/**
+		 * TODO: how to use `webpackPrefetch` with `v-if` ?
+		 */
+		SuccessLogin: () => import(/* webpackChunkName: "success_login" */ '@/components/LoginProcess/SuccessLogin.vue'),
+		StartLogin: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "start_login" */ '@/components/LoginProcess/StartLogin.vue')
 	}
 }
 </script>
 
 <style lang='scss' scoped>
-.wrapper--before-login {
-	background: url('~@/assets/bg--landing-page_mobile.png') no-repeat center bottom;
-	background-size: contain;
+$baseImgURL: 'https://res.cloudinary.com/casio/image/upload/';
+$mobileImgURL: $baseImgURL + 'c_scale,f_auto,q_auto,w_768' + '/v1/cio/' + 'bg_home_w768_xyyde6';
+$desktopImgURL: $baseImgURL + 'c_scale,f_auto,q_auto,w_1680' + '/v1/cio/' + 'bg_home_w1680_b3ysis';
 
+/**
+	TODO: for ♻︎
+	Below default font overlappings just a quick hack
+	this should be done by "Vuetify's way"
+	but this is not necessary now due to not so many
+	requirements for overlapping default sass variables in Vuetify
+*/
+
+.subtitle-1 {
+	font-family: 'Space Mono' !important; // ♻︎
+}
+
+.wrapper--before-login {
 	padding: 20% 0%;
+
+	h1 {
+		font-family: 'Space Mono' !important; // ♻︎
+	}
+
+	.v-sheet {
+		z-index: 1;
+		position: relative;
+		background-color: transparent;
+	}
 	.v-btn {
 		position: fixed;
 		z-index: 999;
 		bottom: 10%;
 	}
+
+	background: url($mobileImgURL) center bottom / contain no-repeat;
 }
 
-@media (min-width: 564px) {
+@media (min-width: 768px) {
 	.wrapper--before-login {
-		background: url('~@/assets/bg--landing-page_desktop.png') no-repeat center bottom;
-		background-size: 100% 50%;
+		background: url($desktopImgURL) center bottom / 100% 50% no-repeat;
+	}
+}
+@media (min-width: 1440px) {
+	.wrapper--before-login {
+		padding: 10% 0%;
 	}
 }
 </style>

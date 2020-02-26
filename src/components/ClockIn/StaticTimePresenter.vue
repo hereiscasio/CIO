@@ -6,7 +6,7 @@
 	<v-card-title
 		class='font-weight-bold white--text pb-4 pt-6 card--clock-in-out'
 	>
-	{{'Clock-' + dataType.slice(-2)}}
+	{{'Clock-' + dataType.slice(5, Infinity)}}
 	</v-card-title>
 
 	<v-card-text
@@ -31,12 +31,7 @@
 </template>
 
 <script>
-import RecordEditor from '@/components/RecordEditor.vue';
-import TYPE from 'vue-types' // eslint-disable-line
 export default {
-	components: {
-		RecordEditor
-	},
 	props: ['record', 'dataType']
 }
 </script>
@@ -47,7 +42,7 @@ export default {
 	background: var(--v-primary-base);
 }
 .v-card__text {
-	font-family: krungthep;
+	font-family: krungthep !important;
 	font-size: 63px;
 	flex-grow: 1; // TODO: use Vuetify API to achieve the same effect
 }
@@ -56,11 +51,12 @@ export default {
 }
 .time--time-freezer {
 	position: relative; // a base to align trigger of "RecordEditor"
-	font-family: krungthep;
+	font-family: krungthep !important;
 
 	::v-deep .icon-btn {
 		position: absolute;
 		top: -100%;
+		right: -10%;
 	}
 }
 </style>

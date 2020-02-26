@@ -1,6 +1,6 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<v-dialog v-model="shouldShowDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+<v-dialog v-model="shouldShowDialog" fullscreen transition="dialog-bottom-transition">
 	<v-card flat tile color='black' dark class='pa-4 pt-12'>
 		<v-btn
 			color='primary' fab dark absolute right top text
@@ -59,15 +59,19 @@
 </template>
 
 <script>
-import TYPE from 'vue-types' // eslint-disable-line
-
 export default {
+	props: ['payload'],
+
+	watch: {
+		shouldShowDialog (value)
+		{
+			!value && this.$emit('onHideDialog');
+		}
+	},
+
 	data() {
-		this.$subscribe(
-			'force-to-show-settings', () => this.shouldShowDialog = true
-		);
 		return {
-			shouldShowDialog: false
+			shouldShowDialog: this.payload
 		}
 	}
 }

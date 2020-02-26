@@ -1,32 +1,40 @@
 <template>
 <v-app>
 	<router-view class='pa-0 ma-0'/>
-	<keep-alive>
-		<component :is="componentId"></component>
-	</keep-alive>
+	<component
+		:payload='payload' :is="componentId" @onHideDialog='componentId = ""'
+	></component>
 </v-app>
 </template>
 
 <script>
-import RecordEditor from '@/components/RecordEditor.vue';
-import Settings from '@/components/Settings.vue';
-import Logout from '@/components/Logout.vue';
-import Notification from '@/components/Notification.vue';
-import Loading from '@/components/Loading.vue';
-
 export default
 {
 	components: {
-		RecordEditor, Logout, Settings, Notification, Loading
+		RecordEditor: () => import(/* webpackChunkName: "editor" */ '@/components/RecordEditor.vue'),
+		Logout: () => import(/* webpackChunkName: "logout" */ '@/components/Logout.vue'),
+		Settings: () => import(/* webpackChunkName: "setting" */ '@/components/Settings.vue'),
+		Notification: () => import(/* webpackChunkName: "notify" */ '@/components/Notification.vue'),
+		Loading: () => import(/* webpackChunkName: "loading" */ '@/components/Loading.vue'),
 	},
 
 	data() {
 		return {
-			componentId: ''
+			componentId: '',
+			payload: ''
 		}
 	},
+
 	created ()
 	{
+		/**
+		 * USE CASES: `$fire('request-dialog', <componentId>, <payload>)`
+		 *
+		 * - <componentId>, <payload> are required
+		 * - if no payload, should provide <payload> to `''`
+		 * - turning off dialog(if need) can be achieved by specifying <componentId> to `''`
+		 *
+		 */
 		this.$subscribe(
 			'request-dialog', (componentId, payload) =>
 			{
@@ -37,7 +45,7 @@ export default
 					return;
 				}
 				this.componentId = componentId;
-				this.$nextTick(() => this.$fire("force-to-show-" + this.componentId, payload));
+				this.payload = payload;
 			}
 		);
 	}
@@ -46,16 +54,19 @@ export default
 
 <style lang="scss">
 @import "normalize.css/opinionated.css";
-* {
-	font-family: 'Space Mono', monospace !important;
+html * {
+	font-family: 'Space Mono' !important;
 }
 /**
- * ︎⚙︎ avoid to "scroll bouncing" ( https://tinyurl.com/y62mvq6k )
+ * ♼
+ * all below lines are one parts of solution to solve scrolling bug in iPhone Chrome, Safari
+ * for the other parts, global search of "♼" in codebase
  */
 body, html {
-	overflow: hidden !important;
-	height: 100% !important;
+	// overflow: hidden !important; // <--- never add this
+	height: 100vh !important;
 }
+
 /**
  * ⏏︎ Safari Bug:
  * v-application--wrap height can't be expanded by its directly child
@@ -65,7 +76,7 @@ body, html {
  */
 .v-application {
 	min-width: 320px; // the min size of app = the width of iPhoneSE-like
-	overflow-y: auto; // ⚙︎
+	// overflow-y: auto; // ⚙︎
 	height: 100vh !important; // ⚙︎
 	display: block !important; // ⏏︎
 }

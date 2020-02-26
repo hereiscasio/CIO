@@ -66,6 +66,7 @@ import StaticTimePresenter from './StaticTimePresenter.vue';
 import ClockWidget from './ClockWidget/index.vue';
 import Layout from './ClockInLayout.vue';
 import format from 'date-fns/format';
+
 export default {
 	computed:
 	{
@@ -96,11 +97,6 @@ export default {
 
 		fireEvent (omittedDataType)
 		{
-			// this.$fire('request-dialog',
-			// {
-			// 	componentId: 'record-editor',
-			// 	payload: require('lodash.omit')(this.todayRecord, [omittedDataType])
-			// });
 			this.$fire(
 				'request-dialog', 'record-editor',
 				{

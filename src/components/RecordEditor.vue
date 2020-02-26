@@ -87,12 +87,13 @@
 </template>
 
 <script>
-import TYPE from 'vue-types'; // eslint-disable-line
 import { mask } from 'vue-the-mask';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import dbService from '@/helper/db.service.js';
 
 export default {
+	props: ['payload'],
+
 	computed: {
 		layoutRule () {
 			return this.record__.length > 1 ? {
@@ -133,15 +134,13 @@ export default {
 	},
 
 	created() {
-		this.$subscribe(
-			'force-to-show-record-editor', ({record, dayValidator}) =>
-			{
-				record.date === '' && (this.title = 'Add History');
-				this.dayValidator = dayValidator;
-				this.showReformatedRecord(record);
-				this.shouldShowDialog = true;
-			}
-		);
+		const {record, dayValidator} = this.payload;
+
+		record.date === '' && (this.title = 'Add History');
+
+		this.dayValidator = dayValidator;
+		this.showReformatedRecord(record);
+		this.shouldShowDialog = true;
 	},
 
 	methods: {
@@ -199,6 +198,7 @@ export default {
 				this.$nextTick(() => disableBodyScroll(this.$refs.container.$el));
 				return;
 			}
+			this.$emit('onHideDialog');
 			clearAllBodyScrollLocks();
 		}
 	},

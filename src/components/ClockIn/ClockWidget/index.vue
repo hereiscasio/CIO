@@ -24,8 +24,6 @@
 
 <script>
 import format from 'date-fns/format';
-import WidgetXsOnly from './WidgetXsOnly.vue';
-import WidgetSmAndUp from './WidgetSmAndUp.vue';
 
 export default {
 
@@ -39,8 +37,7 @@ export default {
 				{
 					icon: 'run',
 					feature: 'Logout',
-					//trigger: () => this.$fire('request-dialog', {componentId: 'logout'})
-					trigger: () => this.$fire('request-dialog', 'logout')
+					trigger: () => this.$fire('request-dialog', 'logout', true)
 				},
 				/**
 				 * ⚡️
@@ -55,14 +52,14 @@ export default {
 					feature: 'History',
 					trigger: () => {
 						this.$router.push('/history');
-						setTimeout(() => this.$fire('request-dialog', 'notification'), 1000); // ⚡️
+						setTimeout(() => this.$fire('request-dialog', 'notification', true), 1000); // ⚡️
 					}
 				},
 
 				{
 					icon: 'cog',
 					feature: 'Settings',
-					trigger: () => this.$fire('request-dialog', 'settings')
+					trigger: () => this.$fire('request-dialog', 'settings', true)
 				}
 			]
 		}
@@ -76,7 +73,8 @@ export default {
 	},
 
 	components: {
-		WidgetXsOnly, WidgetSmAndUp
+		WidgetXsOnly: () => import('@/components/ClockIn/ClockWidget/WidgetXsOnly.vue'),
+		WidgetSmAndUp: () => import('@/components/ClockIn/ClockWidget/WidgetSmAndUp.vue'),
 	}
 }
 </script>
@@ -105,7 +103,7 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 }
 
 ::v-deep .v-time-picker-title__time * {
-	font-family: krungthep;
+	font-family: krungthep !important;
 }
 
 ::v-deep .v-time-picker-clock { // add shadow around the time picker

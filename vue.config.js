@@ -1,11 +1,11 @@
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
-	transpileDependencies: [
+    transpileDependencies: [
 		'vuetify'
 	],
 
-	configureWebpack: {
+    configureWebpack: {
 		plugins: [
 			new BundleAnalyzerPlugin({
 				analyzerMode: 'disabled'
@@ -39,5 +39,17 @@ module.exports = {
 			!process.env.VUE_APP_TEST &&
 			'warning'
 		)
-	}
+	},
+
+    pluginOptions: {
+      prerenderSpa: {
+        registry: undefined,
+        renderRoutes: [
+          '/login'
+        ],
+        useRenderEvent: true,
+        headless: true,
+        onlyProduction: true
+      }
+    }
 }

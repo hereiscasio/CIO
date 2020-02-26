@@ -64,6 +64,15 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+/**
+ * ♼
+ * all below in `:root` are one parts of solution to solve scrolling bug in iPhone Chrome, Safari
+ * for the other parts, global search of "♼" in codebase
+ */
+:root {
+	-webkit-overflow-scrolling: touch !important;
+	overflow-y: scroll !important;
+}
 
 @media (min-width: 563px) { // if >= 564, then ...
 	.rwd-wrapper--card {

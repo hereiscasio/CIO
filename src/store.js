@@ -31,7 +31,7 @@ const store = new Vuex.Store({
 			if (payload === undefined)
 			{
 				state.todayRecord = {
-					date: require('date-fns/format')(Date.now(), 'yyyy-LL-dd')
+					date: require('date-fns/format').default(Date.now(), 'yyyy-LL-dd')
 				};
 			}
 			else state.todayRecord = payload;

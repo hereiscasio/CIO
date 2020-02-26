@@ -36,8 +36,8 @@
 	],
     "rewrites": [
 		{
-			"source": "/user/**",
-			"function": "app"
+			"source": "**",
+			"destination": "/app.html"
 		},
 		{
 			"source": "**",

@@ -150,8 +150,13 @@ export default {
 	height: 100%;
 	padding-bottom: 128px;
 }
+/**
+	☎︎ are necessary to fix scrolling bug on iPhone
+ */
 #wrapper--table-to-show-history {
-	height: 100%;
+	height: 100vh;
+	overflow-y: scroll; // ☎︎
+	-webkit-overflow-scrolling: touch; // ☎︎
 }
 ::v-deep .v-data-table__mobile-row__header {
     font-weight: normal;
