@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { format, getDaysInMonth, addMonths, subMonths } from 'date-fns'
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-
-		userIsLogged: undefined, // boolean
+		todayRecord: undefined,  // Object || undefined
+		userIsLogged: undefined, // boolean || undefined
 		/**
 		 * ============
 		 * DATA FORMAT
@@ -19,36 +18,39 @@ const store = new Vuex.Store({
 		 * 	...
 		 * }
 		 */
-		recordsInFocusedMonth: undefined
-	},
-
-	getters: {
-		todayRecord: state =>
-		{
-			if (state.recordsInFocusedMonth)
-			{
-
-				console.group('RUN : getters > todayRecord');
-				console.log('function return: ', state.recordsInFocusedMonth[format(Date.now(), 'yyyy-LL-dd')]);
-				console.groupEnd();
-				return state.recordsInFocusedMonth
-				[
-					format(Date.now(), 'yyyy-LL-dd')
-				];
-			}
-			return undefined;
-		}
+		recordsInFocusedMonth: undefined // Object || undefined
 	},
 
 	mutations:
 	{
-		SET_TRACKED_RECORDS(state, payload) {
-			state.recordsInFocusedMonth = payload;
-			console.warn('state.recordsInFocusedMonth = ', state.recordsInFocusedMonth);
+		/**
+		 * @param {undefined | Object} payload
+		 */
+		SET_TODAY_RECORD(state, payload)
+		{
+			if (payload === undefined)
+			{
+				state.todayRecord = {
+					date: require('date-fns/format')(Date.now(), 'yyyy-LL-dd')
+				};
+			}
+			else state.todayRecord = payload;
 		},
+
+		DEL_MONTH_RECORDS(state)
+		{
+			state.recordsInFocusedMonth = undefined;
+		},
+
+		SET_MONTH_RECORDS(state, payload)
+		{
+			state.recordsInFocusedMonth = {
+				...state.recordsInFocusedMonth, ...payload
+			};
+		},
+
 		SET_LOGIN_STATE(state, payload)
 		{
-			console.warn('state.userIsLogged = ', state.userIsLogged);
 			state.userIsLogged = payload;
 		}
 	}

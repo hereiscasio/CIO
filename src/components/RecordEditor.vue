@@ -52,10 +52,6 @@
 
 					</template>
 
-					<!-- TODO: constraints of `record.date`
-						- can't enter date which already existed record
-						- can't enter date which is not existed in specific month
-					-->
 					<template v-if='dayValidator'>
 						<v-row>
 							<v-col cols="12" class='pb-0'>
@@ -94,7 +90,7 @@
 import TYPE from 'vue-types'; // eslint-disable-line
 import { mask } from 'vue-the-mask';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import dbService from '@/services/db.service.js';
+import dbService from '@/helper/db.service.js';
 
 export default {
 	computed: {
@@ -138,15 +134,11 @@ export default {
 
 	created() {
 		this.$subscribe(
-			'force-to-show-record-editor', (record, dayValidator) =>
+			'force-to-show-record-editor', ({record, dayValidator}) =>
 			{
+				record.date === '' && (this.title = 'Add History');
 				this.dayValidator = dayValidator;
-
-				if (record) {
-					this.showReformatedRecord(record);
-				}
-				else this.title = 'Add History';
-
+				this.showReformatedRecord(record);
 				this.shouldShowDialog = true;
 			}
 		);
@@ -186,13 +178,16 @@ export default {
 				timeValue[0].length === 1 && (timeValue[0] = 0 + timeValue[0]);
 				return [timeType, timeValue.join(':')];
 			};
+			if (this.dayValidator) {
+				this.record__.date = this.dayValidator.focusedMonthWithYear + '-' + this.record__.date;
+			}
 			dbService.updateRecord(
 			{
 				date: this.record__.date,
 				...Object.fromEntries(this.record__.map(cb))
 			});
-
 			this.shouldShowDialog = false;
+			this.dayValidator = undefined;
 		}
 	},
 

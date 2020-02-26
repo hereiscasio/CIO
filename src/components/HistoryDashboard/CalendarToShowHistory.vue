@@ -39,21 +39,17 @@ export default {
 		const monthSwitcherElementClass = '.v-date-picker-header .v-btn';
 		const $buttons = this.$refs.datePicker.$el.querySelectorAll(monthSwitcherElementClass);
 		const [$nextBtn, $prevBtn] = [$buttons[1], $buttons[0]];
+		let focusedMonthWithYear = this.selectedDateOnCalendar.slice(0, 7);
 
-		$nextBtn.addEventListener('click', async e =>
+		const cb = btnDirection =>
 		{
-			const {getRecordsInCertainMonth} = require('@/services/db.service.js').default;
-			const dateStr = parse(this.selectedDateOnCalendar, 'yyyy-LL-dd', new Date());
+			const dateStr = parse(focusedMonthWithYear, 'yyyy-LL', new Date());
+			focusedMonthWithYear = format(addMonths(dateStr, btnDirection), 'yyyy-LL');
 
-			const nextMonthRecords = await getRecordsInCertainMonth(
-				format(addMonths(dateStr, 1), 'yyyy-LL')
-			);
-
-
-		});
-		$prevBtn.addEventListener('click', e => {
-			console.warn(e);
-		});
+			this.$emit('onSwitchMonthButton', focusedMonthWithYear);
+		};
+		$nextBtn.addEventListener('click', cb.bind(undefined, 1));
+		$prevBtn.addEventListener('click', cb.bind(undefined, -1));
 	}
 }
 </script>

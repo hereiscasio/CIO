@@ -2,22 +2,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store.js';
-import Auth from './components/Auth.vue'
-import ClockIn from './components/ClockIn/ClockInContainer.vue'
-import HistoryDashboard from './components/HistoryDashboard/HistoryDashboardContainer.vue'
+//import Auth from './components/Auth.vue'
+// import BeforeLogin from './components/LoginProcess/BeforeLogin.vue'
+// import ClockIn from './components/ClockIn/ClockInContainer.vue'
+// import HistoryDashboard from './components/HistoryDashboard/HistoryDashboardContainer.vue'
 
 import { firstTimeLoggedIn } from '@/plugins/firebase.js';
 
 Vue.use(Router);
-/**
- * TODO: lazy load certain route
- */
+
 export const routes = [
 	{
 		path: '/login',
 		name: 'login',
-		// TODO: component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "home" */ '@/components/HomePage.vue')
-		component: Auth,
+		component: () => import(/* webpackChunkName: "login" */ '@/components/LoginProcess/BeforeLogin.vue'),
+		//component: BeforeLogin,
 		meta: {
 			public: true
 		}
@@ -25,16 +24,16 @@ export const routes = [
 	{
 		path: '/',
 		name: 'clock',
-		// TODO: component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "home" */ '@/components/HomePage.vue')
-		component: ClockIn,
+		component: () => import(/* webpackChunkName: "clock" */ '@/components/ClockIn/ClockInContainer.vue'),
+		//component: ClockIn,
 		meta: {
 			public: false
 		},
 		children: [{
 			path: 'history',
 			name: 'history',
-			// TODO: component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "home" */ '@/components/HomePage.vue')
-			component: HistoryDashboard,
+			component: () => import(/* webpackChunkName: "history" */ '@/components/HistoryDashboard/HistoryDashboardContainer.vue'),
+			// component: HistoryDashboard,
 			meta: {
 				public: false
 			}
@@ -45,11 +44,11 @@ const router = new Router({routes});
 
 router.beforeEach(async (to, from, next) =>
 {
+	if (from.name === null && to.name === 'history') next('/');
 	if (
 		to.matched.some(config => config.meta.public === false)
 	) {
-		console.warn(store.state.userIsLogged);
-		if (store.state.userIsLogged === null)
+		if (store.state.userIsLogged === undefined)
 		{
 			await firstTimeLoggedIn ? next() : next('/login');
 		}

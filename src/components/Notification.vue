@@ -1,11 +1,11 @@
 <template>
 <v-snackbar
-	:value='shouldShowSnackbar' color='#3D5AFE' dark :timeout='3000'
+	:value='shouldShowSnackbar' color='#3D5AFE' dark persistent :timeout="0"
 	v-bind='position'
 >
 		Click any date above to see the clock-in-out time at that day
 		<v-btn
-			@click="onTurnOffNotification()" text
+			@click="onTurnOffNotification()" text fab
 		>
 			<svg width='24' height='24'>
 				<use xlink:href="@/assets/sprite.svg#close"></use>

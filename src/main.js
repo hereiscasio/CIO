@@ -1,17 +1,14 @@
+
 import router from '@/router.js';
 import store from '@/store.js';
-import Vue from 'vue'
-import App from '@/App.vue'
-import vuetify from '@/plugins/vuetify.js'
-import helper from '@/helper.js'
+import Vue from 'vue';
+import App from '@/App.vue';
+import vuetify from '@/plugins/vuetify.js';
+import '@/helper/utils.js';
+import PortalVue from 'portal-vue';
 
+Vue.use(PortalVue);
 Vue.config.productionTip = false;
-
-Vue.prototype.$eventBus = new Vue();
-Vue.prototype.$subscribe = require('@/utils.js').subscribe;
-Vue.prototype.$fire = require('@/utils.js').fire;
-
-Vue.use(helper);
 
 new Vue({
 	store,
@@ -19,4 +16,4 @@ new Vue({
 	vuetify,
 	render: h => h(App)
 })
-	.$mount('#app')
+	.$mount('#app');

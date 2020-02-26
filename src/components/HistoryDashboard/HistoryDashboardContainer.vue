@@ -7,17 +7,24 @@
 	content-class='wrapper--history-dashboard'
 >
 	<v-card tile>
+
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
 		<CalendarToShowHistory
-			v-if='focusedTabTitle === "Calendar"'
-			:events='allDatesInFocusedMonth'
-			@onClickDateButton='fireEvent'
+			v-if='focusedTabTitle === "Calendar"' :events='allRecordDatesInFocusedMonth'
+			@onClickDateButton='requestRecordOfTheDate'
+			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
 		/>
-		<TableToShowHistory v-else-if='focusedTabTitle === "Table"'/>
+		<TableToShowHistory
+			v-else-if='focusedTabTitle === "Table"' :focusedMonthWithYear='focusedMonthWithYear'
+			@onClickAddingButton='requestAddNewRecord'
+			@onClickEditingButton='requestRecordOfTheDate'
+			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
+		/>
 	</v-sheet>
 
 	<v-bottom-navigation
 		v-model="focusedTabTitle" horizontal absolute class='elevation-24' color='#3D5AFE'
+		@change='onSwitchTab'
 	>
 		<v-btn
 			v-for='btn in buttonInfoOfBottomNavigator' :key='btn.name'
@@ -40,44 +47,73 @@
 <script>
 import CalendarToShowHistory from './CalendarToShowHistory.vue'
 import TableToShowHistory from './TableToShowHistory.vue'
+import { getLoggedUser } from '@/plugins/firebase';
+import dbService from '@/helper/db.service.js';
 
 export default {
 	data () {
 		return {
-			focusedTabTitle: 'Calendar'
-		}
-	},
-
-	methods: {
-		fireEvent(date) {
-			const record = this.$store.state.recordsInFocusedMonth[date];
-			const payload = record ? record : {date, clockIn: '', clockOut: ''};
-			this.$fire('request-dialog', {componentId: 'record-editor', payload});
+			focusedTabTitle: 'Calendar',
+			focusedMonthWithYear: undefined
 		}
 	},
 
 	computed: {
-		allDatesInFocusedMonth()
+		allRecordDatesInFocusedMonth()
 		{
-			if (this.$store.state.recordsInFocusedMonth)
+			const records = this.$store.state.recordsInFocusedMonth;
+			return records === undefined ? [] : Object.keys(records);
+		}
+	},
+
+	methods: {
+		onSwitchTab(tabName)
+		{
+			if (tabName === 'Calendar')
 			{
-				return Object.keys(this.$store.state.recordsInFocusedMonth);
+				this.fetchAllRecordDatesInFocusedMonth();
 			}
-			return [];
 		},
+
+		requestAddNewRecord(dayValidator)
+		{
+			const payload = {
+				dayValidator, record: {date: '', clockIn: '', clockOut: ''}
+			};
+			this.$fire('request-dialog', 'record-editor', payload);
+		},
+
+		requestRecordOfTheDate(date)
+		{
+			const record = {
+				...{date, clockIn: '', clockOut: ''},
+				...this.$store.state.recordsInFocusedMonth[date]
+			};
+			this.$fire('request-dialog', 'record-editor', {record});
+		},
+
+		/**
+		 * example of `TargetURL` :
+		 * https://ciosystem.firebaseio.com/+886966001596/2020-02/2020-02-13.json?shallow=true
+		 */
+		async fetchAllRecordDatesInFocusedMonth(monthWithYear)
+		{
+			const format = require('date-fns/format');
+			this.focusedMonthWithYear = monthWithYear ? monthWithYear : format(Date.now(), 'yyyy-LL');
+			this.$fire('request-dialog', 'loading', true);
+			await dbService.trackRecordsInFocusedMonth(monthWithYear);
+			this.$fire('request-dialog', 'loading', false);
+		}
 	},
 
 	created() {
+		this.fetchAllRecordDatesInFocusedMonth();
 		this.buttonInfoOfBottomNavigator =
 		[
 			{ name:'Leave', icon: 'run' },
 			{ name:'Calendar', icon: 'calendar-range' },
 			{ name:'Table', icon: 'view-list' }
 		];
-	},
-
-	mounted() {
-		this.$fire('request-dialog', {componentId: 'notification'});
 	},
 
 	components: { TableToShowHistory, CalendarToShowHistory }

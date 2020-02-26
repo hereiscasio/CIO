@@ -10,7 +10,9 @@
     "start": "node ./mock-server.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "body-scroll-lock": "2.6.4",
+    "clipboard-copy": "^3.1.0",
     "core-js": "3.3.2",
     "date-fns": "2.9.0",
     "dompurify": "^2.0.8",
@@ -22,7 +24,9 @@
     "lodash.includes": "4.3.0",
     "lodash.omit": "^4.5.0",
     "lodash.pick": "^4.4.0",
+    "lodash.toarray": "^4.4.0",
     "lodash.values": "4.3.0",
+    "portal-vue": "^2.1.7",
     "trianglify": "^2.0.0",
     "vlf": "^1.0.5",
     "vue": "2.6.10",

@@ -18,10 +18,6 @@
 
 	</v-row>
 
-	<!-- Hack / Workaround:
-		`light`, `data-app` are attr to avoid annoying warning when do the testing
-		TODO: it seems like we can scrape `light` out now
-	-->
 	<WidgetXsOnly v-if='$vuetify.breakpoint.xsOnly' :featureListing='featureListing'/>
 </div>
 </template>
@@ -43,17 +39,30 @@ export default {
 				{
 					icon: 'run',
 					feature: 'Logout',
-					trigger: () => this.$fire('request-dialog', {componentId: 'logout'})
+					//trigger: () => this.$fire('request-dialog', {componentId: 'logout'})
+					trigger: () => this.$fire('request-dialog', 'logout')
 				},
+				/**
+				 * ⚡️
+				 * 	1000s is necessary setting, not only for workaround(see below),
+				 *  but also for UX consideration.
+				 *
+				 * 	if fire with router at the same time, Notification dialog will suddenly disappear
+				 * 	after it popups in the short of time. so set 1000s to workaround it.
+				 */
 				{
 					icon: 'chart-bar',
 					feature: 'History',
-					trigger: () => this.$router.push('/history')
+					trigger: () => {
+						this.$router.push('/history');
+						setTimeout(() => this.$fire('request-dialog', 'notification'), 1000); // ⚡️
+					}
 				},
+
 				{
 					icon: 'cog',
 					feature: 'Settings',
-					trigger: () => this.$fire('request-dialog', {componentId: 'settings'})
+					trigger: () => this.$fire('request-dialog', 'settings')
 				}
 			]
 		}

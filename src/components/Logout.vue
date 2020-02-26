@@ -14,7 +14,7 @@
 			<v-spacer></v-spacer>
 			<v-btn
 				color="red" text class='font-weight-black' large
-				@click="shouldShowDialog = false, $firebase.auth().signOut()"
+				@click="shouldShowDialog = false, $auth().signOut()"
 				v-text='`YES`'
 			/>
 			<v-btn
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import TYPE from 'vue-types' // eslint-disable-line
 export default {
 	data() {
 		this.$subscribe(

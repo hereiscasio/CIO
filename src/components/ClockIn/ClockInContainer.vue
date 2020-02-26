@@ -5,7 +5,7 @@
 		<ClockWidget v-slot:buttons>
 			<div class='mx-4 mt-5'>
 			<v-btn
-				v-if='todayRecord === undefined'
+				v-if='!didTodayClockIn'
 				height='52' block tile light elevation='3'
 				@click="onAddRecord('clockIn')"
 				class='font-weight-bold mb-2'
@@ -15,7 +15,7 @@
 				</svg>CLOCK IN
 			</v-btn>
 			<v-btn
-				v-else-if='todayRecord && todayRecord.clockOut === undefined'
+				v-else-if='!didTodayClockOut'
 				height='52' block tile light elevation='3'
 				@click="onAddRecord('clockOut')"
 				class='font-weight-bold mb-2'
@@ -65,7 +65,7 @@
 import StaticTimePresenter from './StaticTimePresenter.vue';
 import ClockWidget from './ClockWidget/index.vue';
 import Layout from './ClockInLayout.vue';
-
+import format from 'date-fns/format';
 export default {
 	computed:
 	{
@@ -79,7 +79,7 @@ export default {
 		},
 		todayRecord ()
 		{
-			return this.$store.getters.todayRecord;
+			return this.$store.state.todayRecord;
 		}
 	},
 
@@ -91,16 +91,22 @@ export default {
 				date: format(Date.now(), 'yyyy-LL-dd'),
 				[timeType]: format(Date.now(), 'kk:mm')
 			};
-			require('@/services/db.service.js').default.updateRecord(record)
+			require('@/helper/db.service.js').default.updateRecord(record)
 		},
 
 		fireEvent (omittedDataType)
 		{
-			this.$fire('request-dialog',
-			{
-				componentId: 'record-editor',
-				payload: require('lodash.omit')(this.todayRecord, [omittedDataType])
-			});
+			// this.$fire('request-dialog',
+			// {
+			// 	componentId: 'record-editor',
+			// 	payload: require('lodash.omit')(this.todayRecord, [omittedDataType])
+			// });
+			this.$fire(
+				'request-dialog', 'record-editor',
+				{
+					record: require('lodash.omit')(this.todayRecord, [omittedDataType])
+				}
+			);
 		}
 	},
 

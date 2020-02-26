@@ -12,11 +12,12 @@ import RecordEditor from '@/components/RecordEditor.vue';
 import Settings from '@/components/Settings.vue';
 import Logout from '@/components/Logout.vue';
 import Notification from '@/components/Notification.vue';
+import Loading from '@/components/Loading.vue';
 
 export default
 {
 	components: {
-		RecordEditor, Logout, Settings, Notification
+		RecordEditor, Logout, Settings, Notification, Loading
 	},
 
 	data() {
@@ -27,15 +28,15 @@ export default
 	created ()
 	{
 		this.$subscribe(
-			'request-dialog', ({componentId, payload}) =>
+			'request-dialog', (componentId, payload) =>
 			{
-				this.componentId = componentId;
 				if (
 					componentId === 'notification' &&
 					localStorage.getItem('showTips') === 'false'
 				) {
 					return;
 				}
+				this.componentId = componentId;
 				this.$nextTick(() => this.$fire("force-to-show-" + this.componentId, payload));
 			}
 		);
@@ -46,7 +47,7 @@ export default
 <style lang="scss">
 @import "normalize.css/opinionated.css";
 * {
-	font-family: 'Space Mono', monospace;
+	font-family: 'Space Mono', monospace !important;
 }
 /**
  * ︎⚙︎ avoid to "scroll bouncing" ( https://tinyurl.com/y62mvq6k )
