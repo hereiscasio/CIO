@@ -52,11 +52,5 @@ export default {
 .time--time-freezer {
 	position: relative; // a base to align trigger of "RecordEditor"
 	font-family: krungthep !important;
-
-	::v-deep .icon-btn {
-		position: absolute;
-		top: -100%;
-		right: -10%;
-	}
 }
 </style>

@@ -112,7 +112,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-	::v-deep .icon-btn {
+	.icon-btn {
 		cursor: pointer;
+		position: absolute;
+		top: -100%;
+		right: -10%;
+		width: 34px;
+		height: 34px;
+		padding: 8px;
+		margin-top: -8px;
+		margin-right: -8px;
 	}
 </style>
