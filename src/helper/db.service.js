@@ -33,7 +33,8 @@ class DbService
 
 				resolve();
 			}
-			const path = getLoggedUser().phoneNumber + '/' + (monthWitYear || format(Date.now(), 'yyyy-LL'));
+			const strOfMonthWitYear = monthWitYear || format(Date.now(), 'yyyy-LL');
+			const path = getLoggedUser().phoneNumber + '/' + strOfMonthWitYear;
 
 			db.ref(path).on('value', cb, onError);
 			this._temporaryTrackingDataRef = db.ref(path);
