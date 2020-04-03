@@ -44,7 +44,10 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) =>
 {
-	if (from.name === null && to.name === 'history') next('/');
+	if (from.name === null && to.name === 'history') {
+		next('/');
+		return;
+	}
 	if (
 		to.matched.some(config => config.meta.public === false)
 	) {

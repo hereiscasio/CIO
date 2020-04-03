@@ -21,7 +21,8 @@ export default {
 	watch: {
 		shouldShowSnackbar (value)
 		{
-			!value && this.$emit('onHideDialog');
+			if (value) return;
+			this.$emit('onHideDialog');
 		}
 	},
 
