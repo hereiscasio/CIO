@@ -1,7 +1,7 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
 <v-date-picker
-	v-model="selectedDateOnCalendar"
+	v-model="selectedDate"
 	@click:date="$emit('onClickDateButton', arguments[0])"
 	color='#3D5AFE' full-width :show-current='dateOfTodayIndicator'
 	:events='events' scrollable
@@ -19,7 +19,7 @@ export default {
 
 	data () {
 		return {
-			selectedDateOnCalendar: ''
+			selectedDate: ''
 		}
 	},
 
@@ -31,7 +31,7 @@ export default {
 		initializeDataIntoCalendar ()
 		{
 			this.dateOfTodayIndicator = format(Date.now(), 'yyyy-LL-dd');
-			this.selectedDateOnCalendar = this.dateOfTodayIndicator;
+			this.selectedDate = this.dateOfTodayIndicator;
 		},
 		getMonthSwitchingBtn() {
 			const monthSwitcherElementClass = '.v-date-picker-header .v-btn';
@@ -45,7 +45,7 @@ export default {
 
 	mounted() {
 		const {$nextBtn, $prevBtn} = this.getMonthSwitchingBtn();
-		let focusedMonthWithYear = this.selectedDateOnCalendar.slice(0, 7);
+		let focusedMonthWithYear = this.selectedDate.slice(0, 7);
 
 		const cb = btnDirection =>
 		{
