@@ -32,13 +32,19 @@ export default {
 		{
 			this.dateOfTodayIndicator = format(Date.now(), 'yyyy-LL-dd');
 			this.selectedDateOnCalendar = this.dateOfTodayIndicator;
+		},
+		getMonthSwitchingBtn() {
+			const monthSwitcherElementClass = '.v-date-picker-header .v-btn';
+			const $buttons = this.$refs.datePicker.$el.querySelectorAll(monthSwitcherElementClass);
+			return {
+				$nextBtn: $buttons[1],
+				$prevBtn: $buttons[0]
+			};
 		}
 	},
 
 	mounted() {
-		const monthSwitcherElementClass = '.v-date-picker-header .v-btn';
-		const $buttons = this.$refs.datePicker.$el.querySelectorAll(monthSwitcherElementClass);
-		const [$nextBtn, $prevBtn] = [$buttons[1], $buttons[0]];
+		const {$nextBtn, $prevBtn} = this.getMonthSwitchingBtn();
 		let focusedMonthWithYear = this.selectedDateOnCalendar.slice(0, 7);
 
 		const cb = btnDirection =>
