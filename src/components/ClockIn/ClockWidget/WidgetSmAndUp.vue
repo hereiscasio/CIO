@@ -20,7 +20,7 @@
 		</v-list>
 
 		<template v-slot:append>
-			<div id='digital-time--landscape' v-text='currentTime' />
+			<div class='digital-time--landscape' v-text='currentTime' />
 		</template>
 	</v-navigation-drawer>
 </v-card>
@@ -46,7 +46,7 @@ $shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14
 	border-radius: 0 !important;
 }
 @media (min-width: 563px) { // if >= 564, then ...
-	#digital-time--landscape {
+	.digital-time--landscape {
 		font-size: 50px;
 		text-align: center;
 		font-family: krungthep !important;

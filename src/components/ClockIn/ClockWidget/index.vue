@@ -30,27 +30,25 @@ export default {
 	data () {
 		this.TIME = {ONE_SECOND: 1000, ONE_MINUTE: 1000 * 60};
 		this.keepToShowCurrentTime();
-
+		this.featureListing = [
+			{
+				icon: 'run',
+				feature: 'Logout',
+				trigger: () => this.showDialog('logout')
+			},
+			{
+				icon: 'chart-bar',
+				feature: 'History',
+				trigger: () => this.onClickHistoryButton()
+			},
+			{
+				icon: 'cog',
+				feature: 'Settings',
+				trigger: () => this.showDialog('settings')
+			}
+		];
 		return {
-			currentTime: format(Date.now(), 'kk:mm'),
-
-			featureListing: [
-				{
-					icon: 'run',
-					feature: 'Logout',
-					trigger: () => this.showDialog('logout')
-				},
-				{
-					icon: 'chart-bar',
-					feature: 'History',
-					trigger: () => this.onClickHistoryButton()
-				},
-				{
-					icon: 'cog',
-					feature: 'Settings',
-					trigger: () => this.showDialog('settings')
-				}
-			]
+			currentTime: format(Date.now(), 'kk:mm')
 		}
 	},
 
@@ -73,12 +71,15 @@ export default {
 			this.headToHistoryPage();
 			setTimeout(cb, this.TIME.ONE_SECOND); // ⚡️
 		},
+
 		headToHistoryPage() {
 			this.$router.push('/history');
 		},
+
 		showDialog(dialogId) {
 			this.$fire('request-dialog', dialogId, true);
 		},
+
 		keepToShowCurrentTime ()
 		{
 			const setUpCurrentTime = () => this.currentTime = format(Date.now(), 'kk:mm');

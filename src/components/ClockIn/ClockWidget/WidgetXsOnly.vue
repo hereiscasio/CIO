@@ -3,7 +3,7 @@
 <v-menu offset-y close-on-click bottom max-width='164'>
 	<template v-slot:activator="{ on }">
 		<v-btn
-			id='button--menu-on-clock'
+			class='button--menu-on-clock'
 			v-on="on" text fab dark :ripple='false'
 		>
 			<svg width='40' height='40'>
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#button--menu-on-clock {
+.button--menu-on-clock {
 	position: absolute;
 	top: 0;
 	&::before {
