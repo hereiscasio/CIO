@@ -1,5 +1,5 @@
 <template>
-<Layout :todayRecord='didTodayClockOut'>
+<Layout :didTodayClockOut='didTodayClockOut'>
 
 	<template v-slot:clockWidget>
 		<ClockWidget v-slot:buttons>
@@ -67,6 +67,8 @@ import StaticTimePresenter from './StaticTimePresenter.vue';
 import ClockWidget from './ClockWidget/index.vue';
 import Layout from './ClockInLayout.vue';
 import format from 'date-fns/format';
+import omit from 'lodash.omit';
+import dbService from '@/helper/db.service.js';
 
 export default {
 	mixins: [getSvgPathMixin],
@@ -89,13 +91,14 @@ export default {
 
 	methods:
 	{
-		onAddRecord(timeType) {
+		onAddRecord (timeType)
+		{
 			const record =
 			{
 				date: format(Date.now(), 'yyyy-LL-dd'),
 				[timeType]: format(Date.now(), 'kk:mm')
 			};
-			require('@/helper/db.service.js').default.updateRecord(record)
+			dbService.updateRecord(record);
 		},
 
 		fireEvent (omittedDataType)
@@ -103,7 +106,7 @@ export default {
 			this.$fire(
 				'request-dialog', 'record-editor',
 				{
-					record: require('lodash.omit')(this.todayRecord, [omittedDataType])
+					record: omit(this.todayRecord, [omittedDataType])
 				}
 			);
 		}

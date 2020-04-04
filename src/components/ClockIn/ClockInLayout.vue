@@ -29,13 +29,13 @@
 <script>
 
 export default {
-	props: ['todayRecord'],
+	props: ['didTodayClockOut'],
 
 	computed: {
 		maxWidthOfCards()
 		{
 			return this.$vuetify.breakpoint.smAndUp ?
-				(this.todayRecord ? '593px' : '516px') : '100%'
+				(this.didTodayClockOut ? '593px' : '516px') : '100%'
 		},
 
 		virtualSpaceBetweenCards() {
