@@ -41,12 +41,6 @@ export default
 		this.$subscribe(
 			'request-dialog', (componentId, payload) =>
 			{
-				if (
-					componentId === 'notification' &&
-					localStorage.getItem('showTips') === 'false'
-				) {
-					return;
-				}
 				this.componentId = componentId;
 				this.payload = payload;
 			}

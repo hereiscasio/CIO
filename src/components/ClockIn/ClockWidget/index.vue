@@ -52,7 +52,12 @@ export default {
 					feature: 'History',
 					trigger: () => {
 						this.$router.push('/history');
-						setTimeout(() => this.$fire('request-dialog', 'notification', true), 1000); // ⚡️
+						const cb = () => {
+							const doNotShowTips = localStorage.getItem('showTips') === 'false';
+							if (doNotShowTips) return;
+							this.$fire('request-dialog', 'notification', true);
+						};
+						setTimeout(cb, 1000); // ⚡️
 					}
 				},
 
