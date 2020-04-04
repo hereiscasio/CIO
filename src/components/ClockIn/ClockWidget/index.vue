@@ -28,6 +28,7 @@ import format from 'date-fns/format';
 export default {
 
 	data () {
+		const TIME = {ONE_SECOND: 1000, ONE_MINUTE: 1000 * 60};
 		this.keepToShowCurrentTime();
 
 		return {
@@ -37,7 +38,7 @@ export default {
 				{
 					icon: 'run',
 					feature: 'Logout',
-					trigger: () => this.$fire('request-dialog', 'logout', true)
+					trigger: this.showDialog('logout')
 				},
 				/**
 				 * ⚡️
@@ -51,21 +52,20 @@ export default {
 					icon: 'chart-bar',
 					feature: 'History',
 					trigger: () => {
-						const ONE_SECOND = 1000; // ⚡️
 						this.headToHistoryPage();
 						const cb = () => {
 							const doNotShowTips = localStorage.getItem('showTips') === 'false';
 							if (doNotShowTips) return;
-							this.$fire('request-dialog', 'notification', true);
+							this.showDialog('notification');
 						};
-						setTimeout(cb, ONE_SECOND);
+						setTimeout(cb, TIME.ONE_SECOND); // ⚡️
 					}
 				},
 
 				{
 					icon: 'cog',
 					feature: 'Settings',
-					trigger: () => this.$fire('request-dialog', 'settings', true)
+					trigger: this.showDialog('settings')
 				}
 			]
 		}
@@ -75,11 +75,13 @@ export default {
 		headToHistoryPage() {
 			this.$router.push('/history');
 		},
+		showDialog(dialogId) {
+			this.$fire('request-dialog', dialogId, true);
+		},
 		keepToShowCurrentTime ()
 		{
 			const setUpCurrentTime = () => this.currentTime = format(Date.now(), 'kk:mm');
-			const ONE_MINUTE = 1000 * 60;
-			setInterval(setUpCurrentTime, ONE_MINUTE);
+			setInterval(setUpCurrentTime, TIME.ONE_MINUTE);
 		}
 	},
 
