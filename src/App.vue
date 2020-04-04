@@ -8,14 +8,17 @@
 </template>
 
 <script>
+const renderByIsFlag = {
+	RecordEditor: () => import(/* webpackChunkName: "editor" */ '@/components/RecordEditor.vue'),
+	Logout: () => import(/* webpackChunkName: "logout" */ '@/components/Logout.vue'),
+	Settings: () => import(/* webpackChunkName: "setting" */ '@/components/Settings.vue'),
+	Notification: () => import(/* webpackChunkName: "notify" */ '@/components/Notification.vue'),
+	Loading: () => import(/* webpackChunkName: "loading" */ '@/components/Loading.vue'),
+};
 export default
 {
 	components: {
-		RecordEditor: () => import(/* webpackChunkName: "editor" */ '@/components/RecordEditor.vue'),
-		Logout: () => import(/* webpackChunkName: "logout" */ '@/components/Logout.vue'),
-		Settings: () => import(/* webpackChunkName: "setting" */ '@/components/Settings.vue'),
-		Notification: () => import(/* webpackChunkName: "notify" */ '@/components/Notification.vue'),
-		Loading: () => import(/* webpackChunkName: "loading" */ '@/components/Loading.vue'),
+		...renderByIsFlag
 	},
 
 	data() {
