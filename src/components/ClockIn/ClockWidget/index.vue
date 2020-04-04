@@ -28,7 +28,7 @@ import format from 'date-fns/format';
 export default {
 
 	data () {
-		const TIME = {ONE_SECOND: 1000, ONE_MINUTE: 1000 * 60};
+		this.TIME = {ONE_SECOND: 1000, ONE_MINUTE: 1000 * 60};
 		this.keepToShowCurrentTime();
 
 		return {
@@ -38,40 +38,41 @@ export default {
 				{
 					icon: 'run',
 					feature: 'Logout',
-					trigger: this.showDialog('logout')
+					trigger: () => this.showDialog('logout')
 				},
-				/**
-				 * ⚡️
-				 * 	1000s is necessary setting, not only for workaround(see below),
-				 *  but also for UX consideration.
-				 *
-				 * 	if fire with router at the same time, Notification dialog will suddenly disappear
-				 * 	after it popups in the short of time. so set 1000s to workaround it.
-				 */
 				{
 					icon: 'chart-bar',
 					feature: 'History',
-					trigger: () => {
-						this.headToHistoryPage();
-						const cb = () => {
-							const doNotShowTips = localStorage.getItem('showTips') === 'false';
-							if (doNotShowTips) return;
-							this.showDialog('notification');
-						};
-						setTimeout(cb, TIME.ONE_SECOND); // ⚡️
-					}
+					trigger: () => this.onClickHistoryButton()
 				},
-
 				{
 					icon: 'cog',
 					feature: 'Settings',
-					trigger: this.showDialog('settings')
+					trigger: () => this.showDialog('settings')
 				}
 			]
 		}
 	},
 
 	methods: {
+		/**
+		 * ⚡️
+		 * 	1000s is necessary setting, not only for workaround(see below),
+		 *  but also for UX consideration.
+		 *
+		 * 	if fire with router at the same time, Notification dialog will suddenly disappear
+		 * 	after it popups in the short of time. so set 1000s to workaround it.
+		 */
+		onClickHistoryButton()
+		{
+			const cb = () => {
+				const doNotShowTips = localStorage.getItem('showTips') === 'false';
+				if (doNotShowTips) return;
+				this.showDialog('notification');
+			};
+			this.headToHistoryPage();
+			setTimeout(cb, this.TIME.ONE_SECOND); // ⚡️
+		},
 		headToHistoryPage() {
 			this.$router.push('/history');
 		},
@@ -81,7 +82,7 @@ export default {
 		keepToShowCurrentTime ()
 		{
 			const setUpCurrentTime = () => this.currentTime = format(Date.now(), 'kk:mm');
-			setInterval(setUpCurrentTime, TIME.ONE_MINUTE);
+			setInterval(setUpCurrentTime, this.TIME.ONE_MINUTE);
 		}
 	},
 
