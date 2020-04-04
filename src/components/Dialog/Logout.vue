@@ -14,7 +14,7 @@
 			<v-spacer></v-spacer>
 			<v-btn
 				color="red" text class='font-weight-black' large
-				@click="shouldShowDialog = false, $auth().signOut()"
+				@click="onVerifySignOut"
 				v-text='`YES`'
 			/>
 			<v-btn
@@ -30,6 +30,12 @@
 
 <script>
 export default {
-	extends: require('./visibleMechanism.js').default
+	extends: require('./visibleMechanism.js').default,
+	methods: {
+		onVerifySignOut() {
+			this.shouldShowDialog = false;
+			this.$auth().signOut();
+		}
+	}
 }
 </script>
