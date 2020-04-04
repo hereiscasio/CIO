@@ -65,7 +65,8 @@ export default {
 	watch: {
 		shouldShowDialog (value)
 		{
-			!value && this.$emit('onHideDialog');
+			if (value) return;
+			this.$emit('onHideDialog');
 		}
 	},
 
