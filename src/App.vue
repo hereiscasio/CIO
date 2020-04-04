@@ -9,11 +9,11 @@
 
 <script>
 const renderByIsFlag = {
-	RecordEditor: () => import(/* webpackChunkName: "editor" */ '@/components/RecordEditor.vue'),
-	Logout: () => import(/* webpackChunkName: "logout" */ '@/components/Logout.vue'),
-	Settings: () => import(/* webpackChunkName: "setting" */ '@/components/Settings.vue'),
-	Notification: () => import(/* webpackChunkName: "notify" */ '@/components/Notification.vue'),
-	Loading: () => import(/* webpackChunkName: "loading" */ '@/components/Loading.vue'),
+	RecordEditor: () => import(/* webpackChunkName: "editor" */ '@/components/Dialog/RecordEditor.vue'),
+	Logout: () => import(/* webpackChunkName: "logout" */ '@/components/Dialog/Logout.vue'),
+	Settings: () => import(/* webpackChunkName: "setting" */ '@/components/Dialog/Settings.vue'),
+	Notification: () => import(/* webpackChunkName: "notify" */ '@/components/Dialog/Notification.vue'),
+	Loading: () => import(/* webpackChunkName: "loading" */ '@/components/Dialog/Loading.vue'),
 };
 export default
 {

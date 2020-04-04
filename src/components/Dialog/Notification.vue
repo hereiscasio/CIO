@@ -1,6 +1,6 @@
 <template>
 <v-snackbar
-	:value='shouldShowSnackbar' color='#3D5AFE' dark persistent :timeout="0"
+	:value='shouldShowDialog' color='#3D5AFE' dark persistent :timeout="0"
 	v-bind='position'
 >
 		Click any date above to see the clock-in-out time at that day
@@ -16,26 +16,12 @@
 
 <script>
 export default {
-	props: ['payload'],
-
-	watch: {
-		shouldShowSnackbar (value)
-		{
-			if (value) return;
-			this.$emit('onHideDialog');
-		}
-	},
-
-	data() {
-		return {
-			shouldShowSnackbar: this.payload
-		}
-	},
+	extends: require('./visibleMechanism.js').default,
 
 	methods: {
 		onTurnOffNotification()
 		{
-			this.shouldShowSnackbar = false;
+			this.shouldShowDialog = false;
 			localStorage.setItem('showTips', false);
 		}
 	},
