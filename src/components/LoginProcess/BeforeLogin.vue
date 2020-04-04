@@ -4,7 +4,7 @@
 	<Portal to="logo" >
 		<v-row justify="center" no-gutters>
 			<svg width='192' height='66'>
-				<use xlink:href="@/assets/sprite.svg#brand"></use>
+				<use :xlink:href="getSvgPath('brand')"></use>
 			</svg>
 		</v-row>
 	</Portal>
@@ -27,7 +27,7 @@
 				@click="currentView = 'startLogin'" color="primary"
 			>
 				<svg width='18' height='18' class='mr-2'>
-					<use xlink:href="@/assets/sprite.svg#pencil"></use>
+					<use :xlink:href="getSvgPath('pencil')"></use>
 				</svg>
 				Sign in with phone
 			</v-btn>
@@ -43,8 +43,9 @@
 </template>
 
 <script>
-
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 export default {
+	mixins: [getSvgPathMixin],
 	data() {
 		this.$subscribe('on-success-login', () => this.currentView = 'successLogin');
 

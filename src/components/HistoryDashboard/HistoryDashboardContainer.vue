@@ -33,7 +33,7 @@
 		>
 			{{btn.name}}
 			<svg width='24' height='24' class='mr-1 ml-n1'>
-				<use :xlink:href="require('@/assets/sprite.svg') + '#' + btn.icon"></use>
+				<use :xlink:href="getSvgPath(btn.icon)"></use>
 			</svg>
 		</v-btn>
 	</v-bottom-navigation>
@@ -48,8 +48,11 @@
 import { getLoggedUser } from '@/plugins/firebase';
 import dbService from '@/helper/db.service.js';
 import CalendarToShowHistory from './CalendarToShowHistory.vue';
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 export default {
+	mixins: [getSvgPathMixin],
+
 	data () {
 		return {
 			focusedTabTitle: 'Calendar',

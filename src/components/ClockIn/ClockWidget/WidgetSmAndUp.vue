@@ -11,7 +11,7 @@
 			<v-list-item-content>
 			<v-btn outlined tile x-large @click='item.trigger'>
 				<svg width='24' height='24' class='mr-2 ml-n2'>
-					<use :xlink:href="require('@/assets/sprite.svg') + '#' + item.icon"></use>
+					<use :xlink:href="getSvgPath(item.icon)"></use>
 				</svg>
 				{{ item.feature }}
 			</v-btn>
@@ -28,7 +28,10 @@
 </template>
 
 <script>
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
+
 export default {
+	mixins: [getSvgPathMixin],
 	props: ['featureListing', 'currentTime']
 }
 </script>

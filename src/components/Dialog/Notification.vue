@@ -8,14 +8,17 @@
 			@click="onTurnOffNotification()" text fab
 		>
 			<svg width='24' height='24'>
-				<use xlink:href="@/assets/sprite.svg#close"></use>
+				<use :xlink:href="getSvgPath('close')"></use>
 			</svg>
 		</v-btn>
 </v-snackbar>
 </template>
 
 <script>
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 export default {
+	mixins: [getSvgPathMixin],
+
 	extends: require('./visibleMechanism.js').default,
 
 	methods: {

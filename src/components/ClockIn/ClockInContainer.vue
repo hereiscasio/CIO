@@ -11,7 +11,7 @@
 				class='font-weight-bold mb-2'
 			>
 				<svg width='24' height='24' class='mr-2'>
-					<use xlink:href="@/assets/sprite.svg#alarm"></use>
+					<use :xlink:href="getSvgPath('alarm')"></use>
 				</svg>CLOCK IN
 			</v-btn>
 			<v-btn
@@ -21,7 +21,7 @@
 				class='font-weight-bold mb-2'
 			>
 				<svg width='24' height='24' class='mr-2'>
-					<use xlink:href="@/assets/sprite.svg#alarm-off"></use>
+					<use :xlink:href="getSvgPath('alarm-off')"></use>
 				</svg>&nbsp;CLOCK OUT
 			</v-btn>
 			</div>
@@ -38,7 +38,7 @@
 			<svg
 				@click="fireEvent('clockOut')" width='18' height='18' class='icon-btn'
 			>
-				<use xlink:href="@/assets/sprite.svg#pencil"></use>
+				<use :xlink:href="getSvgPath('pencil')"></use>
 			</svg>
 		</StaticTimePresenter>
 	</template>
@@ -53,7 +53,7 @@
 			<svg
 				@click="fireEvent('clockIn')" width='18' height='18' class='icon-btn'
 			>
-				<use xlink:href="@/assets/sprite.svg#pencil"></use>
+				<use :xlink:href="getSvgPath('pencil')"></use>
 			</svg>
 		</StaticTimePresenter>
 	</template>
@@ -62,12 +62,15 @@
 </template>
 
 <script>
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 import StaticTimePresenter from './StaticTimePresenter.vue';
 import ClockWidget from './ClockWidget/index.vue';
 import Layout from './ClockInLayout.vue';
 import format from 'date-fns/format';
 
 export default {
+	mixins: [getSvgPathMixin],
+
 	computed:
 	{
 		didTodayClockIn()

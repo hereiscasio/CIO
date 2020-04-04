@@ -21,7 +21,7 @@
 	<v-card-actions class='justify-center py-4'>
 		<span class='d-flex'>
 			<svg width='24' height='24' class='mr-2'>
-				<use xlink:href="@/assets/sprite.svg#calendar-range"></use>
+				<use :xlink:href="getSvgPath('calendar-range')"></use>
 			</svg>
 			{{record.date}}
 		</span>
@@ -31,7 +31,9 @@
 </template>
 
 <script>
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 export default {
+	mixins: [getSvgPathMixin],
 	props: ['record', 'dataType']
 }
 </script>

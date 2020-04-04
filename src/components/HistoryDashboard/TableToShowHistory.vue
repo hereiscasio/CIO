@@ -20,7 +20,7 @@
 				@click='onClickAddingButton' color='primary'
 			>
 				<svg width='24' height='24'>
-					<use xlink:href="@/assets/sprite.svg#plus"></use>
+					<use :xlink:href="getSvgPath('plus')"></use>
 				</svg>
 				History
 			</v-btn>
@@ -32,7 +32,7 @@
 				width='18' height='18' class='icon-btn--edit'
 				@click='$emit("onClickEditingButton", item.date)'
 			>
-				<use xlink:href="@/assets/sprite.svg#pencil"></use>
+				<use :xlink:href="getSvgPath('pencil')"></use>
 			</svg>
 		</template>
 
@@ -44,7 +44,7 @@
 	>
 		<v-btn class="px-0" min-width='36' color='white' @click='onClickMonthSwitchingButton(-1)'>
 			<svg width='36' height='36'>
-				<use xlink:href="@/assets/sprite.svg#chevron-left"></use>
+				<use :xlink:href="getSvgPath('chevron-left')"></use>
 			</svg>
 		</v-btn>
 		<v-subheader>{{showMonthInEnglishFormat.prevMonth}}</v-subheader>
@@ -54,7 +54,7 @@
 		<v-subheader>{{showMonthInEnglishFormat.nextMonth}}</v-subheader>
 		<v-btn class="px-0" min-width='36' color='white' @click='onClickMonthSwitchingButton(1)'>
 			<svg width='36' height='36'>
-				<use xlink:href="@/assets/sprite.svg#chevron-right"></use>
+				<use :xlink:href="getSvgPath('chevron-right')"></use>
 			</svg>
 		</v-btn>
 	</v-footer>
@@ -64,9 +64,10 @@
 
 <script>
 import { parse, format, getDaysInMonth, addMonths } from 'date-fns';
-
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 export default {
+	mixins: [getSvgPathMixin],
 	props: ['focusedMonthWithYear'],
 
 	data () {

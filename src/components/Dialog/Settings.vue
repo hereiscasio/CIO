@@ -8,7 +8,7 @@
 			class='mt-10' small
 		>
 			<svg width='24' height='24'>
-				<use xlink:href="@/assets/sprite.svg#close"></use>
+				<use :xlink:href="getSvgPath('close')"></use>
 			</svg>
 		</v-btn>
 		<v-container>
@@ -36,7 +36,7 @@
 							>
 								hereiscasio@gmail.com
 								<svg width='16' height='16' class='ml-2'>
-									<use xlink:href="@/assets/sprite.svg#content-copy"></use>
+									<use :xlink:href="getSvgPath('content-copy')"></use>
 								</svg>
 							</v-chip>
 						</v-card-text>
@@ -59,7 +59,9 @@
 </template>
 
 <script>
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 export default {
+	mixins: [getSvgPathMixin],
 	extends: require('./visibleMechanism.js').default
 }
 </script>

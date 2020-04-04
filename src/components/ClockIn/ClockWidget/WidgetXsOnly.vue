@@ -7,7 +7,7 @@
 			v-on="on" text fab dark :ripple='false'
 		>
 			<svg width='40' height='40'>
-				<use xlink:href="@/assets/sprite.svg#menu"></use>
+				<use :xlink:href="getSvgPath('menu')"></use>
 			</svg>
 		</v-btn>
 	</template>
@@ -18,7 +18,7 @@
 		>
 			<v-list-item-icon class='mr-4'>
 				<svg width='24' height='24'>
-					<use :xlink:href="require('@/assets/sprite.svg') + '#' + item.icon"></use>
+					<use :xlink:href="getSvgPath(item.icon)"></use>
 				</svg>
 			</v-list-item-icon>
 			<v-list-item-title v-text='item.feature'></v-list-item-title>
@@ -29,7 +29,9 @@
 </template>
 
 <script>
+import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 export default {
+	mixins: [getSvgPathMixin],
 	props: ['featureListing']
 }
 </script>
