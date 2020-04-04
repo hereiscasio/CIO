@@ -51,13 +51,14 @@ export default {
 					icon: 'chart-bar',
 					feature: 'History',
 					trigger: () => {
+						const ONE_SECOND = 1000;
 						this.$router.push('/history');
 						const cb = () => {
 							const doNotShowTips = localStorage.getItem('showTips') === 'false';
 							if (doNotShowTips) return;
 							this.$fire('request-dialog', 'notification', true);
 						};
-						setTimeout(cb, 1000); // ⚡️
+						setTimeout(cb, ONE_SECOND); // ⚡️
 					}
 				},
 
@@ -73,7 +74,9 @@ export default {
 	methods: {
 		keepToShowCurrentTime ()
 		{
-			setInterval(() => this.currentTime = format(Date.now(), 'kk:mm'), 1000 * 60);
+			const setUpCurrentTime = () => this.currentTime = format(Date.now(), 'kk:mm');
+			const ONE_MINUTE = 1000 * 60;
+			setInterval(setUpCurrentTime, ONE_MINUTE);
 		}
 	},
 
