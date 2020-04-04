@@ -6,15 +6,19 @@
 	<v-card-title
 		class='font-weight-bold white--text pb-4 pt-6 card--clock-in-out'
 	>
-	{{getTitle}}
+	{{title}}
 	</v-card-title>
 
 	<v-card-text
 		class='d-flex justify-center align-center black--text'
 	>
         <span class="time--time-freezer">
-			{{getTime}}
-			<slot name='editing-button'/>
+			{{time}}
+			<svg
+				@click="$emit('onClickEditBtn')" width='18' height='18' class='icon-btn'
+			>
+				<use :xlink:href="getSvgPath('pencil')"></use>
+			</svg>
 		</span>
 	</v-card-text>
 
@@ -23,7 +27,7 @@
 			<svg width='24' height='24' class='mr-2'>
 				<use :xlink:href="getSvgPath('calendar-range')"></use>
 			</svg>
-			{{record.date}}
+			{{date}}
 		</span>
 	</v-card-actions>
 </v-card>
@@ -35,18 +39,7 @@ import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 export default {
 	mixins: [getSvgPathMixin],
-
-	props: ['record', 'dataType'],
-
-	computed: {
-		getTime () {
-			return this.record[this.dataType];
-		},
-		getTitle () {
-			let getStrOfInOrOut = this.dataType.slice(5, Infinity);
-			return 'Clock-' + getStrOfInOrOut;
-		}
-	}
+	props: ['time', 'date', 'title']
 }
 </script>
 

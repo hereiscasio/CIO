@@ -32,30 +32,22 @@
 		<StaticTimePresenter
 			class='my-4'
 			v-if='didTodayClockIn'
-			dataType='clockIn' :record="todayRecord"
-			v-slot:editing-button
-		>
-			<svg
-				@click="fireEvent('clockOut')" width='18' height='18' class='icon-btn'
-			>
-				<use :xlink:href="getSvgPath('pencil')"></use>
-			</svg>
-		</StaticTimePresenter>
+			:time="todayRecord['clockIn']"
+			:date="todayRecord['date']"
+			title='Clock-In'
+			@onClickEditBtn='showRecordEditorWith("clockIn")'
+		/>
 	</template>
 
 	<template v-slot:clockOutCard>
 		<StaticTimePresenter
 			class='my-4'
 			v-if='didTodayClockOut'
-			dataType='clockOut' :record='todayRecord'
-			v-slot:editing-button
-		>
-			<svg
-				@click="fireEvent('clockIn')" width='18' height='18' class='icon-btn'
-			>
-				<use :xlink:href="getSvgPath('pencil')"></use>
-			</svg>
-		</StaticTimePresenter>
+			:time="todayRecord['clockOut']"
+			:date="todayRecord['date']"
+			title='Clock-Out'
+			@onClickEditBtn='showRecordEditorWith("clockOut")'
+		/>
 	</template>
 
 </Layout>
@@ -91,6 +83,17 @@ export default {
 
 	methods:
 	{
+		showRecordEditorWith (timeType)
+		{
+			const dataForEditing = {
+				record: {
+					date: this.todayRecord.date,
+					[timeType]: this.todayRecord[timeType]
+				}
+			};
+			this.$fire('request-dialog', 'record-editor', dataForEditing);
+		},
+
 		onAddRecord (timeType)
 		{
 			const record =
@@ -99,16 +102,6 @@ export default {
 				[timeType]: format(Date.now(), 'kk:mm')
 			};
 			dbService.updateRecord(record);
-		},
-
-		fireEvent (omittedDataType)
-		{
-			this.$fire(
-				'request-dialog', 'record-editor',
-				{
-					record: omit(this.todayRecord, [omittedDataType])
-				}
-			);
 		}
 	},
 
