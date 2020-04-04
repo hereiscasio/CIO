@@ -6,14 +6,14 @@
 	<v-card-title
 		class='font-weight-bold white--text pb-4 pt-6 card--clock-in-out'
 	>
-	{{'Clock-' + dataType.slice(5, Infinity)}}
+	{{getTitle}}
 	</v-card-title>
 
 	<v-card-text
 		class='d-flex justify-center align-center black--text'
 	>
         <span class="time--time-freezer">
-			{{record[dataType]}}
+			{{getTime}}
 			<slot name='editing-button'/>
 		</span>
 	</v-card-text>
@@ -32,9 +32,21 @@
 
 <script>
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
+
 export default {
 	mixins: [getSvgPathMixin],
-	props: ['record', 'dataType']
+
+	props: ['record', 'dataType'],
+
+	computed: {
+		getTime () {
+			return this.record[this.dataType];
+		},
+		getTitle () {
+			let getStrOfInOrOut = this.dataType.slice(5, Infinity);
+			return 'Clock-' + getStrOfInOrOut;
+		}
+	}
 }
 </script>
 
