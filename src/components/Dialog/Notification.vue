@@ -40,8 +40,9 @@ export default {
 
 <style lang='scss' scoped>
 
-// TODO: try to remove this in future, because it's bug from Vuetify
-
+// TODO:
+// try to remove this in future,
+// because it's bug from Vuetify
 @media (min-width: 600px) {
 	::v-deep .v-snack__wrapper {
 		min-width: 320px !important;
