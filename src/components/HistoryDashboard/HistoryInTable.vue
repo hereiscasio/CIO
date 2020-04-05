@@ -35,7 +35,7 @@
 			</svg>
 		</template>
 
-		<template v-slot:item.date="{ item }">{{item.date.slice(8, 11)}}</template>
+		<template v-slot:item.date="{ item }">{{getDayFromDate(item.date)}}</template>
 	</v-data-table>
 
 	<v-footer
@@ -109,6 +109,10 @@ export default {
 	},
 
 	methods: {
+		getDayFromDate (date) {
+			return date.slice(8, 11);
+		},
+
 		onClickAddingButton() {
 			this.checkEnteredDayIsValid.focusedMonthWithYear = this.focusedMonthWithYear;
 			this.$emit("onClickAddingButton", this.checkEnteredDayIsValid);
