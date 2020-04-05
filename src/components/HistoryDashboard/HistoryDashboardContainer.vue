@@ -66,16 +66,13 @@ export default {
 	},
 
 	methods: {
-
-
-
-		onSwitchTab(tabName)
+		onSwitchTab(tabTitle)
 		{
-			if (tabName === 'Calendar')
+			if (tabTitle === 'Calendar')
 			{
 				this.fetchAllRecordDatesInFocusedMonth();
 			}
-			else if (tabName === 'Leave')
+			else if (tabTitle === 'Leave')
 			{
 				this.$fire('toggle-history-dashboard', false);
 			}
