@@ -6,7 +6,7 @@
 		:headers="tableHeaders"
 		:items="tableItems"
 		:page.sync="currentFocusedPage"
-		:items-per-page="30"
+		:items-per-page="MAX_MONTH"
 		hide-default-footer
 
 		:custom-sort='sortRecordByDate'
@@ -71,6 +71,7 @@ export default {
 	props: ['focusedMonthWithYear'],
 
 	data () {
+		this.MAX_MONTH = 31;
 		return {
 			numberOfPages: 0,
 			currentFocusedPage: 1
