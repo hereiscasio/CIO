@@ -9,7 +9,7 @@
 
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
 		<HistoryInCalendar
-			v-show='focusedTabTitle === "Calendar"'
+			v-if='focusedTabTitle === "Calendar"'
 			:events='allRecordDatesInFocusedMonth'
 			:focusedMonthWithYear='focusedMonthWithYear'
 			@onClickDateButton='requestRecordOfTheDate'

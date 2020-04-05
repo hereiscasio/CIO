@@ -7,7 +7,6 @@
 	full-width
 	:show-current='dateOfTodayIndicator'
 	:events='events'
-	scrollable
 	event-color="green lighten-1"
 	ref='datePicker'
 ></v-date-picker>
@@ -31,7 +30,7 @@ export default {
 	},
 
 	mounted() {
-		this.detectMonthSwitching(this.onSwitchMonthButton);
+		this.detectMonthSwitching(this.onSwitchMonthHandler);
 	},
 
 	methods: {
@@ -41,10 +40,10 @@ export default {
 			this.selectedDate = this.dateOfTodayIndicator;
 		},
 
-		onSwitchMonthButton (switchingDirection)
+		onSwitchMonthHandler (switchingDirection)
 		{
 			const fromDate = parse(this.focusedMonthWithYear, 'yyyy-LL', new Date());
-			toDate = format(addMonths(fromDate, switchingDirection), 'yyyy-LL');
+			const toDate = format(addMonths(fromDate, switchingDirection), 'yyyy-LL');
 
 			this.$emit('onSwitchMonthButton', toDate);
 		},
@@ -52,11 +51,12 @@ export default {
 		detectMonthSwitching (cb)
 		{
 			const {$nextBtn, $prevBtn} = this.getMonthSwitchingBtn();
-			$nextBtn.addEventListener('click', cb.bind(undefined, 1));
-			$prevBtn.addEventListener('click', cb.bind(undefined, -1));
+			$nextBtn.addEventListener('click', cb.bind(this, 1));
+			$prevBtn.addEventListener('click', cb.bind(this, -1));
 		},
 
-		getMonthSwitchingBtn () {
+		getMonthSwitchingBtn ()
+		{
 			const monthSwitcherElementClass = '.v-date-picker-header .v-btn';
 			const $buttons = this.$refs.datePicker.$el.querySelectorAll(monthSwitcherElementClass);
 			return {

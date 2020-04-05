@@ -40,7 +40,7 @@
 	</v-data-table>
 
 	<v-footer
-		absolute style='margin-bottom: 64px' color='transparent'
+		absolute color='transparent'
 	>
 		<v-btn class="px-0" min-width='36' color='white' @click='onClickMonthSwitchingButton(-1)'>
 			<svg width='36' height='36'>
@@ -173,5 +173,8 @@ export default {
 	cursor: pointer;
 }
 
+.v-footer {
+	margin-bottom: 64px;
+}
 
 </style>
