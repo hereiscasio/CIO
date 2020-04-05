@@ -23,11 +23,11 @@
 
 	<v-bottom-navigation
 		v-model="focusedTabTitle" horizontal absolute class='elevation-24' color='#3D5AFE'
-		@change='onSwitchTab'
 	>
 		<v-btn
 			v-for='btn in buttonInfoOfBottomNavigator' :key='btn.name'
 			:value="btn.name"
+			@click='btn.trigger'
 		>
 			{{btn.name}}
 			<svg width='24' height='24' class='mr-1 ml-n1'>
@@ -66,18 +66,6 @@ export default {
 	},
 
 	methods: {
-		onSwitchTab(tabTitle)
-		{
-			if (tabTitle === 'Calendar')
-			{
-				this.fetchAllRecordDatesInFocusedMonth();
-			}
-			else if (tabTitle === 'Leave')
-			{
-				this.$fire('toggle-history-dashboard', false);
-			}
-		},
-
 		requestAddNewRecord(dayValidator)
 		{
 			const payload = {
@@ -113,9 +101,21 @@ export default {
 		this.fetchAllRecordDatesInFocusedMonth();
 		this.buttonInfoOfBottomNavigator =
 		[
-			{ name:'Leave', icon: 'run' },
-			{ name:'Calendar', icon: 'calendar-range' },
-			{ name:'Table', icon: 'view-list' }
+			{
+				name:'Leave',
+				icon: 'run',
+				trigger: () => this.$fire('toggle-history-dashboard', false)
+			},
+			{
+				name:'Calendar',
+				icon: 'calendar-range',
+				trigger: () => this.fetchAllRecordDatesInFocusedMonth()
+			},
+			{
+				name:'Table',
+				icon: 'view-list',
+				trigger: () => {}
+			}
 		];
 	},
 
