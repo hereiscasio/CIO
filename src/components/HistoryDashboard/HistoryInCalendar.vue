@@ -3,8 +3,11 @@
 <v-date-picker
 	v-model="selectedDate"
 	@click:date="$emit('onClickDateButton', arguments[0])"
-	color='#3D5AFE' full-width :show-current='dateOfTodayIndicator'
-	:events='events' scrollable
+	color='#3D5AFE'
+	full-width
+	:show-current='dateOfTodayIndicator'
+	:events='events'
+	scrollable
 	event-color="green lighten-1"
 	ref='datePicker'
 ></v-date-picker>
@@ -15,7 +18,7 @@
 import { addMonths, parse, format } from 'date-fns';
 
 export default {
-	props: ['events'],
+	props: ['events', 'focusedMonthWithYear'],
 
 	data () {
 		return {
@@ -27,13 +30,33 @@ export default {
 		this.initializeDataIntoCalendar();
 	},
 
+	mounted() {
+		this.detectMonthSwitching(this.onSwitchMonthButton);
+	},
+
 	methods: {
 		initializeDataIntoCalendar ()
 		{
 			this.dateOfTodayIndicator = format(Date.now(), 'yyyy-LL-dd');
 			this.selectedDate = this.dateOfTodayIndicator;
 		},
-		getMonthSwitchingBtn() {
+
+		onSwitchMonthButton (switchingDirection)
+		{
+			const fromDate = parse(this.focusedMonthWithYear, 'yyyy-LL', new Date());
+			toDate = format(addMonths(fromDate, switchingDirection), 'yyyy-LL');
+
+			this.$emit('onSwitchMonthButton', toDate);
+		},
+
+		detectMonthSwitching (cb)
+		{
+			const {$nextBtn, $prevBtn} = this.getMonthSwitchingBtn();
+			$nextBtn.addEventListener('click', cb.bind(undefined, 1));
+			$prevBtn.addEventListener('click', cb.bind(undefined, -1));
+		},
+
+		getMonthSwitchingBtn () {
 			const monthSwitcherElementClass = '.v-date-picker-header .v-btn';
 			const $buttons = this.$refs.datePicker.$el.querySelectorAll(monthSwitcherElementClass);
 			return {
@@ -41,21 +64,6 @@ export default {
 				$prevBtn: $buttons[0]
 			};
 		}
-	},
-
-	mounted() {
-		const {$nextBtn, $prevBtn} = this.getMonthSwitchingBtn();
-		let focusedMonthWithYear = this.selectedDate.slice(0, 7);
-
-		const cb = btnDirection =>
-		{
-			const dateStr = parse(focusedMonthWithYear, 'yyyy-LL', new Date());
-			focusedMonthWithYear = format(addMonths(dateStr, btnDirection), 'yyyy-LL');
-
-			this.$emit('onSwitchMonthButton', focusedMonthWithYear);
-		};
-		$nextBtn.addEventListener('click', cb.bind(undefined, 1));
-		$prevBtn.addEventListener('click', cb.bind(undefined, -1));
 	}
 }
 </script>

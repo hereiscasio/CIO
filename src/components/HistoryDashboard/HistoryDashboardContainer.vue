@@ -9,12 +9,15 @@
 
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
 		<HistoryInCalendar
-			v-show='focusedTabTitle === "Calendar"' :events='allRecordDatesInFocusedMonth'
+			v-show='focusedTabTitle === "Calendar"'
+			:events='allRecordDatesInFocusedMonth'
+			:focusedMonthWithYear='focusedMonthWithYear'
 			@onClickDateButton='requestRecordOfTheDate'
 			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
 		/>
 		<HistoryInTable
-			v-show='focusedTabTitle === "Table"' :focusedMonthWithYear='focusedMonthWithYear'
+			v-show='focusedTabTitle === "Table"'
+			:focusedMonthWithYear='focusedMonthWithYear'
 			@onClickAddingButton='requestAddNewRecord'
 			@onClickEditingButton='requestRecordOfTheDate'
 			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
@@ -25,7 +28,7 @@
 		v-model="focusedTabTitle" horizontal absolute class='elevation-24' color='#3D5AFE'
 	>
 		<v-btn
-			v-for='btn in buttonInfoOfBottomNavigator' :key='btn.name'
+			v-for='btn in buttonsInfo' :key='btn.name'
 			:value="btn.name"
 			@click='btn.trigger'
 		>
@@ -99,7 +102,7 @@ export default {
 
 	created() {
 		this.fetchAllRecordDatesInFocusedMonth();
-		this.buttonInfoOfBottomNavigator =
+		this.buttonsInfo =
 		[
 			{
 				name:'Leave',
