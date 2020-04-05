@@ -67,7 +67,7 @@ import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 export default {
 	mixins: [getSvgPathMixin],
-	props: ['focusedMonthWithYear'],
+	props: ['focusedMonthWithYear', 'tableItems'],
 
 	data () {
 		this.MAX_MONTH = 31;
@@ -78,15 +78,11 @@ export default {
 	},
 
 	computed: {
-		tableItems() {
-			const records = this.$store.state.recordsInFocusedMonth;
-			if (!records) return [];
-			else return Object.values(records);
-		},
 		/**
 		 * @return '1990 Jul'
 		 */
-		tableTitle () {
+		tableTitle ()
+		{
 			const year = this.focusedMonthWithYear.slice(0, 4);
 			const month = format(new Date(this.focusedMonthWithYear), 'LLL');
 

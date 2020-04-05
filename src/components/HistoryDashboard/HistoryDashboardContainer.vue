@@ -10,13 +10,14 @@
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
 		<HistoryInCalendar
 			v-if='focusedTabTitle === "Calendar"'
-			:events='allRecordDatesInFocusedMonth'
+			:events='recordDatesInFocusedMonth'
 			:focusedMonthWithYear='focusedMonthWithYear'
 			@onClickDateButton='requestRecordOfTheDate'
 			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
 		/>
 		<HistoryInTable
 			v-show='focusedTabTitle === "Table"'
+			:tableItems='recordTimesInFocusedMonth'
 			:focusedMonthWithYear='focusedMonthWithYear'
 			@onClickAddingButton='requestAddNewRecord'
 			@onClickEditingButton='requestRecordOfTheDate'
@@ -61,11 +62,18 @@ export default {
 	},
 
 	computed: {
-		allRecordDatesInFocusedMonth()
+		recordDatesInFocusedMonth()
 		{
 			const records = this.$store.state.recordsInFocusedMonth;
 			if (!records) return [];
-			else return Object.keys(records);
+			return Object.keys(records);
+		},
+
+		recordTimesInFocusedMonth()
+		{
+			const records = this.$store.state.recordsInFocusedMonth;
+			if (!records) return [];
+			return Object.values(records);
 		}
 	},
 
