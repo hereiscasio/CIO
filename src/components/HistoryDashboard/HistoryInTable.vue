@@ -8,7 +8,6 @@
 		:page.sync="currentFocusedPage"
 		:items-per-page="MAX_MONTH"
 		hide-default-footer
-
 		:custom-sort='sortRecordByDate'
 		@page-count="numberOfPages = $event"
 	>
@@ -119,7 +118,8 @@ export default {
 		},
 
 		sortRecordByDate(items) {
-			return items.sort((a, b) => Number(a.date.slice(8, 10)) - Number(b.date.slice(8, 10)));
+			ascendingSorter = (a, b) => Number(a.date.slice(8, 10)) - Number(b.date.slice(8, 10));
+			return items.sort(ascendingSorter);
 		},
 
 		checkEnteredDayIsValid(day)
@@ -133,11 +133,12 @@ export default {
 			return true;
 		},
 
-		onClickMonthSwitchingButton(btnDirection)
+		onClickMonthSwitchingButton(direction)
 		{
-			const dateStr = parse(this.focusedMonthWithYear, 'yyyy-LL', new Date());
-			this.$emit('onSwitchMonthButton', format(addMonths(dateStr, btnDirection), 'yyyy-LL'));
-			this.currentFocusedPage = this.currentFocusedPage + btnDirection;
+			const fromDate = parse(this.focusedMonthWithYear, 'yyyy-LL', new Date());
+			const toDate = format(addMonths(fromDate, direction), 'yyyy-LL');
+			this.$emit('onSwitchMonthButton', toDate);
+			this.currentFocusedPage += direction;
 		}
 	}
 }
