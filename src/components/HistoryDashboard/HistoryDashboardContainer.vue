@@ -9,12 +9,12 @@
 	<v-card tile>
 
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
-		<CalendarToShowHistory
+		<HistoryInCalendar
 			v-show='focusedTabTitle === "Calendar"' :events='allRecordDatesInFocusedMonth'
 			@onClickDateButton='requestRecordOfTheDate'
 			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
 		/>
-		<TableToShowHistory
+		<HistoryInTable
 			v-show='focusedTabTitle === "Table"' :focusedMonthWithYear='focusedMonthWithYear'
 			@onClickAddingButton='requestAddNewRecord'
 			@onClickEditingButton='requestRecordOfTheDate'
@@ -47,7 +47,7 @@
 <script>
 import { getLoggedUser } from '@/plugins/firebase';
 import dbService from '@/helper/db.service.js';
-import CalendarToShowHistory from './CalendarToShowHistory.vue';
+import HistoryInCalendar from './HistoryInCalendar.vue';
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 export default {
@@ -119,8 +119,8 @@ export default {
 	},
 
 	components: {
-		TableToShowHistory: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "table" */ '@/components/HistoryDashboard/TableToShowHistory.vue'),
-		CalendarToShowHistory
+		HistoryInTable: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "table" */ '@/components/HistoryDashboard/HistoryInTable.vue'),
+		HistoryInCalendar
 	}
 }
 </script>
