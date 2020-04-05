@@ -1,6 +1,7 @@
 <template>
 <v-app>
 	<router-view class='pa-0 ma-0'/>
+	<HistoryDashboard v-if='shouldShowHistoryDashboard'/>
 	<component
 		:payload='payload' :is="componentId" @onHideDialog='componentId = ""'
 	></component>
@@ -18,18 +19,24 @@ const renderByIsFlag = {
 export default
 {
 	components: {
-		...renderByIsFlag
+		...renderByIsFlag,
+		HistoryDashboard: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "history" */ '@/components/HistoryDashboard/HistoryDashboardContainer.vue')
 	},
 
 	data() {
 		return {
 			componentId: '',
-			payload: ''
+			payload: '',
+			shouldShowHistoryDashboard: false
 		}
 	},
 
 	created ()
 	{
+		this.$subscribe(
+			'toggle-history-dashboard',
+			shouldShow => this.shouldShowHistoryDashboard = shouldShow
+		);
 		/**
 		 * USE CASES: `$fire('request-dialog', <componentId>, <payload>)`
 		 *

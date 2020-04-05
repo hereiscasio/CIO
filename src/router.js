@@ -21,18 +21,7 @@ export const routes = [
 		component: () => import(/* webpackChunkName: "clock" */ '@/components/ClockIn/ClockInContainer.vue'),
 		meta: {
 			public: false
-		},
-		children: [{
-			path: 'history',
-			name: 'history',
-			/**
-			 * TODO: Seems like `webpackPrefetch` not work as expected
-			 */
-			component: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "history" */ '@/components/HistoryDashboard/HistoryDashboardContainer.vue'),
-			meta: {
-				public: false
-			}
-		}]
+		}
 	}
 ]
 
@@ -44,10 +33,6 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) =>
 {
-	if (from.name === null && to.name === 'history') {
-		next('/');
-		return;
-	}
 	if (
 		to.matched.some(config => config.meta.public === false)
 	) {

@@ -1,6 +1,5 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<div>
 <v-dialog
 	:value="true" persistent scrollable
 	transition="dialog-bottom-transition"
@@ -29,7 +28,6 @@
 		<v-btn
 			v-for='btn in buttonInfoOfBottomNavigator' :key='btn.name'
 			:value="btn.name"
-			@click='btn.name === "Leave" && $router.go(-1)'
 		>
 			{{btn.name}}
 			<svg width='24' height='24' class='mr-1 ml-n1'>
@@ -40,7 +38,6 @@
 
 	</v-card>
 </v-dialog>
-</div>
 <!--eslint-enable-->
 </template>
 
@@ -69,11 +66,18 @@ export default {
 	},
 
 	methods: {
+
+
+
 		onSwitchTab(tabName)
 		{
 			if (tabName === 'Calendar')
 			{
 				this.fetchAllRecordDatesInFocusedMonth();
+			}
+			else if (tabName === 'Leave')
+			{
+				this.$fire('toggle-history-dashboard', false);
 			}
 		},
 

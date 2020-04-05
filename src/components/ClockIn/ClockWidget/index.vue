@@ -73,7 +73,7 @@ export default {
 		},
 
 		headToHistoryPage() {
-			this.$router.push('/history');
+			this.$fire('toggle-history-dashboard', true);
 		},
 
 		showDialog(dialogId) {

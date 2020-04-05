@@ -3,9 +3,6 @@
 	justify="center" no-gutters :style='setGradientBackground()'
 	:align-content='$vuetify.breakpoint.smAndUp ? "center" : "start"'
 >
-	<!-- nested-child-route: HistoryDashboardContainer.vue -->
-	<router-view></router-view>
-
 	<v-col
 		cols='12' class='pa-0'
 	>
