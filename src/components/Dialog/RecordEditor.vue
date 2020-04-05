@@ -220,10 +220,14 @@ export default {
 	line-height: 1.5;
 }
 
+@mixin iOS-scrolling-disability-fixer {
+	max-height: 290px;
+}
+
 ::v-deep .card--record-editor .v-card__text .container {
 	overflow-y: scroll !important;
 	-webkit-overflow-scrolling: touch !important;
-	max-height: 290px; // without this, we can't scroll content on iOS
+	@include iOS-scrolling-disability-fixer;
 }
 ::v-deep .v-list-item__content { // just make styling feels good
 	padding: 0;

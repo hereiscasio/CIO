@@ -151,17 +151,21 @@ export default {
 	height: 100%;
 	padding-bottom: 128px;
 }
-/**
-	☎︎ are necessary to fix scrolling bug on iPhone
- */
+
+@mixin iOS-scrolling-bug-fixer {
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
 #wrapper--table-to-show-history {
 	height: 100vh;
-	overflow-y: scroll; // ☎︎
-	-webkit-overflow-scrolling: touch; // ☎︎
+	@include iOS-scrolling-bug-fixer;
 }
+
 ::v-deep .v-data-table__mobile-row__header {
     font-weight: normal;
 }
+
 .icon-btn--edit {
 	opacity: .5;
 	margin: 0 auto;
