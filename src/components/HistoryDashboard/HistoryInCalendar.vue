@@ -2,7 +2,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <v-date-picker
 	v-model="selectedDate"
-	@click:date="$emit('onClickDateButton', arguments[0])"
+	@click:date="onClickDateButton"
 	color='#3D5AFE'
 	full-width
 	:show-current='dateOfTodayIndicator'
@@ -34,6 +34,10 @@ export default {
 	},
 
 	methods: {
+		onClickDateButton (selectedDate) {
+			this.$emit('onClickDateButton', selectedDate);
+		},
+
 		initializeDataIntoCalendar ()
 		{
 			this.dateOfTodayIndicator = format(Date.now(), 'yyyy-LL-dd');
