@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import format from 'date-fns/format';
 
 Vue.use(Vuex);
 
@@ -35,7 +36,7 @@ const store = new Vuex.Store({
 			if (payload === undefined)
 			{
 				state.todayRecord = {
-					date: require('date-fns/format').default(Date.now(), 'yyyy-LL-dd')
+					date: format(Date.now(), 'yyyy-LL-dd')
 				};
 			}
 			else state.todayRecord = payload;
