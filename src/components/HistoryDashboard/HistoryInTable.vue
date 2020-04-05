@@ -16,7 +16,7 @@
 			<v-toolbar-title class='headline font-weight-black'>{{tableTitle}}</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn
-				@click='onClickAddingButton' color='primary'
+				@click='$emit("onClickAddingButton")' color='primary'
 			>
 				<svg width='24' height='24'>
 					<use :xlink:href="getSvgPath('plus')"></use>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { parse, format, getDaysInMonth, addMonths } from 'date-fns';
+import { parse, format, addMonths } from 'date-fns';
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 export default {
@@ -111,22 +111,6 @@ export default {
 	methods: {
 		getDayFromDate (date) {
 			return date.slice(8, 11);
-		},
-
-		onClickAddingButton() {
-			this.checkEnteredDayIsValid.focusedMonthWithYear = this.focusedMonthWithYear;
-			this.$emit("onClickAddingButton", this.checkEnteredDayIsValid);
-		},
-
-		checkEnteredDayIsValid(day)
-		{
-			if (day.length < 2) return 'please enter 2 numbers';
-
-			const enteredDayOverMaxInMonth = Number(day) > getDaysInMonth(new Date(this.focusedMonthWithYear));
-			const date = this.focusedMonthWithYear + '-' + day;
-
-			if (enteredDayOverMaxInMonth) return 'over max day in the month';
-			return true;
 		},
 
 		sortRecordByDate(items)

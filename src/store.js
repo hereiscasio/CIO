@@ -18,7 +18,11 @@ const store = new Vuex.Store({
 		 * 	...
 		 * }
 		 */
-		recordsInFocusedMonth: undefined // Object || undefined
+		recordsInFocusedMonth: undefined,
+		/**
+		 * e.g. 2020-02
+		 */
+		focusedMonthWithYear: undefined
 	},
 
 	mutations:
@@ -35,6 +39,10 @@ const store = new Vuex.Store({
 				};
 			}
 			else state.todayRecord = payload;
+		},
+
+		SET_FOCUSED_MONTH_WITH_YEAR(state, payload) {
+			state.focusedMonthWithYear = payload;
 		},
 
 		DEL_MONTH_RECORDS(state)

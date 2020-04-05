@@ -56,12 +56,15 @@ export default {
 
 	data () {
 		return {
-			focusedTabTitle: 'Calendar',
-			focusedMonthWithYear: undefined
+			focusedTabTitle: 'Calendar'
 		}
 	},
 
 	computed: {
+		focusedMonthWithYear () {
+			return this.$store.state.focusedMonthWithYear;
+		},
+
 		recordDatesInFocusedMonth()
 		{
 			const records = this.$store.state.recordsInFocusedMonth;
@@ -78,21 +81,23 @@ export default {
 	},
 
 	methods: {
-		requestAddNewRecord(dayValidator)
+		requestAddNewRecord()
 		{
 			const payload = {
-				dayValidator, record: {date: '', clockIn: '', clockOut: ''}
+				record: {date: '', clockIn: '', clockOut: ''}
 			};
 			this.$fire('request-dialog', 'record-editor', payload);
 		},
 
 		requestRecordOfTheDate(date)
 		{
-			const record = {
-				...{date, clockIn: '', clockOut: ''},
-				...this.$store.state.recordsInFocusedMonth[date]
+			const payload = {
+				record: {
+					...{date, clockIn: '', clockOut: ''},
+					...this.$store.state.recordsInFocusedMonth[date]
+				}
 			};
-			this.$fire('request-dialog', 'record-editor', {record});
+			this.$fire('request-dialog', 'record-editor', payload);
 		},
 
 		/**
@@ -102,7 +107,10 @@ export default {
 		async fetchAllRecordDatesInFocusedMonth(monthWithYear)
 		{
 			const format = require('date-fns/format').default;
-			this.focusedMonthWithYear = monthWithYear ? monthWithYear : format(Date.now(), 'yyyy-LL');
+			this.$store.commit(
+				'SET_FOCUSED_MONTH_WITH_YEAR',
+				monthWithYear ? monthWithYear : format(Date.now(), 'yyyy-LL')
+			);
 			this.$fire('request-dialog', 'loading', true);
 			await dbService.trackRecordsInFocusedMonth(monthWithYear);
 			this.$fire('request-dialog', '', '');

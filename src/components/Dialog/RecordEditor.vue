@@ -52,15 +52,15 @@
 
 					</template>
 
-					<template v-if='dayValidator'>
+					<template v-if='isAddingMode'>
 						<v-row>
 							<v-col cols="12" class='pb-0'>
 							<v-text-field
-								label='day of this month' v-model='record__.date'
+								label='day of this month' v-model='enteredDay'
 								class='input-field--time-editing-panel'
 								placeholder='e.g. 03' outlined type='tel'
 								@change='() => {}'
-								v-mask='`##`' :rules="[rules.required, dayValidator]"
+								v-mask='`##`' :rules="[rules.required, checkEnteredDayIsValid]"
 							>
 							</v-text-field>
 							</v-col>
@@ -90,27 +90,16 @@
 import { mask } from 'vue-the-mask';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import dbService from '@/helper/db.service.js';
+import { getDaysInMonth } from 'date-fns';
+import visibleMechanism from '@/components/Dialog/visibleMechanism.js';
 
 export default {
-	props: ['payload'],
-
-	computed: {
-		layoutRule () {
-			return this.record__.length > 1 ? {
-				'flex-column': false
-			} : {
-				'flex-column': true
-			};
-		}
-	},
+	extends: visibleMechanism,
 
 	data () {
 		return {
-			shouldShowDialog: false,
-			title: 'Edit History',
 			validInputField: true,
-			dayValidator: undefined,
-
+			enteredDay: '',
 			rules: {
 				/**
 				 * if no value provided, display the text : 'Required'
@@ -126,43 +115,67 @@ export default {
 			 * [
 			 * 		['clockIn', [12, 23]],
 			 * 		['clockOut', [12, 23]],
-			 * 		date: 20200223
+			 * 		date: 2020-02-23 || ''
 			 * ]
 			 */
 			record__: undefined
 		}
 	},
 
+	computed: {
+		layoutRule () {
+			return this.isAddingMode ? {
+				'flex-column': false
+			} : {
+				'flex-column': true
+			};
+		},
+		focusedMonthWithYear () {
+			return this.$store.state.focusedMonthWithYear;
+		}
+	},
+
 	created() {
-		const {record, dayValidator} = this.payload;
-
-		record.date === '' && (this.title = 'Add History');
-
-		this.dayValidator = dayValidator;
-		this.showReformatedRecord(record);
-		this.shouldShowDialog = true;
+		this.determineEditorMode();
+		this.setTitle();
+		this.showReformatedRecord();
 	},
 
 	methods: {
+		checkEnteredDayIsValid (day)
+		{
+			if (day.length < 2) return 'please enter 2 numbers';
+
+			const enteredDayOverMaxInMonth = Number(day) > getDaysInMonth(new Date(this.focusedMonthWithYear));
+			const date = this.focusedMonthWithYear + '-' + day;
+
+			if (enteredDayOverMaxInMonth) return 'over max day in the month';
+			return true;
+		},
+
+		determineEditorMode () {
+			this.isAddingMode = this.payload.record.date === '';
+		},
+
+		setTitle () {
+			 this.title = this.isAddingMode ? 'Add History' : 'Edit History';
+		},
 		/**
 		 * ⚡️ e.g.
-		 * if select the date which not yet with any record on calendar
-		 * (in this case, both `record.clockIn` & `record.clockOut` are empty)
+		 * if selected date which not yet with any record on calendar
+		 * in this case, both `record.clockIn` & `record.clockOut` are empty
 		 */
-		showReformatedRecord (record)
+		showReformatedRecord ()
 		{
-			let __record = require('lodash.omit')(record, ['date']);
-
+			let __record = require('lodash.omit')(this.payload.record, ['date']);
 			__record = Object.entries(__record).map(([timeType, dateValue]) =>
 			{
-				if (timeType !== 'date')
-				{
-					dateValue = dateValue.split(':');
-					dateValue.length === 1 && (dateValue = [,,]); // ⚡️
-				}
+				dateValue = dateValue.split(':');
+				const ifEmpty = dateValue.length === 1;
+				ifEmpty && (dateValue = [,,]); // ⚡️
 				return [timeType, dateValue];
 			});
-			__record.date = record.date;
+			__record.date = this.payload.record.date;
 
 			this.record__ = __record;
 		},
@@ -177,16 +190,20 @@ export default {
 				timeValue[0].length === 1 && (timeValue[0] = 0 + timeValue[0]);
 				return [timeType, timeValue.join(':')];
 			};
-			if (this.dayValidator) {
-				this.record__.date = this.dayValidator.focusedMonthWithYear + '-' + this.record__.date;
-			}
 			dbService.updateRecord(
 			{
-				date: this.record__.date,
+				date: this.getDateOfUpdatedRecord(),
 				...Object.fromEntries(this.record__.map(cb))
 			});
 			this.shouldShowDialog = false;
-			this.dayValidator = undefined;
+		},
+
+		getDateOfUpdatedRecord ()
+		{
+			if (this.isAddingMode) {
+				return this.focusedMonthWithYear + '-' + this.enteredDay;
+			}
+			return this.record__.date;
 		}
 	},
 
