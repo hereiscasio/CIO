@@ -80,7 +80,8 @@ export default {
 	computed: {
 		tableItems() {
 			const records = this.$store.state.recordsInFocusedMonth;
-			return records === null ? [] : require('lodash.toarray')(records);
+			if (!records) return [];
+			else return Object.values(records);
 		},
 		/**
 		 * @return '1990 Jul'
@@ -117,11 +118,6 @@ export default {
 			this.$emit("onClickAddingButton", this.checkEnteredDayIsValid);
 		},
 
-		sortRecordByDate(items) {
-			ascendingSorter = (a, b) => Number(a.date.slice(8, 10)) - Number(b.date.slice(8, 10));
-			return items.sort(ascendingSorter);
-		},
-
 		checkEnteredDayIsValid(day)
 		{
 			if (day.length < 2) return 'please enter 2 numbers';
@@ -131,6 +127,12 @@ export default {
 
 			if (enteredDayOverMaxInMonth) return 'over max day in the month';
 			return true;
+		},
+
+		sortRecordByDate(items)
+		{
+			const ascendingSorter = (a, b) => Number(a.date.slice(8, 10)) - Number(b.date.slice(8, 10));
+			return items.sort(ascendingSorter);
 		},
 
 		onClickMonthSwitchingButton(direction)

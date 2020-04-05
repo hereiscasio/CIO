@@ -64,7 +64,8 @@ export default {
 		allRecordDatesInFocusedMonth()
 		{
 			const records = this.$store.state.recordsInFocusedMonth;
-			return records === undefined ? [] : Object.keys(records);
+			if (!records) return [];
+			else return Object.keys(records);
 		}
 	},
 
