@@ -31,11 +31,16 @@ export default
 		}
 	},
 
+	methods: {
+		setShowHistoryDashboard (bool) {
+			this.shouldShowHistoryDashboard = bool;
+		}
+	},
+
 	created ()
 	{
 		this.$subscribe(
-			'toggle-history-dashboard',
-			shouldShow => this.shouldShowHistoryDashboard = shouldShow
+			'toggle-history-dashboard', this.setShowHistoryDashboard
 		);
 		/**
 		 * USE CASES: `$fire('request-dialog', <componentId>, <payload>)`
