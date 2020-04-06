@@ -13,7 +13,7 @@
 			:events='recordDatesInFocusedMonth'
 			:focusedMonthWithYear='focusedMonthWithYear'
 			@onClickDateButton='requestRecordOfTheDate'
-			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
+			@onSwitchMonthButton='fetchRecordsInFocusedMonth'
 		/>
 		<HistoryInTable
 			v-show='focusedTabTitle === "Table"'
@@ -21,7 +21,7 @@
 			:focusedMonthWithYear='focusedMonthWithYear'
 			@onClickAddingButton='requestAddNewRecord'
 			@onClickEditingButton='requestRecordOfTheDate'
-			@onSwitchMonthButton='fetchAllRecordDatesInFocusedMonth'
+			@onSwitchMonthButton='fetchRecordsInFocusedMonth'
 		/>
 	</v-sheet>
 
@@ -104,7 +104,7 @@ export default {
 		 * example of `TargetURL` :
 		 * https://ciosystem.firebaseio.com/+886966001596/2020-02/2020-02-13.json?shallow=true
 		 */
-		async fetchAllRecordDatesInFocusedMonth(monthWithYear)
+		async fetchRecordsInFocusedMonth(monthWithYear)
 		{
 			const format = require('date-fns/format').default;
 			this.$store.commit(
@@ -118,7 +118,7 @@ export default {
 	},
 
 	created() {
-		this.fetchAllRecordDatesInFocusedMonth();
+		this.fetchRecordsInFocusedMonth();
 		this.buttonsInfo =
 		[
 			{
@@ -129,7 +129,7 @@ export default {
 			{
 				name:'Calendar',
 				icon: 'calendar-range',
-				trigger: () => this.fetchAllRecordDatesInFocusedMonth()
+				trigger: () => this.fetchRecordsInFocusedMonth()
 			},
 			{
 				name:'Table',
