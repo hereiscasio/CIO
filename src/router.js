@@ -33,8 +33,9 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) =>
 {
+	const headToAuthorizedPage = to.matched.some(config => config.meta.public === false);
 	if (
-		to.matched.some(config => config.meta.public === false)
+		headToAuthorizedPage
 	) {
 		if (store.state.userIsLogged === undefined)
 		{

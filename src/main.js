@@ -10,11 +10,13 @@ import PortalVue from 'portal-vue';
 Vue.use(PortalVue);
 Vue.config.productionTip = false;
 
+const preRenderHandler = () => document.dispatchEvent(new Event("x-app-rendered"));
+
 new Vue({
 	store,
 	router,
 	vuetify,
 	render: h => h(App),
-  	mounted: () => document.dispatchEvent(new Event("x-app-rendered"))
+  	mounted: preRenderHandler
 })
 	.$mount('#app');
