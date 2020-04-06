@@ -47,7 +47,7 @@
 
 <script>
 import { getLoggedUser } from '@/plugins/firebase';
-import dbService from '@/helper/db.service.js';
+import { dbService } from '@/helper/db.service.js';
 import HistoryInCalendar from './HistoryInCalendar.vue';
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 import format from 'date-fns/format';

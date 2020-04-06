@@ -60,7 +60,7 @@ import ClockWidget from './ClockWidget/index.vue';
 import Layout from './ClockInLayout.vue';
 import format from 'date-fns/format';
 import omit from 'lodash.omit';
-import dbService from '@/helper/db.service.js';
+import { dbService } from '@/helper/db.service.js';
 
 export default {
 	mixins: [getSvgPathMixin],

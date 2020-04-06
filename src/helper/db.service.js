@@ -4,7 +4,7 @@ import format from 'date-fns/format';
 
 class DbService
 {
-	removePreviousTrackingRefAndData()
+	_removePreviousTrackingRefAndData()
 	{
 		if (this._temporaryTrackingDataRef)
 		{
@@ -23,7 +23,7 @@ class DbService
 	{
 		return new Promise((resolve, reject) =>
 		{
-			this.removePreviousTrackingRefAndData();
+			this._removePreviousTrackingRefAndData();
 
 			const onError = e => console.error('Fail to track data', e);
 			const cb = snapshot =>
@@ -47,10 +47,10 @@ class DbService
 	{
 		const getDateOfToday = () => format(Date.now(), 'yyyyLLdd');
 		const dateOfToday = getDateOfToday();
-
+		const isTomorrow = () => eval(getDateOfToday() - dateOfToday) > 0;
 		this._todayRecordAutoResetter = setInterval(() =>
 		{
-			if (eval(getDateOfToday() - dateOfToday) > 0)
+			if (isTomorrow())
 			{
 				clearInterval(this._todayRecordAutoResetter);
 				this._todayRecordAutoResetter = undefined;
@@ -58,6 +58,10 @@ class DbService
 			}
 		},
 		3000);
+	}
+
+	_getDateOfToday () {
+		return format(Date.now(), 'yyyy-LL-dd');
 	}
 
 	trackTodayRecord ()
@@ -69,7 +73,7 @@ class DbService
 			store.commit('SET_TODAY_RECORD', record === null ? undefined : record);
 			this._reTrackTodayRecord();
 		};
-		const dateOfToday = format(Date.now(), 'yyyy-LL-dd');
+		const dateOfToday = this._getDateOfToday();
 		const todayMonthWithYear = dateOfToday.slice(0, 7);
 		const path = `${getLoggedUser().phoneNumber}/${todayMonthWithYear}/${dateOfToday}`;
 
@@ -90,5 +94,8 @@ class DbService
 		db.ref(path).update(record);
 	}
 }
+const dbService = new DbService();
 
-export default new DbService();
+export {
+	dbService
+}

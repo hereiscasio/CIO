@@ -89,7 +89,7 @@
 <script>
 import { mask } from 'vue-the-mask';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import dbService from '@/helper/db.service.js';
+import { dbService } from '@/helper/db.service.js';
 import { getDaysInMonth } from 'date-fns';
 import visibleMechanism from '@/components/Dialog/visibleMechanism.js';
 
