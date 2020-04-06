@@ -4,15 +4,6 @@ import format from 'date-fns/format';
 
 class DbService
 {
-	_removePreviousTrackingRefAndData()
-	{
-		if (this._temporaryTrackingDataRef)
-		{
-			this._temporaryTrackingDataRef.off();
-			store.commit('DEL_MONTH_RECORDS');
-		}
-	}
-
 	_temporaryTrackingDataRef = undefined;
 
 	/**
@@ -21,9 +12,9 @@ class DbService
 	 */
 	trackRecordsInFocusedMonth (monthWitYear)
 	{
-		return new Promise((resolve, reject) =>
+		const cb = (resolve, reject) =>
 		{
-			this._removePreviousTrackingRefAndData();
+			this._temporaryTrackingDataRef && this._temporaryTrackingDataRef.off();
 
 			const onError = e => console.error('Fail to track data', e);
 			const cb = snapshot =>
@@ -33,12 +24,13 @@ class DbService
 
 				resolve();
 			}
-			const strOfMonthWitYear = monthWitYear || format(Date.now(), 'yyyy-LL');
-			const path = getLoggedUser().phoneNumber + '/' + strOfMonthWitYear;
+			const monthWithYear = monthWitYear || format(Date.now(), 'yyyy-LL');
+			const path = `${getLoggedUser().phoneNumber}/${monthWithYear}`;
 
 			db.ref(path).on('value', cb, onError);
 			this._temporaryTrackingDataRef = db.ref(path);
-		});
+		};
+		return new Promise(cb);
 	}
 
 	_todayRecordAutoResetter = undefined;
@@ -59,10 +51,6 @@ class DbService
 		this._todayRecordAutoResetter = setInterval(cb, THREE_SECONDS);
 	}
 
-	_getDateOfToday () {
-		return format(Date.now(), 'yyyy-LL-dd');
-	}
-
 	trackTodayRecord ()
 	{
 		const onError = e => console.error('Fail to track data', e);
@@ -73,10 +61,14 @@ class DbService
 			this._reTrackTodayRecord();
 		};
 		const dateOfToday = this._getDateOfToday();
-		const todayMonthWithYear = dateOfToday.slice(0, 7);
-		const path = `${getLoggedUser().phoneNumber}/${todayMonthWithYear}/${dateOfToday}`;
+		const monthWithYear = dateOfToday.slice(0, 7);
+		const path = `${getLoggedUser().phoneNumber}/${monthWithYear}/${dateOfToday}`;
 
 		db.ref(path).on('value', cb, onError);
+	}
+
+	_getDateOfToday () {
+		return format(Date.now(), 'yyyy-LL-dd');
 	}
 
 	/**
@@ -86,9 +78,8 @@ class DbService
 	updateRecord (record)
 	{
 		const date = record.date;
-		const yearAndMonth = date.slice(0, 7);
-		const phoneNumber = getLoggedUser().phoneNumber;
-		const path = `${phoneNumber}/${yearAndMonth}/${date}`;
+		const monthWithYear = date.slice(0, 7);
+		const path = `${getLoggedUser().phoneNumber}/${monthWithYear}/${date}`;
 
 		db.ref(path).update(record);
 	}

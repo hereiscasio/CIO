@@ -46,16 +46,9 @@ const store = new Vuex.Store({
 			state.focusedMonthWithYear = payload;
 		},
 
-		DEL_MONTH_RECORDS(state)
-		{
-			state.recordsInFocusedMonth = undefined;
-		},
-
 		SET_MONTH_RECORDS(state, payload)
 		{
-			state.recordsInFocusedMonth = {
-				...state.recordsInFocusedMonth, ...payload
-			};
+			state.recordsInFocusedMonth = payload;
 		},
 
 		SET_LOGIN_STATE(state, payload)
