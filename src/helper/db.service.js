@@ -6,6 +6,10 @@ class DbService
 {
 	_temporaryTrackingDataRef = undefined;
 
+	_stopPreviousTracking () {
+		this._temporaryTrackingDataRef && this._temporaryTrackingDataRef.off();
+	}
+
 	/**
 	 * TODO: try use `child_added` instead of `value`
 	 * @param {String} monthWitYear: '2020-03'
@@ -14,7 +18,7 @@ class DbService
 	{
 		const cb = (resolve, reject) =>
 		{
-			this._temporaryTrackingDataRef && this._temporaryTrackingDataRef.off();
+			this._stopPreviousTracking();
 
 			const onError = e => console.error('Fail to track data', e);
 			const cb = snapshot =>
