@@ -50,6 +50,7 @@ import { getLoggedUser } from '@/plugins/firebase';
 import dbService from '@/helper/db.service.js';
 import HistoryInCalendar from './HistoryInCalendar.vue';
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
+import format from 'date-fns/format';
 
 export default {
 	mixins: [getSvgPathMixin],
@@ -106,7 +107,6 @@ export default {
 		 */
 		async fetchRecordsInFocusedMonth(monthWithYear)
 		{
-			const format = require('date-fns/format').default;
 			this.$store.commit(
 				'SET_FOCUSED_MONTH_WITH_YEAR',
 				monthWithYear ? monthWithYear : format(Date.now(), 'yyyy-LL')
