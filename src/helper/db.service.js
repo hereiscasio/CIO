@@ -47,15 +47,14 @@ class DbService
 	{
 		const getDateOfToday = () => format(Date.now(), 'yyyyLLdd');
 		const dateOfToday = getDateOfToday();
-		const isTomorrow = () => eval(getDateOfToday() - dateOfToday) > 0;
+		const isToday = () => eval(getDateOfToday() - dateOfToday) <= 0;
+
 		this._todayRecordAutoResetter = setInterval(() =>
 		{
-			if (isTomorrow())
-			{
-				clearInterval(this._todayRecordAutoResetter);
-				this._todayRecordAutoResetter = undefined;
-				this.trackTodayRecord();
-			}
+			if (isToday()) return;
+			clearInterval(this._todayRecordAutoResetter);
+			this._todayRecordAutoResetter = undefined;
+			this.trackTodayRecord();
 		},
 		3000);
 	}
