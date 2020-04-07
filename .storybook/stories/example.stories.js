@@ -2,6 +2,10 @@
 import { storyFactory } from '../util/helpers'
 import { text, boolean } from '@storybook/addon-knobs'
 import Loading from '@/components/Dialog/Loading.vue';
+// import Logout from '@/components/Dialog/Logout.vue';
+// import Settings from '@/components/Dialog/Settings.vue';
+// import Notification from '@/components/Dialog/Notification.vue';
+
 export default { title: 'BaseCard' }
 
 function genComponent (name) {
@@ -25,37 +29,26 @@ export const LoadingDialog = () => ({
 	components: {
 		Loading
 	},
-	template: `<Loading :payload='true'>`
+	template: `<Loading :payload='true'/>`
 });
-
-export const CardDemo = () => ({
-	template: `
-	<v-card
-    class="mx-auto"
-    max-width="344"
-  >
-    <v-card-text>
-      <div>Word of the Day</div>
-      <p class="display-1 text--primary">
-        be•nev•o•lent
-      </p>
-      <p>adjective</p>
-      <div class="text--primary">
-        well meaning and kindly.<br>
-        "a benevolent smile"
-      </div>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        text
-        color="deep-purple accent-4"
-      >
-        Learn More
-      </v-btn>
-    </v-card-actions>
-  </v-card>
-	`
-})
+// export const LogoutDialog = () => ({
+// 	components: {
+// 		Logout
+// 	},
+// 	template: `<Logout :payload='true'/>`
+// });
+// export const SettingsDialog = () => ({
+// 	components: {
+// 		Settings
+// 	},
+// 	template: `<Settings :payload='true'/>`
+// });
+// export const NotificationDialog = () => ({
+// 	components: {
+// 		Notification
+// 	},
+// 	template: `<Notification :payload='true'/>`
+// });
 
 export const asDefault = () => story({
   props: {
@@ -96,8 +89,3 @@ export const asDefault = () => story({
     </base-card>
   `,
 })
-CardDemo.story = {
-	parameters: {
-		notes: 'A small component',
-	  },
-}

@@ -25,8 +25,6 @@ module.exports = {
 			resourceQuery: /blockType=story/,
 			loader: 'vue-storybook',
 		});
-		console.log('😂: ', config.resolve)
-
 
 		/**
 		 * add Sass support
