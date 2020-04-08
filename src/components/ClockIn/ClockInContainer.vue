@@ -85,13 +85,11 @@ export default {
 	{
 		showRecordEditorWith (timeType)
 		{
-			const dataForEditing = {
-				record: {
+			const record = {
 					date: this.todayRecord.date,
 					[timeType]: this.todayRecord[timeType]
-				}
 			};
-			this.$fire('request-dialog', 'record-editor', dataForEditing);
+			this.$fire('request-dialog', 'record-editor', {...record});
 		},
 
 		onAddRecord (timeType)

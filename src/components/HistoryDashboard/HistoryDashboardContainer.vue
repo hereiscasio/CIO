@@ -72,7 +72,10 @@ export default {
 			if (!records) return [];
 			return Object.keys(records);
 		},
-
+		// TODO:
+		// not a good name
+		// i.e. checkout its data format and compare with
+		// `recordsInFocusedMonth` in store
 		recordTimesInFocusedMonth()
 		{
 			const records = this.$store.state.recordsInFocusedMonth;
@@ -84,21 +87,17 @@ export default {
 	methods: {
 		requestAddNewRecord()
 		{
-			const payload = {
-				record: {date: '', clockIn: '', clockOut: ''}
-			};
-			this.$fire('request-dialog', 'record-editor', payload);
+			const record = {date: '', clockIn: '', clockOut: ''};
+			this.$fire('request-dialog', 'record-editor', {...record});
 		},
 
 		requestRecordOfTheDate(date)
 		{
-			const payload = {
-				record: {
-					...{date, clockIn: '', clockOut: ''},
-					...this.$store.state.recordsInFocusedMonth[date]
-				}
+			const record = {
+				...{date, clockIn: '', clockOut: ''},
+				...this.$store.state.recordsInFocusedMonth[date]
 			};
-			this.$fire('request-dialog', 'record-editor', payload);
+			this.$fire('request-dialog', 'record-editor', {...record});
 		},
 
 		/**

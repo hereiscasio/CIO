@@ -154,7 +154,7 @@ export default {
 		},
 
 		determineEditorMode () {
-			this.isAddingMode = this.payload.record.date === '';
+			this.isAddingMode = this.payload.date === '';
 		},
 
 		setTitle () {
@@ -167,7 +167,7 @@ export default {
 		 */
 		showReformatedRecord ()
 		{
-			let __record = require('lodash.omit')(this.payload.record, ['date']);
+			let __record = require('lodash.omit')(this.payload, ['date']);
 			__record = Object.entries(__record).map(([timeType, dateValue]) =>
 			{
 				dateValue = dateValue.split(':');
@@ -175,7 +175,7 @@ export default {
 				ifEmpty && (dateValue = [,,]); // ⚡️
 				return [timeType, dateValue];
 			});
-			__record.date = this.payload.record.date;
+			__record.date = this.payload.date;
 
 			this.record__ = __record;
 		},
