@@ -19,6 +19,14 @@ export const LoadingDefault = () => ({
 	},
 	template: `<Loading :payload='true'/>`
 });
+LoadingDefault.story = {
+	parameters: {
+		percy: {
+			skip: true
+		}
+	}
+}
+
 export const LogoutDefault = () => ({
 	components: {
 		Logout
