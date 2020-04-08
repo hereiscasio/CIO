@@ -19,6 +19,7 @@ npm-debug.log
 dist/
 release/
 .firebase/
+storybook-static/
 /dist_electron
 
 # Testing
