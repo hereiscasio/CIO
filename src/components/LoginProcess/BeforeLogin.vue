@@ -1,13 +1,6 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
    <div>
-	<Portal to="logo" >
-		<v-row justify="center" no-gutters>
-			<svg width='192' height='66'>
-				<use :xlink:href="getSvgPath('brand')"></use>
-			</svg>
-		</v-row>
-	</Portal>
 
 	<v-sheet
 		v-if='!(currentView === "successLogin")'
@@ -15,7 +8,11 @@
 	>
 		<v-sheet max-width='230' class='mx-auto'>
 
-			<PortalTarget name="logo"></PortalTarget>
+			<v-row justify="center" no-gutters>
+				<svg width='192' height='66'>
+					<use :xlink:href="getSvgPath('brand')"></use>
+				</svg>
+			</v-row>
 
 			<h1 class='text-justify body-1 gray--text mx-auto'>
 				To access the app, please click button below then type your phone number for registration

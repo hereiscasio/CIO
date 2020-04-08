@@ -5,9 +5,7 @@ import Vue from 'vue';
 import App from '@/App.vue';
 import vuetify from '@/plugins/vuetify.js';
 import '@/helper/utils.js';
-import PortalVue from 'portal-vue';
 
-Vue.use(PortalVue);
 Vue.config.productionTip = false;
 
 const preRenderHandler = () => document.dispatchEvent(new Event("x-app-rendered"));
