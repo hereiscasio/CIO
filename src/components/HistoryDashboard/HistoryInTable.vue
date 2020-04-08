@@ -16,7 +16,7 @@
 			<v-toolbar-title class='headline font-weight-black'>{{tableTitle}}</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn
-				@click='$emit("onClickAddingButton")' color='primary'
+				@click='$emit("onClickRecordAdding")' color='primary'
 			>
 				<svg width='24' height='24'>
 					<use :xlink:href="getSvgPath('plus')"></use>
@@ -29,7 +29,7 @@
 		<template v-slot:item.action="{ item }">
 			<svg
 				width='18' height='18' class='icon-btn--edit'
-				@click='$emit("onClickEditingButton", item.date)'
+				@click='$emit("onClickRecordEditing", item.date)'
 			>
 				<use :xlink:href="getSvgPath('pencil')"></use>
 			</svg>
