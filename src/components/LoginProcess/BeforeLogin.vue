@@ -31,7 +31,10 @@
 		</v-footer>
 	</v-sheet>
 
-	<StartLogin v-if='currentView === "startLogin"'/>
+	<StartLogin
+		v-if='currentView === "startLogin"'
+		@onLogin='currentView = "successLogin"'
+	/>
 
 	<SuccessLogin v-show='currentView === "successLogin"'/>
 
@@ -44,8 +47,6 @@ import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 export default {
 	mixins: [getSvgPathMixin],
 	data() {
-		this.$subscribe('on-success-login', () => this.currentView = 'successLogin');
-
 		return {
 			currentView: ''
 		}

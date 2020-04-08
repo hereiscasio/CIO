@@ -37,7 +37,7 @@ export default {
 					signInSuccessWithAuthResult: () =>
 					{
 						this.shouldShowDialog = false;
-						this.$fire('on-success-login');
+						this.$emit('on-login');
 						setTimeout(() => this.$router.push('/'), 3000);
 						return false;
 					},
