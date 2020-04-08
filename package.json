@@ -34,7 +34,7 @@
     "@storybook/addon-knobs": "^5.2",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addon-notes": "^5.2",
-    "@storybook/addon-viewport": "^5.2",
+    "@storybook/addon-viewport": "^5.3.18",
     "@storybook/addons": "^5.3.18",
     "@storybook/vue": "^5.3.18",
     "@vue/cli-plugin-babel": "~4.2.0",
@@ -56,6 +56,7 @@
     "vue-cli-plugin-prerender-spa": "~1.1.6",
     "vue-cli-plugin-vuetify": "~2.0.5",
     "vue-cli-plugin-vuetify-storybook": "~0.2.0",
+    "vue-loader": "^15.9.1",
     "vue-storybook": "^1.1.0",
     "vue-template-compiler": "2.6.11",
     "vuetify-loader": "1.4.3"

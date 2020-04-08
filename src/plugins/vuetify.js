@@ -2,8 +2,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
 
 Vue.use(Vuetify);
-
-export default new Vuetify({
+const vuetifyConfig = {
 	icons: {
 		values: {
 			next: 'M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z',
@@ -37,4 +36,8 @@ export default new Vuetify({
 			}
 		}
 	}
-})
+};
+export {
+	vuetifyConfig
+};
+export default new Vuetify(vuetifyConfig);
