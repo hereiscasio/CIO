@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { text, boolean, object, array } from '@storybook/addon-knobs';
 import Loading from '@/components/Dialog/Loading.vue';
 import Logout from '@/components/Dialog/Logout.vue';
@@ -6,6 +7,10 @@ import Notification from '@/components/Dialog/Notification.vue';
 
 export default {
 	title: 'Dialog'
+}
+
+const onHideDialogMethod = {
+	onHideDialog: action('hide dialog')
 }
 
 export const LoadingDefault = () => ({
@@ -18,17 +23,20 @@ export const LogoutDefault = () => ({
 	components: {
 		Logout
 	},
-	template: `<Logout :payload='true'/>`
+	methods: onHideDialogMethod,
+	template: `<Logout :payload='true' @onHideDialog='onHideDialog'/>`
 });
 export const SettingsDefault = () => ({
 	components: {
 		Settings
 	},
-	template: `<Settings :payload='true'/>`
+	methods: onHideDialogMethod,
+	template: `<Settings :payload='true' @onHideDialog='onHideDialog'/>`
 });
 export const NotificationDefault = () => ({
 	components: {
 		Notification
 	},
-	template: `<Notification :payload='true'/>`
+	methods: onHideDialogMethod,
+	template: `<Notification :payload='true' @onHideDialog='onHideDialog'/>`
 });

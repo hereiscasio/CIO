@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { text, boolean, object, array } from '@storybook/addon-knobs';
 import RecordEditor from '@/components/Dialog/RecordEditor.vue';
 
@@ -5,10 +6,17 @@ export default {
 	title: 'RecordEditor'
 }
 
-export const AddNewRecord = () => ({
+const basicSetup = {
+	template: `<RecordEditor :payload='record' @onHideDialog='onHideDialog'/>`,
+	methods: {
+		onHideDialog: action('hide dialog')
+	},
 	components: {
 		RecordEditor
 	},
+};
+
+export const AddNewRecord = () => ({
 	props: {
 		record: {
 			default: object('record', {
@@ -18,13 +26,10 @@ export const AddNewRecord = () => ({
 			})
 		}
 	},
-	template: `<RecordEditor :payload='record'/>`
+	...basicSetup
 })
 
 export const ModifyClockInTime = () => ({
-	components: {
-		RecordEditor
-	},
 	props: {
 		record: {
 			default: object('record', {
@@ -33,13 +38,10 @@ export const ModifyClockInTime = () => ({
 			})
 		}
 	},
-	template: `<RecordEditor :payload='record'/>`
+	...basicSetup
 })
 
 export const ModifyAnRecord = () => ({
-	components: {
-		RecordEditor
-	},
 	props: {
 		record: {
 			default: object('record', {
@@ -49,5 +51,5 @@ export const ModifyAnRecord = () => ({
 			})
 		}
 	},
-	template: `<RecordEditor :payload='record'/>`
+	...basicSetup
 })
