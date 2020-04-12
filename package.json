@@ -7,8 +7,8 @@
     "build": "vue-cli-service build",
     "build-storybook": "build-storybook -s public",
     "build-sb": "build-storybook",
-	"dev": "vue-cli-service serve",
-	"percy": "build-storybook && percy-storybook --widths=320,1280",
+    "dev": "vue-cli-service serve",
+    "percy": "build-storybook && percy-storybook --widths=320,1280",
     "serve:storybook": "start-storybook -p 6006 --debug-webpack",
     "storybook": "start-storybook -p 6006 -s public --debug-webpack"
   },
@@ -47,6 +47,7 @@
     "babel-loader": "8.1.0",
     "babel-preset-vue": "2.0.2",
     "css-loader": "3.5.1",
+    "firebase-tools": "^8.0.2",
     "js-beautify": "1.11.0",
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
