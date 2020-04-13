@@ -16,11 +16,24 @@ const basicSetup = {
 	},
 };
 
-export const AddNewRecord = () => ({
+export const AddNewRecordByCreating = () => ({
 	props: {
 		record: {
 			default: object('record', {
 				date: '',
+				clockIn: '',
+				clockOut: ''
+			})
+		}
+	},
+	...basicSetup
+})
+
+export const AddNewRecordByModifying = () => ({
+	props: {
+		record: {
+			default: object('record', {
+				date: '2020-04-07',
 				clockIn: '',
 				clockOut: ''
 			})
@@ -41,7 +54,7 @@ export const ModifyClockInTime = () => ({
 	...basicSetup
 })
 
-export const ModifyAnRecord = () => ({
+export const ModifyExistedRecord = () => ({
 	props: {
 		record: {
 			default: object('record', {
