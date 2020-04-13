@@ -5,8 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-storybook": "build-storybook -s public",
+    "test:e2e": "vue-cli-service test:e2e",
     "build-sb": "build-storybook",
+    "build-storybook": "build-storybook -s public",
     "dev": "vue-cli-service serve",
     "percy": "build-storybook && percy-storybook --widths=320,1280",
     "serve:storybook": "start-storybook -p 6006 --debug-webpack",
@@ -41,6 +42,7 @@
     "@storybook/addons": "5.3.18",
     "@storybook/vue": "5.3.18",
     "@vue/cli-plugin-babel": "4.2.0",
+    "@vue/cli-plugin-e2e-cypress": "^4.3.1",
     "@vue/cli-plugin-router": "4.2.0",
     "@vue/cli-plugin-vuex": "4.2.0",
     "@vue/cli-service": "4.2.0",
