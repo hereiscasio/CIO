@@ -5,6 +5,7 @@
 		<v-btn
 			class='button--menu-on-clock'
 			v-on="on" text fab dark :ripple='false'
+			data-cy='menu-icon'
 		>
 			<svg width='40' height='40'>
 				<use :xlink:href="getSvgPath('menu')"></use>
