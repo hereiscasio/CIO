@@ -11,7 +11,8 @@
     "dev": "vue-cli-service serve",
     "percy": "build-storybook && percy-storybook --widths=320,1280",
     "serve:storybook": "start-storybook -p 6006 --debug-webpack",
-    "storybook": "start-storybook -p 6006 -s public --debug-webpack"
+	"storybook": "start-storybook -p 6006 -s public --debug-webpack",
+	"cy:open": "npx cypress open"
   },
   "dependencies": {
     "body-scroll-lock": "2.6.4",

@@ -2,7 +2,7 @@
 
 describe('My First Test', () => {
   it('Visits the app root url', () => {
-    cy.visit('/')
-    cy.contains('h1', 'Welcome to Your Vue.js App')
+	cy.visit('localhost:6006/iframe.html?id=dialog--logout-default&viewMode=story')
+    cy.contains('.v-card__title.headline', 'ARE YOU SURE ?');
   })
 })
