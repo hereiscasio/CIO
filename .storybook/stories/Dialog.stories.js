@@ -23,6 +23,10 @@ LoadingDefault.story = {
 	parameters: {
 		percy: {
 			skip: true
+		},
+		notes: {
+			Introduction: '此組件僅需透過 Percy 做測試',
+			'Markdown Support': 'you can first import markdown into story file, and use it here'
 		}
 	}
 }
