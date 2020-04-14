@@ -1,9 +1,9 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
 <HistoryDashboard
-	:recordDatesInFocusedMonth='recordDatesInFocusedMonth'
-	:recordTimesInFocusedMonth='recordTimesInFocusedMonth'
-	:focusedMonthWithYear='focusedMonthWithYear'
+	:recordDatesInFocusedMonth='recordDates'
+	:recordTimesInFocusedMonth='records'
+	:focusedMonthWithYear='$store.state.focusedMonthWithYear'
 	@onSwitchMonthButton='fetchRecordsInFocusedMonth'
 	@onClickRecordEditing='requestRecordOfTheDate'
 	@onClickRecordAdding='requestAddNewRecord'
@@ -18,26 +18,19 @@ import { dbService } from '@/helper/db.service.js';
 
 export default {
 
-	computed: {
-		focusedMonthWithYear () {
-			return this.$store.state.focusedMonthWithYear;
-		},
+	data () {
+		return {
+			recordDates: '',
+			records: ''
+		}
+	},
 
-		recordDatesInFocusedMonth()
+	watch: {
+		'$store.state.recordsInFocusedMonth': function(__records)
 		{
-			const records = this.$store.state.recordsInFocusedMonth;
-			if (!records) return [];
-			return Object.keys(records);
-		},
-		// TODO:
-		// not a good name
-		// i.e. checkout its data format and compare with
-		// `recordsInFocusedMonth` in store
-		recordTimesInFocusedMonth()
-		{
-			const records = this.$store.state.recordsInFocusedMonth;
-			if (!records) return [];
-			return Object.values(records);
+			if (!__records) return [];
+			this.records = Object.values(__records);
+			this.recordDates = Object.keys(__records);
 		}
 	},
 
