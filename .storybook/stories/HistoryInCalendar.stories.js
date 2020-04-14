@@ -13,13 +13,13 @@ export const Default = () => ({
 		focusedMonthWithYear: {
 			default: text('focusedMonthWithYear', '1990-07')
 		},
-		recordDatesInFocusedMonth: {
+		recordDates: {
 			default: ['1990-07-03', '1990-07-04']
 		}
 	},
 	template: `
 		<HistoryInCalendar
-			:events='recordDatesInFocusedMonth'
+			:recordDatesInFocusedMonth='recordDates'
 			:focusedMonthWithYear='focusedMonthWithYear'
 		/>
 	`

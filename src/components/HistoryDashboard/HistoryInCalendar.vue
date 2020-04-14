@@ -6,7 +6,7 @@
 	color='#3D5AFE'
 	full-width
 	:show-current='dateOfTodayIndicator'
-	:events='events'
+	:events='recordDatesInFocusedMonth'
 	event-color="green lighten-1"
 	ref='datePicker'
 ></v-date-picker>
@@ -17,7 +17,7 @@
 import { addMonths, parse, format } from 'date-fns';
 
 export default {
-	props: ['events', 'focusedMonthWithYear'],
+	props: ['recordDatesInFocusedMonth', 'focusedMonthWithYear'],
 
 	data () {
 		return {

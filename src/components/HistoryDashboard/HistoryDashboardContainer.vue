@@ -1,27 +1,53 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<HistoryDashboard
-	:recordDatesInFocusedMonth='recordDates'
-	:recordTimesInFocusedMonth='records'
-	:focusedMonthWithYear='$store.state.focusedMonthWithYear'
-	@onSwitchMonthButton='fetchRecordsInFocusedMonth'
-	@onClickRecordEditing='requestRecordOfTheDate'
-	@onClickRecordAdding='requestAddNewRecord'
-/>
+<HistoryDashboardLayout
+	@onClickCalendarTab='fetchRecordsInFocusedMonth'
+>
+
+	<template v-slot:Calendar='{shouldShowCalendar}'>
+		<HistoryInCalendar
+			v-if='shouldShowCalendar'
+			:recordDatesInFocusedMonth='recordDates'
+			:focusedMonthWithYear='focusedMonthWithYear'
+			@onSwitchMonthButton='fetchRecordsInFocusedMonth'
+			@onClickRecordEditing='requestRecordOfTheDate'
+		/>
+	</template>
+
+	<template v-slot:Table='{shouldShowTable}'>
+		<HistoryInTable
+			v-show='shouldShowTable'
+			:recordsInFocusedMonth='records'
+			:focusedMonthWithYear='focusedMonthWithYear'
+			@onSwitchMonthButton='fetchRecordsInFocusedMonth'
+			@onClickRecordEditing='requestRecordOfTheDate'
+			@onClickRecordAdding='requestAddNewRecord'
+		/>
+	</template>
+
+</HistoryDashboardLayout>
+
 <!--eslint-enable-->
 </template>
 
 <script>
-import HistoryDashboard from './HistoryDashboard.vue';
 import format from 'date-fns/format';
 import { dbService } from '@/helper/db.service.js';
+import HistoryInCalendar from './HistoryInCalendar.vue';
+import HistoryDashboardLayout from './HistoryDashboardLayout.vue';
 
 export default {
 
 	data () {
 		return {
-			recordDates: '',
-			records: ''
+			recordDates: [],
+			records: []
+		}
+	},
+
+	computed: {
+		focusedMonthWithYear () {
+			return this.$store.state.focusedMonthWithYear;
 		}
 	},
 
@@ -29,8 +55,8 @@ export default {
 		'$store.state.recordsInFocusedMonth': function(__records)
 		{
 			if (!__records) return [];
-			this.records = Object.values(__records);
 			this.recordDates = Object.keys(__records);
+			this.records = Object.values(__records);
 		}
 	},
 
@@ -68,11 +94,12 @@ export default {
 
 	created() {
 		this.fetchRecordsInFocusedMonth();
-		this.$subscribe('on-click-calendar-tab', this.fetchRecordsInFocusedMonth);
 	},
 
 	components: {
-		HistoryDashboard
+		HistoryInTable: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "table" */ '@/components/HistoryDashboard/HistoryInTable.vue'),
+		HistoryInCalendar,
+		HistoryDashboardLayout
 	}
 }
 </script>

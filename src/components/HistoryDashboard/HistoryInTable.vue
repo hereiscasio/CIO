@@ -4,7 +4,7 @@
 	<v-data-table
 		id='record-table'
 		:headers="tableHeaders"
-		:items="tableItems"
+		:items="recordsInFocusedMonth"
 		:page.sync="currentFocusedPage"
 		:items-per-page="MAX_MONTH"
 		hide-default-footer
@@ -67,7 +67,7 @@ import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 export default {
 	mixins: [getSvgPathMixin],
-	props: ['focusedMonthWithYear', 'tableItems'],
+	props: ['focusedMonthWithYear', 'recordsInFocusedMonth'],
 
 	data () {
 		this.MAX_MONTH = 31;

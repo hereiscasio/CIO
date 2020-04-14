@@ -7,7 +7,7 @@ export default {
 const basicConfig = {
 	template: `
 		<HistoryInTable
-			:tableItems="recordTimesInFocusedMonth"
+			:recordsInFocusedMonth="records"
 			:focusedMonthWithYear="focusedMonthWithYear"
 		/>
 	`,
@@ -21,7 +21,7 @@ export const Default = () => ({
 		focusedMonthWithYear: {
 			default: text('focusedMonthWithYear', '1990-07')
 		},
-		recordTimesInFocusedMonth: {
+		records: {
 			default: []
 		}
 	},
@@ -33,8 +33,8 @@ export const WithFewRecords = () => ({
 		focusedMonthWithYear: {
 			default: text('focusedMonthWithYear', '1990-07')
 		},
-		recordTimesInFocusedMonth: {
-			default: array('recordTimesInFocusedMonth', [
+		records: {
+			default: array('records', [
 				{
 					date: '2020-02-03', clockIn: '12:03', clockOut: '23:48'
 				},

@@ -8,18 +8,14 @@
 	<v-card tile>
 
 	<v-sheet height='100%' class='overflow-y-hidden' tile>
-		<HistoryInCalendar
-			v-if='focusedTabTitle === "Calendar"'
-			:events='recordDatesInFocusedMonth'
-			:focusedMonthWithYear='focusedMonthWithYear'
-			v-on="$listeners"
-		/>
-		<HistoryInTable
-			v-show='focusedTabTitle === "Table"'
-			:tableItems='recordTimesInFocusedMonth'
-			:focusedMonthWithYear='focusedMonthWithYear'
-			v-on="$listeners"
-		/>
+		<slot
+			name='Calendar'
+			:shouldShowCalendar='focusedTabTitle === "Calendar"'
+		></slot>
+		<slot
+			name='Table'
+			:shouldShowCalendar='focusedTabTitle === "Table"'
+		></slot>
 	</v-sheet>
 
 	<v-bottom-navigation
@@ -43,17 +39,10 @@
 </template>
 
 <script>
-import HistoryInCalendar from './HistoryInCalendar.vue';
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
 
 
 export default {
-
-	props: [
-		'recordDatesInFocusedMonth',
-		'recordTimesInFocusedMonth',
-		'focusedMonthWithYear'
-	],
 
 	mixins: [getSvgPathMixin],
 
@@ -68,7 +57,7 @@ export default {
 			{
 				name:'Calendar',
 				icon: 'calendar-range',
-				trigger: () => this.$fire('on-click-calendar-tab')
+				trigger: () => this.$emit('on-click-calendar-tab')
 			},
 			{
 				name:'Table',
@@ -79,13 +68,7 @@ export default {
 		return {
 			focusedTabTitle: 'Calendar'
 		}
-	},
-
-	components: {
-		HistoryInTable: () => import(/* webpackPrefetch: true */ /* webpackChunkName: "table" */ '@/components/HistoryDashboard/HistoryInTable.vue'),
-		HistoryInCalendar
 	}
-
 }
 
 </script>
