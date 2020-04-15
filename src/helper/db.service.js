@@ -19,17 +19,15 @@ class DbService
 		const cb = (resolve, reject) =>
 		{
 			this._stopPreviousTracking();
-
 			const onError = e => console.error('Fail to track data', e);
 			const cb = snapshot =>
 			{
 				const records = snapshot.val();
 				store.commit('SET_MONTH_RECORDS', records === null ? undefined : records);
-
 				resolve();
 			}
 			const monthWithYear = monthWitYear || format(Date.now(), 'yyyy-LL');
-			const path = `${getLoggedUser().phoneNumber}/${monthWithYear}`;
+			const path = `users/${getLoggedUser().uid}/${monthWithYear}`;
 
 			db.ref(path).on('value', cb, onError);
 			this._temporaryTrackingDataRef = db.ref(path);
@@ -66,7 +64,7 @@ class DbService
 		};
 		const dateOfToday = this._getDateOfToday();
 		const monthWithYear = dateOfToday.slice(0, 7);
-		const path = `${getLoggedUser().phoneNumber}/${monthWithYear}/${dateOfToday}`;
+		const path = `users/${getLoggedUser().uid}/${monthWithYear}/${dateOfToday}`;
 
 		db.ref(path).on('value', cb, onError);
 	}
@@ -83,7 +81,7 @@ class DbService
 	{
 		const date = record.date;
 		const monthWithYear = date.slice(0, 7);
-		const path = `${getLoggedUser().phoneNumber}/${monthWithYear}/${date}`;
+		const path = `users/${getLoggedUser().uid}/${monthWithYear}/${date}`;
 
 		db.ref(path).update(record);
 	}
