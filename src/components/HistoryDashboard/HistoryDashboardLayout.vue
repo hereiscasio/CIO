@@ -14,10 +14,9 @@
 		></slot>
 		<slot
 			name='Table'
-			:shouldShowCalendar='focusedTabTitle === "Table"'
+			:shouldShowTable='focusedTabTitle === "Table"'
 		></slot>
 	</v-sheet>
-
 	<v-bottom-navigation
 		v-model="focusedTabTitle" horizontal absolute class='elevation-24' color='#3D5AFE'
 	>
