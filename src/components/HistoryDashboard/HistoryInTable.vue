@@ -1,6 +1,6 @@
 <template>
 <!-- eslint-disable vue/no-v-html -->
-<div id='wrapper--table-to-show-history'>
+<div id='wrapper--table-to-show-history' data-cy='history-table'>
 	<v-data-table
 		id='record-table'
 		:headers="tableHeaders"
@@ -41,17 +41,33 @@
 	<v-footer
 		absolute color='transparent'
 	>
-		<v-btn class="px-0" min-width='36' color='white' @click='onClickMonthSwitchingButton(-1)'>
+		<v-btn
+			class="px-0" min-width='36' color='white'
+			@click='onClickMonthSwitchingButton(-1)'
+			data-cy="button-to-prev-month"
+		>
 			<svg width='36' height='36'>
 				<use :xlink:href="getSvgPath('chevron-left')"></use>
 			</svg>
 		</v-btn>
-		<v-subheader>{{showMonthInEnglishFormat.prevMonth}}</v-subheader>
+		<v-subheader
+			data-cy="title-of-prev-month-button"
+		>
+			{{showMonthInEnglishFormat.prevMonth}}
+		</v-subheader>
 
 		<v-spacer></v-spacer>
 
-		<v-subheader>{{showMonthInEnglishFormat.nextMonth}}</v-subheader>
-		<v-btn class="px-0" min-width='36' color='white' @click='onClickMonthSwitchingButton(1)'>
+		<v-subheader
+			data-cy="title-of-next-month-button"
+		>
+			{{showMonthInEnglishFormat.nextMonth}}
+		</v-subheader>
+		<v-btn
+			class="px-0" min-width='36' color='white'
+			@click='onClickMonthSwitchingButton(1)'
+			data-cy="button-to-next-month"
+		>
 			<svg width='36' height='36'>
 				<use :xlink:href="getSvgPath('chevron-right')"></use>
 			</svg>

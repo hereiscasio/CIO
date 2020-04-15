@@ -1,6 +1,7 @@
-describe('Test in Mobile Size', () => {
+describe('Test in Mobile Size', () =>
+{
 	before(() => {
-		cy.visit('iframe.html?id=clockwidget--not-yet-today-clock-in');
+		cy.visit('http://localhost:6006/iframe.html?id=clockwidget--not-yet-today-clock-in');
 		cy.viewport(320, 568);
 	});
 

@@ -1,4 +1,9 @@
 {
+  "fileServerFolder": "tests/e2e",
+  "fixturesFolder": "tests/e2e/fixtures",
+  "integrationFolder": "tests/e2e/specs",
   "pluginsFile": "tests/e2e/plugins/index.js",
-  "baseUrl": "http://localhost:6006"
+  "screenshotsFolder": "tests/e2e/screenshots",
+  "supportFile": "tests/e2e/support/index.js",
+  "videosFolder": "tests/e2e/videos"
 }

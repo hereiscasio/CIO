@@ -24,3 +24,14 @@ import '@testing-library/cypress/add-commands';
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
+
+import { attachCustomCommands } from "cypress-firebase";
+import firebaseConfig from './../../../firebase.config.js';
+
+firebase.initializeApp(firebaseConfig);
+
+attachCustomCommands({ Cypress, cy, firebase });

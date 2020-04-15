@@ -10,6 +10,7 @@ yarn-debug.log*
 yarn-error.log*
 node_modules/
 npm-debug.log
+.env
 
 # Senstive Info
 firebase.config.js
@@ -29,6 +30,11 @@ storybook-static/
 /cy-results*
 /tests/e2e/videos/
 /tests/e2e/screenshots/
+/cypress/videos/
+/cypress/screenshots/
+serviceAccount.json
+cypress.env.json
+
 
 # Editor / IDE
 # --- Android/IntelliJ

@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
-    "build-sb": "build-storybook",
-    "build-storybook": "build-storybook -s public",
-    "dev": "vue-cli-service serve",
     "percy": "build-storybook && percy-storybook --widths=320,1280",
-    "serve:storybook": "start-storybook -p 6006 --debug-webpack",
-    "storybook": "start-storybook -p 6006 -s public --debug-webpack",
-    "cy:open": "npx cypress open"
+    "build-storybook": "build-storybook -s public",
+	"serve:storybook": "start-storybook -p 6006 --debug-webpack",
+	"ci:cy:app": "yarn dev & wait-on http://localhost:8080 && yarn cy:headless:app",
+	"ci:cy:storybook": "yarn serve:storybook --ci & wait-on http://localhost:6006 && yarn cy:headless:storybook",
+    "cy:gui": "npx cypress open --config fileServerFolder=tests/e2e",
+    "cy:headless:storybook": "npx cypress run --config fileServerFolder=tests/e2e --spec tests/e2e/specs/storybook/**/*",
+    "cy:headless:app": "npx cypress run --config fileServerFolder=tests/e2e --spec 'tests/e2e/specs/app/**/*'"
   },
   "dependencies": {
     "body-scroll-lock": "2.6.4",
@@ -50,9 +51,12 @@
     "@vue/cli-service": "4.2.0",
     "babel-loader": "8.1.0",
     "babel-preset-vue": "2.0.2",
+    "cross-env": "^7.0.2",
     "css-loader": "3.5.1",
-    "cypress": "^4.3.0",
+    "cypress": "^4.4.0",
+    "cypress-firebase": "^1.1.0",
     "cypress-storybook": "^0.1.1",
+    "firebase-admin": "^8.10.0",
     "firebase-tools": "^8.0.2",
     "js-beautify": "1.11.0",
     "postcss-normalize": "8.0.1",
@@ -69,7 +73,8 @@
     "vue-loader": "15.9.1",
     "vue-storybook": "1.1.0",
     "vue-template-compiler": "2.6.11",
-    "vuetify-loader": "1.4.3"
+    "vuetify-loader": "1.4.3",
+    "wait-on": "^4.0.2"
   },
   "resolutions": {
     "react": "16.13.0",
