@@ -54,9 +54,8 @@ export default {
 	watch: {
 		'$store.state.recordsInFocusedMonth': function(__records)
 		{
-			if (!__records) return [];
-			this.recordDates = Object.keys(__records);
-			this.records = Object.values(__records);
+			this.recordDates = __records ? Object.keys(__records) : [];
+			this.records = __records ? Object.values(__records) : [];
 		}
 	},
 
