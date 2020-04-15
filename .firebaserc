@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "ciosystem"
+  },
+  "targets": {
+    "ciosystem": {
+      "hosting": {
+        "storybook": [
+          "storybook-ciosystem"
+        ],
+        "cio": [
+          "ciosystem"
+        ]
+      }
+    }
   }
 }
