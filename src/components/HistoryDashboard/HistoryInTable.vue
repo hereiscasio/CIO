@@ -83,10 +83,9 @@ export default {
 		 */
 		tableTitle ()
 		{
-			const year = this.focusedMonthWithYear.slice(0, 4);
-			const month = format(new Date(this.focusedMonthWithYear), 'LLL');
-
-			return year + ' ' + month;
+			return format(
+				new Date(this.focusedMonthWithYear), 'yyyy LLL'
+			);
 		},
 
 		showMonthInEnglishFormat()
