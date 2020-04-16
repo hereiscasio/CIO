@@ -55,9 +55,9 @@
 
 <script>
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
-import StaticTimePresenter from './StaticTimePresenter.vue';
-import ClockWidget from './ClockWidget/Index.vue';
-import Layout from './ClockInLayout.vue';
+import StaticTimePresenter from '@/components/ClockIn/StaticTimePresenter.vue';
+import ClockWidget from '@/components/ClockIn/ClockWidget/ClockWidget.vue';
+import Layout from '@/components/ClockIn/ClockInLayout.vue';
 import format from 'date-fns/format';
 import omit from 'lodash.omit';
 import { dbService } from '@/helper/db.service.js';

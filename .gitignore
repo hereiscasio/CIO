@@ -15,9 +15,6 @@ npm-debug.log
 # CircleCI
 process.yml
 
-# Senstive Info
-firebase.config.js
-
 # local env files
 .env.local
 .env.*.local

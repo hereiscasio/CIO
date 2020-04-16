@@ -1,5 +1,5 @@
 import getSvgPathMixin from '@/components/mixins/getSvgPathMixin.js';
-import ClockWidget from '@/components/ClockIn/ClockWidget/Index.vue';
+import ClockWidget from '@/components/ClockIn/ClockWidget/ClockWidget.vue';
 
 export default {
 	title: 'ClockWidget'
