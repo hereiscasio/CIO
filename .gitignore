@@ -12,6 +12,9 @@ node_modules/
 npm-debug.log
 .env
 
+# CircleCI
+process.yml
+
 # Senstive Info
 firebase.config.js
 

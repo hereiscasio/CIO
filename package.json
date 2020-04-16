@@ -4,16 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test:e2e": "vue-cli-service test:e2e",
     "percy": "build-storybook && percy-storybook --widths=320,1280",
-    "build-storybook": "build-storybook -s public",
-	"serve:storybook": "start-storybook -p 6006 --debug-webpack",
-	"ci:cy:app": "yarn dev & wait-on http://localhost:8080 && yarn cy:headless:app",
-	"ci:cy:storybook": "yarn serve:storybook --ci & wait-on http://localhost:6006 && yarn cy:headless:storybook",
+    "build:cio": "vue-cli-service build",
+    "build:storybook": "build-storybook -s public",
+    "serve:storybook": "start-storybook -p 6006 --debug-webpack",
+    "ci:cy:cio": "yarn dev & wait-on http://localhost:8080 && yarn cy:headless:cio",
+    "ci:cy:storybook": "yarn serve:storybook --ci & wait-on http://localhost:6006 && yarn cy:headless:storybook",
     "cy:gui": "npx cypress open --config fileServerFolder=tests/e2e",
     "cy:headless:storybook": "npx cypress run --config fileServerFolder=tests/e2e --spec tests/e2e/specs/storybook/**/*",
-    "cy:headless:app": "npx cypress run --config fileServerFolder=tests/e2e --spec 'tests/e2e/specs/app/**/*'"
+    "cy:headless:cio": "npx cypress run --config fileServerFolder=tests/e2e --spec 'tests/e2e/specs/app/**/*'",
+    "deploy:storybook": "firebase deploy --only hosting:storybook",
+    "deploy:cio": "firebase deploy --only hosting:cio"
   },
   "dependencies": {
     "body-scroll-lock": "2.6.4",
@@ -53,7 +54,6 @@
     "babel-preset-vue": "2.0.2",
     "cross-env": "7.0.2",
     "css-loader": "3.5.1",
-    "cypress": "4.4.0",
     "cypress-firebase": "1.1.0",
     "cypress-storybook": "0.1.1",
     "firebase-admin": "8.10.0",
@@ -78,6 +78,7 @@
   },
   "resolutions": {
     "react": "16.13.0",
-    "react-dom": "16.13.0"
+	"react-dom": "16.13.0",
+	"cypress": "3.8.3"
   }
 }
