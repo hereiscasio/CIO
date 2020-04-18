@@ -27,13 +27,13 @@ jobs:
       #     install-yarn: true
       #     node-version: 12.10.0
 
-      - run:
-          name: Show Node Version
-          command: node --version
+      # - run:
+      #     name: Show Node Version
+      #     command: node --version
       - *restore_yarn
-      - run:
-          name: Show Yarn Version
-          command: yarn --version
+      # - run:
+      #     name: Show Yarn Version
+      #     command: yarn --version
       - run:
           name: Install Packages
           command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
