@@ -3,43 +3,58 @@ version: 2.1
 # orbs:
 #   node: circleci/node@2.0.2
 
+references:
+  restore_yarn: &restore_yarn
+    restore_cache:
+      keys:
+        - yarn-{{ checksum "yarn.lock" }}
+        - yarn-
+
 jobs:
   build:
     docker:
-      # - image: circleci/node:12.10.0
-      # solve issue of https://discuss.circleci.com/t/puppeteer-fails-on-circleci/22650/5
-      # that's, Error: Failed to launch chrome!
       - image: circleci/node:latest-browsers
     working_directory: ~/cio
-    environment:
-      FIREBASE_DEPLOY_TOKEN: "1//0evhLRRwTXwqeCgYIARAAGA4SNwF-L9Ir2q-0OLYuaTKfoLNF1gVcDA7c94bnI8_DOjO_mXA-2fY85jR2b050NcDFF4ioyodLOWI"
-      CYPRESS_TEST_USER: "5EQO1utVytSjhmEtb1Ccex7lQoj1"
     steps:
-      # fix for local builds https://github.com/CircleCI-Public/circleci-cli/issues/281
-      # 不想讓 local build 去拿遠端的 remote repo
+      # - run:
+      #     name: Decode base64 of Service Account
+      #     command: |
+      #       export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
+      #       echo $GOOGLE_APPLICATION_CREDENTIALS
 
       - checkout
       # - node/install:
       #     install-yarn: true
       #     node-version: 12.10.0
+
       - run:
           name: Show Node Version
           command: node --version
+      - *restore_yarn
       - run:
           name: Show Yarn Version
           command: yarn --version
       - run:
           name: Install Packages
-          command: yarn install
-      - run:
-          name: Build CIO
-          command: yarn build:cio
+          command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      # - run:
+      #     name: Cypress on CIO
+      #     command: yarn ci:cy:cio
+
+      # - run:
+      #     name: Build CIO
+      #     command: yarn build:cio
       # - run:
       #     name: Build Storybook
       #     command: yarn build:storybook
-      - run:
-          name: Deploy CIO to Firebase
-          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:cio
+      # - run:
+      #     name: Deploy CIO to Firebase
+      #     command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:cio
       # - run:
       #     name: Deploy Storybook to Firebase
       #     command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:storybook

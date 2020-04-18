@@ -49,10 +49,7 @@ module.exports = {
         ],
         useRenderEvent: true,
         headless: true,
-		onlyProduction: true,
-		// customRendererConfig: {
-		// 	args: []
-		// }
+		onlyProduction: true
       }
     }
 }
