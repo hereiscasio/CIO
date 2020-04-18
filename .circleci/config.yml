@@ -15,6 +15,7 @@ jobs:
     docker:
       - image: circleci/node:latest-browsers
     working_directory: ~/cio
+
     steps:
       # - run:
       #     name: Decode base64 of Service Account
@@ -46,18 +47,18 @@ jobs:
       #     name: Cypress on CIO
       #     command: yarn ci:cy:cio
 
-      # - run:
-      #     name: Build CIO
-      #     command: yarn build:cio
-      # - run:
-      #     name: Build Storybook
-      #     command: yarn build:storybook
-      # - run:
-      #     name: Deploy CIO to Firebase
-      #     command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:cio
-      # - run:
-      #     name: Deploy Storybook to Firebase
-      #     command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:storybook
+      - run:
+          name: Build CIO
+          command: yarn build:cio
+      - run:
+          name: Build Storybook
+          command: yarn build:storybook
+      - run:
+          name: Deploy CIO to Firebase
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:cio
+      - run:
+          name: Deploy Storybook to Firebase
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:storybook
 workflows:
   version: 2
   workflow_name:
