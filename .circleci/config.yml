@@ -79,7 +79,7 @@ jobs:
       # - run:
       #     name: Install Packages
       #     command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
-      - save_installed_cache
+      - *save_installed_cache
       # - save_cache:
       #     name: Save Yarn Package Cache
       #     key: yarn-{{ checksum "yarn.lock" }}
