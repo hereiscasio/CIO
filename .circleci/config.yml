@@ -50,7 +50,7 @@ jobs:
       #       yarn ci:cy:cio
       - run:
           name: Cypress on Storybook
-          command: ci:cy:storybook
+          command: yarn ci:cy:storybook
       # - run:
       #     name: Build CIO
       #     command: yarn build:cio
