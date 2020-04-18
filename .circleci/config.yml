@@ -23,6 +23,16 @@ jobs:
       #       echo $GOOGLE_APPLICATION_CREDENTIALS
 
       - checkout
+
+      - run:
+          name: Create ServiceAccount.json
+          command: echo $SERVICE_ACCOUNT | base64 --decode > ${HOME}/cio/serviceAccount.json
+
+      - run:
+          name: Test if succuess to create ServiceAccount.json
+          command: cat ${HOME}/cio/serviceAccount.json
+
+
       # - node/install:
       #     install-yarn: true
       #     node-version: 12.10.0
@@ -30,29 +40,29 @@ jobs:
       # - run:
       #     name: Show Node Version
       #     command: node --version
-      - *restore_yarn
+      # - *restore_yarn
+      # # - run:
+      # #     name: Show Yarn Version
+      # #     command: yarn --version
       # - run:
-      #     name: Show Yarn Version
-      #     command: yarn --version
-      - run:
-          name: Install Packages
-          command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+      #     name: Install Packages
+      #     command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
+      # - save_cache:
+      #     name: Save Yarn Package Cache
+      #     key: yarn-{{ checksum "yarn.lock" }}
+      #     paths:
+      #       - ~/.cache/yarn
+      # # - run:
+      # #     name: Cypress on CIO
+      # #     command: |
+      # #       export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
+      # #       echo $GOOGLE_APPLICATION_CREDENTIALS
+      # #       yarn ci:cy:cio
       # - run:
-      #     name: Cypress on CIO
+      #     name: Cypress on Storybook
       #     command: |
       #       export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
-      #       echo $GOOGLE_APPLICATION_CREDENTIALS
-      #       yarn ci:cy:cio
-      - run:
-          name: Cypress on Storybook
-          command: |
-            export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
-            yarn ci:cy:storybook
+      #       yarn ci:cy:storybook
       # - run:
       #     name: Build CIO
       #     command: yarn build:cio
