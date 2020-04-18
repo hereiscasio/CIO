@@ -17,6 +17,16 @@ references:
       paths:
         - ~/.cache/yarn
 
+  container_config: &container_config
+    docker:
+      - image: circleci/node:latest-browsers
+    working_directory: ~/cio
+
+  restore_repo: &restore_repo
+    restore_cache:
+      key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+
 commands:
   create_service_account_json:
     parameters:
@@ -41,18 +51,40 @@ commands:
 
 
 jobs:
-  build:
-    docker:
-      - image: circleci/node:latest-browsers
-    working_directory: ~/cio
+
+  checkout_code:
+    <<: *container_config
     steps:
+      - *restore_repo
+      - checkout
+      - run:
+          name: Show current branch
+          command: echo ${CIRCLE_BRANCH}
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/cio
+
+  build:
+    <<: *container_config
+    # docker:
+    #   - image: circleci/node:latest-browsers
+    # working_directory: ~/cio
+    steps:
+      - *restore_repo
+      - *restore_installed_cache
       # - run:
       #     name: Decode base64 of Service Account
       #     command: |
       #       export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
       #       echo $GOOGLE_APPLICATION_CREDENTIALS
 
-      - checkout
+      # Checkout the code from the branch into the working_directory
+      # - checkout
+      # - run:
+      #     name: Show current branch
+      #     command: echo ${CIRCLE_BRANCH}
+
       - create_service_account_json:
           where: cio
       # - run:
@@ -71,7 +103,7 @@ jobs:
       # - run:
       #     name: Show Node Version
       #     command: node --version
-      - *restore_installed_cache
+      # - *restore_installed_cache
       # - run:
       #     name: Show Yarn Version
       #     command: yarn --version
@@ -107,4 +139,7 @@ workflows:
   version: 2
   workflow_name:
     jobs:
-      - build
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code
