@@ -27,10 +27,10 @@ commands:
           name: Create ServiceAccount.json on project root
           command: |
             echo $SERVICE_ACCOUNT | base64 --decode > \
-            ${HOME}/ << parameters.where >>/serviceAccount.json
+            ${HOME}/<< parameters.where >>/serviceAccount.json
       - run:
           name: Verify ServiceAccount.json creation
-          command: cat ${HOME}/ << parameters.where >> /serviceAccount.json
+          command: cat ${HOME}/<< parameters.where >>/serviceAccount.json
 
   install_package:
     steps:
