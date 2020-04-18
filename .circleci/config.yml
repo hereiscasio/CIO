@@ -42,13 +42,15 @@ jobs:
           key: yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      # - run:
+      #     name: Cypress on CIO
+      #     command: |
+      #       export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
+      #       echo $GOOGLE_APPLICATION_CREDENTIALS
+      #       yarn ci:cy:cio
       - run:
-          name: Cypress on CIO
-          command: |
-            export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
-            echo $GOOGLE_APPLICATION_CREDENTIALS
-            yarn ci:cy:cio
-
+          name: Cypress on Storybook
+          command: ci:cy:storybook
       # - run:
       #     name: Build CIO
       #     command: yarn build:cio
