@@ -42,13 +42,6 @@ commands:
           name: Verify ServiceAccount.json creation
           command: cat ${HOME}/<< parameters.where >>/serviceAccount.json
 
-  install_package:
-    steps:
-      - run:
-          name: Install Packages
-          command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
-
-
 
 jobs:
 
@@ -65,36 +58,36 @@ jobs:
           paths:
             - ~/cio
 
-  build:
+  install_dependencies:
     <<: *container_config
-    # docker:
-    #   - image: circleci/node:latest-browsers
-    # working_directory: ~/cio
     steps:
       - *restore_repo
       - *restore_installed_cache
-      # - run:
-      #     name: Decode base64 of Service Account
-      #     command: |
-      #       export GOOGLE_APPLICATION_CREDENTIALS=$(echo -n $GOOGLE_APPLICATION_CREDENTIALS | base64 --decode)
-      #       echo $GOOGLE_APPLICATION_CREDENTIALS
+      - run:
+          name: Install Packages
+          command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
+      - *save_installed_cache
 
-      # Checkout the code from the branch into the working_directory
-      # - checkout
-      # - run:
-      #     name: Show current branch
-      #     command: echo ${CIRCLE_BRANCH}
+  build_and_deploy_cio:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - *restore_installed_cache
+      - run:
+          name: Build CIO
+          command: yarn build:cio
+      - run:
+          name: Deploy CIO to Firebase
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:cio
 
-      - create_service_account_json:
-          where: cio
-      # - run:
-      #     name: Create ServiceAccount.json
-      #     command: echo $SERVICE_ACCOUNT | base64 --decode > ${HOME}/cio/serviceAccount.json
 
-      # - run:
-      #     name: Test if succuess to create ServiceAccount.json
-      #     command: cat ${HOME}/cio/serviceAccount.json
+  # build:
+  #   <<: *container_config
+  #   steps:
 
+
+  #     - create_service_account_json:
+  #         where: cio
 
       # - node/install:
       #     install-yarn: true
@@ -107,11 +100,11 @@ jobs:
       # - run:
       #     name: Show Yarn Version
       #     command: yarn --version
-      - install_package
+      # - install_package
       # - run:
       #     name: Install Packages
       #     command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
-      - *save_installed_cache
+      # - *save_installed_cache
       # - save_cache:
       #     name: Save Yarn Package Cache
       #     key: yarn-{{ checksum "yarn.lock" }}
@@ -140,6 +133,15 @@ workflows:
   workflow_name:
     jobs:
       - checkout_code
-      - build:
+      - install_dependencies:
           requires:
             - checkout_code
+      - build_and_deploy_cio:
+          requires:
+            - install_dependencies
+          filters:
+            branches:
+              only: master
+      # - build:
+      #     requires:
+      #       - checkout_code
