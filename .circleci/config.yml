@@ -94,6 +94,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Show current Folder
+          command: ls
+      - run:
           name: Cypress on CIO
           command: yarn ci:cy:cio
 
