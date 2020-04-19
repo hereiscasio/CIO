@@ -73,11 +73,17 @@ jobs:
           paths:
             - .
 
+  # test_e2e:
+  #   <<: *container_config
+
+
   build_and_deploy_storybook:
     <<: *container_config
     steps:
       - *restore_repo
       - *restore_installed_cache
+      - attach_workspace:
+          at: .
       - run:
           name: Build Storybook
           command: yarn build:storybook
