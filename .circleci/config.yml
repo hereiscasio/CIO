@@ -18,14 +18,14 @@ references:
   restore_installed_cache: &restore_installed_cache
     restore_cache:
       keys:
-        - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-        - yarn-packages-v1-{{ .Branch }}-
-        - yarn-packages-v1-
+        - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+        - yarn-packages-v2-{{ .Branch }}-
+        - yarn-packages-v2-
 
   save_installed_cache: &save_installed_cache
     save_cache:
       name: Save Yarn Package Cache
-      key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      key: yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
       paths:
         - ~/.cache/yarn
 
