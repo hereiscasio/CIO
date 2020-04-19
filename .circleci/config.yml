@@ -10,18 +10,13 @@ references:
         - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
         - yarn-packages-v1-{{ .Branch }}-
         - yarn-packages-v1-
-        # - yarn-{{ checksum "yarn.lock" }}
-        # - yarn-
 
   save_installed_cache: &save_installed_cache
     save_cache:
       name: Save Yarn Package Cache
       key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      # key: yarn-{{ checksum "yarn.lock" }}
       paths:
         - ~/.cache/yarn
-      # paths:
-      #   - ./node_modules
 
   container_config: &container_config
     docker:
@@ -170,12 +165,12 @@ workflows:
       - install_dependencies:
           requires:
             - checkout_code
-      # - build_and_deploy_storybook:
-      #     requires:
-      #       - install_dependencies
-      #     filters:
-      #       branches:
-      #         only: master
+      - build_and_deploy_storybook:
+          requires:
+            - install_dependencies
+          filters:
+            branches:
+              only: master
       - build_and_deploy_cio:
           requires:
             - install_dependencies
