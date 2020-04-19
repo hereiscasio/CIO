@@ -3,6 +3,17 @@ version: 2.1
 # orbs:
 #   node: circleci/node@2.0.2
 
+      # - node/install:
+      #     install-yarn: true
+      #     node-version: 12.10.0
+      # - run:
+      #     name: Show Node Version
+      #     command: node --version
+      # - run:
+      #     name: Show Yarn Version
+      #     command: yarn --version
+
+
 references:
   restore_installed_cache: &restore_installed_cache
     restore_cache:
@@ -66,7 +77,7 @@ jobs:
       - *restore_installed_cache
       - run:
           name: Install Packages
-          command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
       - create_service_account_json:
           where: cio
       - *save_installed_cache
@@ -127,27 +138,6 @@ jobs:
       - run:
           name: Deploy CIO to Firebase
           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:cio
-
-
-  # build:
-  #   <<: *container_config
-  #   steps:
-
-
-      # - create_service_account_json:
-      #     where: cio
-
-      # - node/install:
-      #     install-yarn: true
-      #     node-version: 12.10.0
-
-      # - run:
-      #     name: Show Node Version
-      #     command: node --version
-      # - *restore_installed_cache
-      # - run:
-      #     name: Show Yarn Version
-      #     command: yarn --version
 
 workflows:
   version: 2
