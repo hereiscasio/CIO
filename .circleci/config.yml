@@ -67,15 +67,35 @@ jobs:
       - run:
           name: Install Packages
           command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
+      - create_service_account_json:
+          where: cio
       - *save_installed_cache
       - persist_to_workspace:
           root: .
           paths:
             - .
 
-  # test_e2e:
-  #   <<: *container_config
+  test_e2e:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - *restore_installed_cache
+      - attach_workspace:
+          at: .
+      - run:
+          name: Cypress on CIO
+          command: yarn ci:cy:cio
 
+  test_integration:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - *restore_installed_cache
+      - attach_workspace:
+          at: .
+      - run:
+          name: Cypress on Storybook
+          command: yarn ci:cy:storybook
 
   build_and_deploy_storybook:
     <<: *container_config
@@ -128,61 +148,36 @@ jobs:
       # - run:
       #     name: Show Yarn Version
       #     command: yarn --version
-      # - install_package
-      # - run:
-      #     name: Install Packages
-      #     command: yarn install --frozen-lockfile --cache-folder ~.cache/yarn
-      # - *save_installed_cache
-      # - save_cache:
-      #     name: Save Yarn Package Cache
-      #     key: yarn-{{ checksum "yarn.lock" }}
-      #     paths:
-      #       - ~/.cache/yarn
 
-
-
-      # - run:
-      #     name: Cypress on CIO
-      #     command: yarn ci:cy:cio
-      # - run:
-      #     name: Cypress on Storybook
-      #     command: yarn ci:cy:storybook
-
-
-
-
-      # - run:
-      #     name: Build CIO
-      #     command: yarn build:cio
-      # - run:
-      #     name: Build Storybook
-      #     command: yarn build:storybook
-      # - run:
-      #     name: Deploy CIO to Firebase
-      #     command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:cio
-      # - run:
-      #     name: Deploy Storybook to Firebase
-      #     command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_DEPLOY_TOKEN" --only hosting:storybook
 workflows:
   version: 2
   workflow_name:
     jobs:
       - checkout_code
+
       - install_dependencies:
           requires:
             - checkout_code
+
+      - test_integration:
+          requires:
+            - install_dependencies
+
+      - test_e2e:
+          requires:
+            - install_dependencies
+
       - build_and_deploy_storybook:
           requires:
             - install_dependencies
           filters:
             branches:
               only: master
+
       - build_and_deploy_cio:
           requires:
-            - install_dependencies
+            - test_integration
+            - test_e2e
           filters:
             branches:
               only: master
-      # - build:
-      #     requires:
-      #       - checkout_code
