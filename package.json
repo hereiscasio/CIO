@@ -63,7 +63,7 @@
     "postcss-preset-env": "6.7.0",
     "prerender-spa-plugin": "3.2.1",
     "prism-react-renderer": "0.1.7",
-    "prismjs": "1.17.1",
+    "prismjs": "1.23.0",
     "sass": "1.25.0",
     "sass-loader": "8.0.2",
     "style-loader": "1.1.3",
